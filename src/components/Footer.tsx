@@ -2,19 +2,18 @@ import React from 'react';
 import Link from 'next/link';
 import AppLogo from '@/components/ui/AppLogo';
 import Icon from '@/components/ui/AppIcon';
+import { FaInstagram } from "react-icons/fa";
 
 const footerLinks = [
   { label: 'Collections', href: '/collections' },
   { label: 'About', href: '/#about' },
   { label: 'Privacy', href: '/privacy' },
   { label: 'Terms', href: '/terms' },
-  { label: 'Returns', href: '/returns' },
   { label: 'Contact', href: '/contact' },
 ];
 
 const socialLinks = [
-  { label: 'Instagram', icon: 'GlobeAltIcon', href: 'https://instagram.com/refly' },
-  { label: 'Twitter', icon: 'ChatBubbleLeftIcon', href: 'https://twitter.com/refly' },
+ { label: 'Instagram', icon: FaInstagram, href: 'https://www.instagram.com/refly_clothing__/?hl=en' },
 ];
 
 export default function Footer() {
@@ -39,7 +38,7 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-xs font-display font-semibold tracking-widest uppercase text-gold">
-                Made in India
+                Made with love in India by 1life's WEB 
               </span>
               <span className="text-muted-foreground text-xs">🇮🇳</span>
             </div>
@@ -69,7 +68,7 @@ export default function Footer() {
                   aria-label={s.label}
                   className="w-10 h-10 flex items-center justify-center border border-border text-muted-foreground hover:text-gold hover:border-gold transition-all duration-200"
                 >
-                  <Icon name={s.icon as 'GlobeAltIcon'} size={18} />
+                  <FaInstagram size={18} />
                 </a>
               ))}
             </div>
@@ -79,7 +78,7 @@ export default function Footer() {
         {/* Bottom Row */}
         <div className="mt-12 pt-6 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-xs text-muted-foreground font-body">
-            © 2026 Refly. All rights reserved. GST: 27XXXXX0000X1Z5
+            © 2026 Refly. All rights reserved. GST: EPTPS22X0000X0X
           </p>
           <div className="flex items-center gap-6">
             <span className="text-xs text-muted-foreground font-body">UPI · Razorpay · COD</span>
