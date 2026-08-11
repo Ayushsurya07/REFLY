@@ -1,18 +1,14 @@
 'use client';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Link from 'next/link';
 import AppImage from '@/components/ui/AppImage';
 import Icon from '@/components/ui/AppIcon';
+import { PRODUCTS_LIST } from '@/lib/productsData';
 
-const relatedProducts = [
-  { id: 'indigo-raw', name: 'Indigo Raw Denim', category: 'Jeans', price: 3499, mrp: 5499, discount: 36, image: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&q=80' },
-  { id: 'utility-cargo', name: 'Utility Cargo Pants', category: 'Cargo', price: 3499, mrp: 5499, discount: 36, image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80' },
-  { id: 'slate-formal', name: 'Slate Formal Trousers', category: 'Formal', price: 2499, mrp: 3999, discount: 38, image: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4d42?w=600&q=80' },
-  { id: 'linen-ease', name: 'Linen Ease Trousers', category: 'Linen', price: 2799, mrp: 4499, discount: 38, image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80' },
-];
-
-export default function RelatedProducts() {
+export default function RelatedProducts({ currentId }: { currentId?: string }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const relatedProducts = PRODUCTS_LIST.filter((p) => p.id !== currentId).slice(0, 6);
 
   const scroll = (dir: 'left' | 'right') => {
     if (!scrollRef.current) return;
@@ -55,8 +51,8 @@ export default function RelatedProducts() {
             <div key={product.id} className="flex-shrink-0 w-64 lg:w-72 group">
               <div className="aspect-product relative overflow-hidden bg-muted mb-4">
                 <AppImage
-                  src={product.image}
-                  alt={`${product.name} — premium men's ${product.category.toLowerCase()} dark moody studio fashion photography`}
+                  src={product.images[0]?.src || ''}
+                  alt={`${product.name} — premium men's ${product.category} product image`}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   sizes="288px"
@@ -68,19 +64,19 @@ export default function RelatedProducts() {
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(100%)'; }}
                 >
-                  <Link href="/product-page" className="btn-primary w-full text-center block text-xs py-3">
+                  <Link href={`/products/${product.id}`} className="btn-primary w-full text-center block text-xs py-3">
                     View Product
                   </Link>
                 </div>
               </div>
-              <p className="font-display text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-1">{product.category}</p>
-              <Link href="/product-page">
+              <p className="font-display text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-1 capitalize">{product.category} · {product.fit}</p>
+              <Link href={`/products/${product.id}`}>
                 <h3 className="font-display font-bold text-sm hover:text-gold transition-colors">{product.name}</h3>
               </Link>
               <div className="flex items-center gap-2 mt-2">
                 <span className="price-tag text-sm font-bold">₹{product.price.toLocaleString('en-IN')}</span>
                 <span className="text-xs text-muted-foreground line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
-                <span className="text-[10px] font-display font-semibold text-green-700">{product.discount}% OFF</span>
+                <span className="text-[10px] font-display font-semibold text-green-700 bg-green-50 px-1.5 py-0.5">{product.discount}% OFF</span>
               </div>
             </div>
           ))}

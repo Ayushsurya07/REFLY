@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import AppImage from '@/components/ui/AppImage';
 import Icon from '@/components/ui/AppIcon';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import { createClient } from '@/lib/supabase/client';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -170,8 +171,8 @@ function CartReview({
     <div>
       <h2 className="font-display font-bold text-xl tracking-wide uppercase mb-6">Cart Review</h2>
       <div className="space-y-4 mb-8">
-        {items.map((item) => (
-          <div key={item.id} className="flex gap-4 p-4 border border-border bg-white">
+        {items.map((item, idx) => (
+          <div key={`${item.id}-${item.size || ''}-${idx}`} className="flex gap-4 p-4 border border-border bg-white">
             <div className="w-20 h-24 flex-shrink-0 overflow-hidden bg-muted">
               <AppImage
                 src={item.image}
@@ -448,17 +449,19 @@ function PaymentStep({
   const subtotal = items.reduce((acc, i) => acc + i.price * i.qty, 0);
   const mrpTotal = items.reduce((acc, i) => acc + i.mrp * i.qty, 0);
   const itemDiscount = mrpTotal - subtotal;
-  const shippingCost = shippingOpt.price;
-  const taxableAmount = subtotal + shippingCost;
-  const cgst = Math.round(taxableAmount * CGST_RATE);
-  const sgst = Math.round(taxableAmount * SGST_RATE);
-  const totalGst = cgst + sgst;
-  const grandTotal = taxableAmount + totalGst;
+  
+  const isFreeShipping = subtotal >= 1500;
+  const shippingFee = isFreeShipping ? 0 : (paymentMethod === 'cod' ? 100 : 79);
+  const grandTotal = subtotal + shippingFee;
+  const includedGst = Math.round((grandTotal * 18) / 118);
+  const cgst = Math.round(includedGst / 2);
+  const sgst = includedGst - cgst;
+  const totalGst = includedGst;
 
   const paymentOptions = [
-    { id: 'cod', label: 'Cash on Delivery', icon: 'BanknotesIcon', desc: 'Pay when your order arrives' },
-    { id: 'upi', label: 'UPI / QR Code', icon: 'QrCodeIcon', desc: 'GPay, PhonePe, Paytm, BHIM' },
-    { id: 'card', label: 'Credit / Debit Card', icon: 'CreditCardIcon', desc: 'Visa, Mastercard, RuPay' },
+    { id: 'cod', label: 'Cash on Delivery (Postpaid)', icon: 'BanknotesIcon', desc: `Pay when order arrives · Shipping: ${isFreeShipping ? 'FREE' : '₹100'}` },
+    { id: 'upi', label: 'UPI / QR Code (Prepaid)', icon: 'QrCodeIcon', desc: `GPay, PhonePe, Paytm, BHIM · Shipping: ${isFreeShipping ? 'FREE' : '₹79'}` },
+    { id: 'card', label: 'Credit / Debit Card (Prepaid)', icon: 'CreditCardIcon', desc: `Visa, Mastercard, RuPay · Shipping: ${isFreeShipping ? 'FREE' : '₹79'}` },
   ] as const;
 
   return (
@@ -491,7 +494,7 @@ function PaymentStep({
             <p className="text-xs text-muted-foreground font-body mt-0.5">{shippingOpt.eta}</p>
           </div>
           <span className="font-display font-bold text-sm">
-            {shippingOpt.price === 0 ? <span className="text-green-600">FREE</span> : `₹${shippingOpt.price}`}
+            {isFreeShipping ? <span className="text-green-600">FREE</span> : `₹${shippingFee}`}
           </span>
         </div>
       </div>
@@ -547,8 +550,8 @@ function PaymentStep({
           </div>
           <div className="flex justify-between">
             <span className="text-muted-foreground">Shipping</span>
-            <span className={shippingCost === 0 ? 'text-green-600 font-semibold' : ''}>
-              {shippingCost === 0 ? 'FREE' : `₹${shippingCost}`}
+            <span className={isFreeShipping ? 'text-green-600 font-semibold' : ''}>
+              {isFreeShipping ? 'FREE' : `₹${shippingFee} (${paymentMethod === 'cod' ? 'COD' : 'Prepaid'})`}
             </span>
           </div>
           <div className="border-t border-dashed border-border pt-2.5 space-y-1.5">
@@ -631,11 +634,19 @@ function OrderConfirmed({ orderNumber, email }: { orderNumber: string; email: st
 
 export default function CheckoutPage() {
   const { user } = useAuth();
+  const { cartItems, clearCart } = useCart();
   const router = useRouter();
   const supabase = createClient();
 
   const [step, setStep] = useState(1);
-  const [items, setItems] = useState<CartItem[]>(MOCK_CART);
+  const [items, setItems] = useState<CartItem[]>(() => (cartItems.length > 0 ? cartItems : MOCK_CART));
+
+  React.useEffect(() => {
+    if (cartItems.length > 0) {
+      setItems(cartItems);
+    }
+  }, [cartItems]);
+
   const [address, setAddress] = useState<AddressForm>({
     fullName: user?.user_metadata?.full_name || '',
     phone: '',
@@ -657,10 +668,10 @@ export default function CheckoutPage() {
   const shippingOpt = SHIPPING_OPTIONS.find((s) => s.id === shippingId)!;
   const subtotal = items.reduce((acc, i) => acc + i.price * i.qty, 0);
   const shippingCost = shippingOpt.price;
-  const taxableAmount = subtotal + shippingCost;
-  const cgst = Math.round(taxableAmount * CGST_RATE);
-  const sgst = Math.round(taxableAmount * SGST_RATE);
-  const grandTotal = taxableAmount + cgst + sgst;
+  const grandTotal = subtotal + shippingCost;
+  const includedGst = Math.round((grandTotal * 18) / 118);
+  const cgst = Math.round(includedGst / 2);
+  const sgst = includedGst - cgst;
 
   const generateOrderNumber = () => {
     const ts = Date.now().toString(36).toUpperCase();
@@ -823,8 +834,8 @@ export default function CheckoutPage() {
                   Order Summary
                 </p>
                 <div className="space-y-3 mb-4">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex gap-3">
+                  {items.map((item, idx) => (
+                    <div key={`summary-${item.id}-${item.size || ''}-${idx}`} className="flex gap-3">
                       <div className="w-12 h-14 flex-shrink-0 overflow-hidden bg-muted relative">
                         <AppImage
                           src={item.image}

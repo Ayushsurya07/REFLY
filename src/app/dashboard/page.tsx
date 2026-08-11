@@ -594,7 +594,7 @@ export default function DashboardPage() {
                           )}
                         </div>
                         <Link
-                          href={`/product-page?id=${item.product_id}`}
+                          href={`/products/${item.product_id}`}
                           className="mt-3 w-full py-2.5 border border-white/15 text-white/70 font-display text-xs font-semibold tracking-[0.12em] uppercase text-center hover:border-gold/40 hover:text-gold transition-colors block"
                         >
                           View Product

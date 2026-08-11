@@ -95,14 +95,14 @@ export function createClient() {
     {
       cookies: {
         getAll: () => (canUseCookies() ? fromCookies() : fromStorage()),
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: Array<{ name: string; value: string; options?: any }>) {
           if (typeof document === 'undefined') return;
           if (canUseCookies()) {
-            cookiesToSet.forEach(({ name, value, options }) =>
+            cookiesToSet.forEach(({ name, value, options }: { name: string; value: string; options?: any }) =>
               value ? setCookie(name, value, options) : deleteCookie(name)
             );
           } else {
-            cookiesToSet.forEach(({ name, value, options }) => {
+            cookiesToSet.forEach(({ name, value, options }: { name: string; value: string; options?: any }) => {
               try {
                 value
                   ? localStorage.setItem(`${PFX}${name}`, value)

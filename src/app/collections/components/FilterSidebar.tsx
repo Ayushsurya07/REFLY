@@ -1,19 +1,30 @@
 'use client';
 import React from 'react';
 import Icon from '@/components/ui/AppIcon';
-import { FilterState } from './CollectionsClient';
+import { Category, FilterState } from './CollectionsClient';
 
 const SIZES = ['28', '30', '32', '34', '36', '38', '40', '42'];
 const FITS = ['Slim', 'Regular', 'Relaxed', 'Tapered'];
 
+export const SUBCATEGORIES: Record<string, string[]> = {
+  cargos: ['Zip cargos', 'patch pocket cargo', 'elastic cargo', 'cargo shorts', 'loose fit cargo'],
+  linen: ['lenin loose fit', 'Lenin chinos', 'Lenin shorts', 'zip pocket lenin'],
+  'cotton-pants': ['Cotton chinos', 'China bold', 'Cotton shorts'],
+  shorts: ['Polyester shorts', 'Cargo shorts', 'Linen shorts', 'Cotton shorts'],
+  formal: ['Formal trousers', 'Slim fit formal'],
+};
+
 interface FilterSidebarProps {
   filters: FilterState;
   onChange: (f: FilterState) => void;
+  activeCategory: Category;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function FilterSidebar({ filters, onChange, isOpen, onClose }: FilterSidebarProps) {
+export default function FilterSidebar({ filters, onChange, activeCategory, isOpen, onClose }: FilterSidebarProps) {
+  if (!isOpen) return null;
+
   const toggleSize = (size: string) => {
     const sizes = filters.sizes.includes(size)
       ? filters.sizes.filter((s) => s !== size)
@@ -28,12 +39,22 @@ export default function FilterSidebar({ filters, onChange, isOpen, onClose }: Fi
     onChange({ ...filters, fits });
   };
 
-  const clearAll = () => onChange({ sizes: [], priceMin: 0, priceMax: 10000, fits: [], inStockOnly: false });
+  const toggleSubcategory = (subcat: string) => {
+    const currentSubs = filters.subcategories || [];
+    const subcategories = currentSubs.includes(subcat)
+      ? currentSubs.filter((s) => s !== subcat)
+      : [...currentSubs, subcat];
+    onChange({ ...filters, subcategories });
+  };
+
+  const clearAll = () => onChange({ sizes: [], priceMin: 0, priceMax: 10000, fits: [], subcategories: [], inStockOnly: false });
+
+  const currentSubcategories = activeCategory !== 'all' ? (SUBCATEGORIES[activeCategory] || []) : [];
 
   const SidebarContent = () => (
     <div className="space-y-8">
-      {/* Clear */}
-      <div className="flex items-center justify-between">
+      {/* Header with Clear All button */}
+      <div className="flex items-center justify-between border-b border-border pb-4">
         <h2 className="font-display font-bold text-base tracking-wide uppercase">Filters</h2>
         <button
           onClick={clearAll}
@@ -42,6 +63,32 @@ export default function FilterSidebar({ filters, onChange, isOpen, onClose }: Fi
           Clear All
         </button>
       </div>
+
+      {/* Subcategories (only displayed when activeCategory !== 'all') */}
+      {activeCategory !== 'all' && currentSubcategories.length > 0 && (
+        <div className="border-b border-border pb-6">
+          <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4 text-gold">Subcategories</h3>
+          <div className="space-y-2.5">
+            {currentSubcategories.map((subcat) => (
+              <label key={subcat} className="flex items-center gap-3 cursor-pointer group">
+                <div
+                  className={`w-5 h-5 border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
+                    (filters.subcategories || []).includes(subcat) ? 'bg-gold border-gold' : 'border-border group-hover:border-foreground'
+                  }`}
+                  onClick={() => toggleSubcategory(subcat)}
+                >
+                  {(filters.subcategories || []).includes(subcat) && (
+                    <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
+                </div>
+                <span className="font-body text-sm capitalize">{subcat}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Availability */}
       <div>
@@ -130,31 +177,23 @@ export default function FilterSidebar({ filters, onChange, isOpen, onClose }: Fi
 
   return (
     <>
-      {/* Desktop sidebar */}
-      <div className="hidden lg:block w-56 flex-shrink-0">
-        <div className="sticky top-36">
+      {/* Desktop collapsible sidebar */}
+      <div className="hidden lg:block w-64 flex-shrink-0">
+        <div className="sticky top-36 bg-background border border-border p-6 shadow-sm">
           <SidebarContent />
         </div>
       </div>
 
       {/* Mobile drawer */}
-      {isOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-            onClick={onClose}
-          />
-          <div className="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 overflow-y-auto p-6 lg:hidden">
-            <div className="flex items-center justify-between mb-6">
-              <span className="font-display font-bold text-lg">Filters</span>
-              <button onClick={onClose} aria-label="Close filters">
-                <Icon name="XMarkIcon" size={24} />
-              </button>
-            </div>
-            <SidebarContent />
-          </div>
-        </>
-      )}
+      <div className="lg:hidden">
+        <div
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={onClose}
+        />
+        <div className="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 overflow-y-auto p-6 shadow-xl">
+          <SidebarContent />
+        </div>
+      </div>
     </>
   );
 }

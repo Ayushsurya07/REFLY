@@ -1,12 +1,16 @@
 'use client';
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Icon from '@/components/ui/AppIcon';
+import { useCart } from '@/contexts/CartContext';
 
 interface ProductInfoProps {
   product: typeof import('./ProductPageClient').productData;
 }
 
 export default function ProductInfo({ product }: ProductInfoProps) {
+  const router = useRouter();
+  const { addToCart } = useCart();
   const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
   const [selectedSize, setSelectedSize] = useState('');
   const [qty, setQty] = useState(1);
@@ -35,8 +39,33 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
   const handleAddToCart = () => {
     if (!selectedSize) return;
+    addToCart({
+      id: product.id,
+      name: product.name,
+      variant: selectedColor,
+      size: selectedSize.startsWith('W') ? selectedSize : `W${selectedSize}`,
+      price: product.price,
+      mrp: product.mrp,
+      image: product.images[0]?.src || '',
+      qty,
+    });
     setAddedToCart(true);
     setTimeout(() => setAddedToCart(false), 2500);
+  };
+
+  const handleBuyNow = () => {
+    if (!selectedSize) return;
+    addToCart({
+      id: product.id,
+      name: product.name,
+      variant: selectedColor,
+      size: selectedSize.startsWith('W') ? selectedSize : `W${selectedSize}`,
+      price: product.price,
+      mrp: product.mrp,
+      image: product.images[0]?.src || '',
+      qty,
+    });
+    router.push('/checkout');
   };
 
   return (
@@ -177,14 +206,15 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           onClick={handleAddToCart}
           disabled={!selectedSize}
           className={`btn-primary w-full py-5 text-sm relative overflow-hidden transition-all duration-300 ${
-            !selectedSize ? 'opacity-40 cursor-not-allowed' : ''
+            !selectedSize ? 'opacity-50 cursor-not-allowed' : ''
           } ${addedToCart ? '!bg-green-800' : ''}`}
         >
-          {addedToCart ? '✓ Added to Bag' : 'Add to Bag'}
+          {addedToCart ? '✓ Added to Bag' : !selectedSize ? 'Select Waist Size to Add' : 'Add to Bag'}
         </button>
         <button
+          onClick={handleBuyNow}
           disabled={!selectedSize}
-          className={`btn-ghost w-full py-5 text-sm ${!selectedSize ? 'opacity-40 cursor-not-allowed' : ''}`}
+          className={`btn-ghost w-full py-5 text-sm transition-colors cursor-pointer ${!selectedSize ? 'opacity-40 cursor-not-allowed' : 'hover:bg-foreground hover:text-background'}`}
         >
           Buy Now
         </button>
@@ -203,7 +233,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           <span className="text-lg">🚚</span>
           <div>
             <p className="font-display font-semibold text-xs tracking-wide uppercase">Free Delivery</p>
-            <p className="font-body text-xs text-muted-foreground">On all orders above ₹999 · Pan India</p>
+            <p className="font-body text-xs text-muted-foreground">On all orders above ₹1,500 · Pan India</p>
           </div>
         </div>
         <div className="flex items-center gap-3">

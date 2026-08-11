@@ -1,6 +1,6 @@
 'use client';
 import React, { useEffect, useRef, useState } from 'react';
-
+import Link from 'next/link';
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion';
 
 const STATS = [
@@ -82,14 +82,14 @@ export default function HeroSection() {
       />
 
       {/* ── Main Content ── */}
-      <div className="relative z-10 h-full flex flex-col justify-center max-w-[1600px] mx-auto px-6 lg:px-16 pt-24 pb-40">
+      <div className="relative z-30 h-full flex flex-col justify-center max-w-[1600px] mx-auto px-6 lg:px-16 pt-16 pb-36 lg:pb-40">
         <div className="max-w-3xl">
 
           {/* Label */}
           <AnimatePresence>
             {textVisible && (
               <motion.div
-                className="flex items-center gap-3 mb-7"
+                className="flex items-center gap-3 mb-4 lg:mb-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -117,7 +117,7 @@ export default function HeroSection() {
                   className="leading-none mb-1"
                   style={{
                     fontFamily: "'Blue Fonte Sans', sans-serif",
-                    fontSize: 'clamp(5rem, 16vw, 14rem)',
+                    fontSize: 'clamp(4rem, 12vw, 10rem)',
                     fontWeight: 800,
                     color: '#FFFFFF',
                     letterSpacing: '0.04em',
@@ -132,9 +132,9 @@ export default function HeroSection() {
 
           {/* BUILT DIFFERENT. — word by word */}
           <div
-            className="flex flex-wrap gap-x-4 mb-8"
+            className="flex flex-wrap gap-x-4 mb-5 lg:mb-6"
             style={{
-              fontSize: 'clamp(2.2rem, 7vw, 6.5rem)',
+              fontSize: 'clamp(1.8rem, 5vw, 4.5rem)',
               lineHeight: 1,
               fontFamily: 'var(--font-display)',
               fontWeight: 700,
@@ -169,10 +169,10 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
-                className="mb-10 leading-relaxed"
+                className="mb-6 lg:mb-8 leading-relaxed"
                 style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 'clamp(0.75rem, 1.3vw, 0.95rem)',
+                  fontSize: 'clamp(0.75rem, 1.2vw, 0.95rem)',
                   color: 'rgba(255,255,255,0.68)',
                   maxWidth: '520px',
                 }}
@@ -190,7 +190,7 @@ export default function HeroSection() {
           <AnimatePresence>
             {textVisible && (
               <motion.div
-                className="flex flex-col sm:flex-row gap-4"
+                className="flex flex-col sm:flex-row gap-4 relative z-30"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
@@ -209,7 +209,7 @@ export default function HeroSection() {
                 </MagneticButton>
 
                 {/* Secondary CTA */}
-                <MagneticButton href="/#featured">
+                <MagneticButton href="/collections">
                   EXPLORE COLLECTION
                 </MagneticButton>
               </motion.div>
@@ -222,34 +222,20 @@ export default function HeroSection() {
       <AnimatePresence>
         {textVisible && (
           <motion.div
-            className="absolute bottom-0 left-0 right-0 z-20"
+            className="absolute bottom-0 left-0 right-0 z-10 pointer-events-none"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div
-              className="mx-4 mb-6 lg:mx-12 lg:mb-8 rounded-2xl overflow-hidden"
-              style={{
-                background: 'transparent',
-                backdropFilter: 'none',
-                WebkitBackdropFilter: 'none',
-                border: 'none',
-                boxShadow: 'none',
-              }}
-            >
-              <div className="grid grid-cols-2 lg:grid-cols-4"
-              >
+            <div className="mx-4 mb-6 lg:mx-12 lg:mb-8">
+              <div className="grid grid-cols-2 lg:grid-cols-4">
                 {STATS.map((stat, i) => (
                   <motion.div
                     key={stat.label}
-                    className="flex flex-col items-center justify-center py-5 px-6 text-center relative"
+                    className="flex flex-col items-center justify-center py-5 px-6 text-center relative border-r border-white/15 max-lg:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(4n)]:border-r-0"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 1.0 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                    style={{
-                      borderRight: i < 3 ? '1px solid rgba(255,255,255,0.12)' : 'none',
-                      borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.12)' : 'none',
-                    }}
                   >
                     <span
                       className="font-bold leading-none mb-1"
@@ -262,12 +248,10 @@ export default function HeroSection() {
                       {stat.value}
                     </span>
                     <span
-                      className="uppercase tracking-widest"
+                      className="text-xs uppercase tracking-[0.2em]"
                       style={{
-                        fontFamily: 'var(--font-display)',
-                        fontSize: '0.65rem',
-                        color: 'rgba(255,255,255,0.55)',
-                        letterSpacing: '0.18em',
+                        fontFamily: 'var(--font-sans)',
+                        color: 'rgba(255,255,255,0.5)',
                       }}
                     >
                       {stat.label}
@@ -284,7 +268,7 @@ export default function HeroSection() {
       <AnimatePresence>
         {textVisible && (
           <motion.div
-            className="absolute bottom-32 right-10 hidden lg:flex flex-col items-center gap-2 z-10"
+            className="absolute bottom-32 right-10 hidden lg:flex flex-col items-center gap-2 z-10 pointer-events-none"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.4, duration: 0.8 }}
@@ -317,7 +301,7 @@ export default function HeroSection() {
 interface MagneticButtonProps {
   href: string;
   children: React.ReactNode;
-  primary: boolean;
+  primary?: boolean;
 }
 
 function MagneticButton({ href, children, primary }: MagneticButtonProps) {
@@ -342,44 +326,41 @@ function MagneticButton({ href, children, primary }: MagneticButtonProps) {
   };
 
   return (
-    <motion.a
-      ref={ref}
-      href={href}
-      className="group inline-flex items-center justify-center px-8 py-4 text-sm font-semibold tracking-[0.18em] uppercase transition-all duration-300"
+    <motion.div
       style={{
-        fontFamily: 'var(--font-display)',
         x: springX,
         y: springY,
-        ...(primary
-          ? {
-              background: 'linear-gradient(135deg, #C0392B 0%, #E74C3C 50%, #FF6B4A 100%)',
-              color: '#FFFFFF',
-              border: '1px solid transparent',
-              boxShadow: '0 0 0 0 rgba(212,175,55,0)',
-            }
-          : {
-              background: 'transparent',
-              color: '#FFFFFF',
-              border: '1px solid rgba(255,255,255,0.35)',
-            }),
       }}
-      whileHover={
-        primary
-          ? {
-              boxShadow: '0 0 28px 4px rgba(212,175,55,0.35)',
-              scale: 1.03,
-            }
-          : {
-              borderColor: '#C0392B',
-              color: '#FFFFFF',
-              scale: 1.03,
-            }
-      }
+      whileHover={{ scale: 1.03 }}
       whileTap={{ scale: 0.97 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      className="inline-block relative z-40 pointer-events-auto"
     >
-      {children}
-    </motion.a>
+      <Link
+        ref={ref}
+        href={href}
+        className="group inline-flex items-center justify-center px-8 py-4 text-sm font-semibold tracking-[0.18em] uppercase transition-all duration-300 relative z-40 cursor-pointer"
+        style={{
+          fontFamily: 'var(--font-display)',
+          ...(primary
+            ? {
+                background: 'linear-gradient(135deg, #C0392B 0%, #E74C3C 50%, #FF6B4A 100%)',
+                color: '#FFFFFF',
+                border: '1px solid transparent',
+                boxShadow: '0 4px 20px rgba(192, 57, 43, 0.4)',
+              }
+            : {
+                background: 'rgba(0, 0, 0, 0.6)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+                color: '#FFFFFF',
+                border: '1px solid rgba(255, 255, 255, 0.4)',
+              }),
+        }}
+      >
+        {children}
+      </Link>
+    </motion.div>
   );
 }

@@ -83,7 +83,7 @@ export default function ProductPageClient() {
             <span>/</span>
             <a href="/collections" className="hover:text-foreground transition-colors">Collections</a>
             <span>/</span>
-            <a href="/collections" className="hover:text-foreground transition-colors">Jeans</a>
+            <a href={`/collections?category=${productData?.category?.toLowerCase()}`} className="hover:text-foreground transition-colors capitalize">{productData?.category}</a>
             <span>/</span>
             <span className="text-foreground">{productData?.name}</span>
           </nav>

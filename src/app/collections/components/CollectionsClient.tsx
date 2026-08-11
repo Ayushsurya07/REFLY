@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
@@ -7,7 +8,7 @@ import CollectionsBanner from './CollectionsBanner';
 import ProductGrid from './ProductGrid';
 import FilterSidebar from './FilterSidebar';
 
-export type Category = 'all' | 'jeans' | 'cargo' | 'formal' | 'linen' | 'chinos' | 'joggers' | 'shorts';
+export type Category = 'all' | 'cargos' | 'linen' | 'cotton-pants' | 'shorts' | 'formal';
 export type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'newest' | 'discount';
 
 export interface FilterState {
@@ -15,20 +16,48 @@ export interface FilterState {
   priceMin: number;
   priceMax: number;
   fits: string[];
+  subcategories: string[];
   inStockOnly: boolean;
 }
 
 export default function CollectionsClient() {
+  const searchParams = useSearchParams();
+  const categoryParam = searchParams?.get('category');
   const [activeCategory, setActiveCategory] = useState<Category>('all');
+
+  useEffect(() => {
+    if (categoryParam) {
+      let cat = categoryParam.toLowerCase();
+      if (cat === 'cargo') cat = 'cargos';
+      const validCategories: Category[] = ['all', 'cargos', 'linen', 'cotton-pants', 'shorts', 'formal'];
+      if (validCategories.includes(cat as Category)) {
+        setActiveCategory(cat as Category);
+      }
+    }
+  }, [categoryParam]);
+
   const [sortBy, setSortBy] = useState<SortOption>('featured');
   const [filters, setFilters] = useState<FilterState>({
     sizes: [],
     priceMin: 0,
     priceMax: 10000,
     fits: [],
+    subcategories: [],
     inStockOnly: false,
   });
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleCategoryChange = (c: Category) => {
+    setActiveCategory(c);
+    setFilters((prev) => ({ ...prev, subcategories: [] }));
+  };
+
+  const activeFilterCount =
+    filters.sizes.length +
+    filters.fits.length +
+    (filters.subcategories ? filters.subcategories.length : 0) +
+    (filters.inStockOnly ? 1 : 0) +
+    (filters.priceMax < 10000 || filters.priceMin > 0 ? 1 : 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -39,20 +68,29 @@ export default function CollectionsClient() {
         <CollectionsBanner activeCategory={activeCategory} />
 
         {/* Category Tabs */}
-        <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
+        <CategoryTabs active={activeCategory} onChange={handleCategoryChange} />
 
         {/* Layout */}
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12 py-12">
           {/* Top Bar */}
           <div className="flex items-center justify-between mb-8">
             <button
-              onClick={() => setSidebarOpen(true)}
-              className="flex items-center gap-2 font-display text-xs font-semibold tracking-widest uppercase border border-border px-4 py-3 hover:border-foreground transition-colors"
+              onClick={() => setSidebarOpen((prev) => !prev)}
+              className={`flex items-center gap-2.5 font-display text-xs font-semibold tracking-widest uppercase border px-5 py-3.5 transition-all duration-200 cursor-pointer ${
+                sidebarOpen
+                  ? 'bg-foreground text-background border-foreground shadow-md'
+                  : 'border-border hover:border-foreground bg-background text-foreground'
+              }`}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 4h18M7 12h10M11 20h2" />
               </svg>
-              Filters
+              <span>{sidebarOpen ? 'Hide Filters' : 'Filters'}</span>
+              {activeFilterCount > 0 && (
+                <span className="ml-1 text-[10px] px-1.5 py-0.5 font-bold bg-gold text-black rounded-full">
+                  {activeFilterCount}
+                </span>
+              )}
             </button>
 
             <div className="flex items-center gap-4">
@@ -77,6 +115,7 @@ export default function CollectionsClient() {
             <FilterSidebar
               filters={filters}
               onChange={setFilters}
+              activeCategory={activeCategory}
               isOpen={sidebarOpen}
               onClose={() => setSidebarOpen(false)}
             />
@@ -99,13 +138,11 @@ export default function CollectionsClient() {
 
 const categories: { label: string; value: Category }[] = [
   { label: 'All', value: 'all' },
-  { label: 'Jeans', value: 'jeans' },
-  { label: 'Cargo', value: 'cargo' },
-  { label: 'Formal', value: 'formal' },
+  { label: 'Cargos', value: 'cargos' },
   { label: 'Linen', value: 'linen' },
-  { label: 'Chinos', value: 'chinos' },
-  { label: 'Joggers', value: 'joggers' },
+  { label: 'Cotton Pants', value: 'cotton-pants' },
   { label: 'Shorts', value: 'shorts' },
+  { label: 'Formal', value: 'formal' },
 ];
 
 function CategoryTabs({ active, onChange }: { active: Category; onChange: (c: Category) => void }) {

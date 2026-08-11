@@ -26,25 +26,25 @@ interface Product {
 
 const featuredProducts: Product[] = [
   {
-    id: 'obsidian-jeans',
-    name: 'Obsidian Slim Jeans',
-    category: 'Jeans',
-    price: 2999,
-    mrp: 4999,
-    discount: 40,
-    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&q=80',
+    id: 'zip-cargos',
+    name: 'Tactical Zip Cargo Pants',
+    category: 'Cargos',
+    price: 3499,
+    mrp: 5499,
+    discount: 36,
+    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80',
     tag: 'Best Seller',
     colSpan: 'lg:col-span-2',
     rowSpan: 'lg:row-span-2',
   },
   {
-    id: 'utility-cargo',
-    name: 'Utility Cargo Pants',
-    category: 'Cargo',
-    price: 3499,
-    mrp: 5499,
-    discount: 36,
-    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80',
+    id: 'patch-pocket-cargo',
+    name: 'Utility Patch Pocket Cargo',
+    category: 'Cargos',
+    price: 3999,
+    mrp: 5999,
+    discount: 33,
+    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80',
     tag: 'New',
     colSpan: 'lg:col-span-1',
     rowSpan: 'lg:row-span-1',
@@ -61,8 +61,8 @@ const featuredProducts: Product[] = [
     rowSpan: 'lg:row-span-1',
   },
   {
-    id: 'linen-ease',
-    name: 'Linen Ease Trousers',
+    id: 'linen-loose-fit',
+    name: 'Linen Loose Fit Trousers',
     category: 'Linen',
     price: 2799,
     mrp: 4499,
@@ -143,7 +143,7 @@ function ProductCard({ product, large = false }: { product: Product; large?: boo
         {/* Quick Add (visible on hover) */}
         <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-400 z-10" style={{ transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}>
           <Link
-            href="/product-page"
+            href={`/products/${product.id}`}
             className="btn-primary w-full text-center block text-xs"
           >
             View Product
@@ -162,7 +162,7 @@ function ProductCard({ product, large = false }: { product: Product; large?: boo
               {product.name}
             </h3>
           </div>
-          <Link href="/product-page" aria-label="View product details">
+          <Link href={`/products/${product.id}`} aria-label="View product details">
             <Icon name="ArrowUpRightIcon" size={18} className="text-muted-foreground hover:text-gold transition-colors" />
           </Link>
         </div>
@@ -268,7 +268,7 @@ export default function FeaturedProducts() {
                     {featuredProducts[3].discount}% OFF
                   </span>
                   <Link
-                    href="/product-page"
+                    href={`/products/${featuredProducts[3].id}`}
                     className="ml-auto btn-gold text-xs px-6 py-3"
                   >
                     Shop Now
@@ -282,7 +282,7 @@ export default function FeaturedProducts() {
         {/* Delivery Trust Bar */}
         <div className="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 reveal-up stagger-5">
           {[
-            { icon: '🚚', text: 'Free Delivery Across India' },
+            { icon: '🚚', text: 'Free Delivery Above ₹1,500' },
             { icon: '↩', text: '7-Day Easy Returns' },
             { icon: '💳', text: 'Cash on Delivery Available' },
             { icon: '⚡', text: 'Ships within 24 Hours' },

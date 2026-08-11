@@ -13,21 +13,21 @@ import AppImage from '@/components/ui/AppImage';
 
 const categories = [
   {
-    id: 'jeans',
-    name: 'Jeans',
-    tagline: 'Precision Cut',
-    count: 24,
-    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=900&q=80',
+    id: 'cargos',
+    name: 'Cargos',
+    tagline: 'Tactical Utility',
+    count: 18,
+    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=900&q=80',
     colSpan: 'lg:col-span-2',
     rowSpan: 'lg:row-span-2',
     height: 'h-[420px] lg:h-full',
   },
   {
-    id: 'cargo',
-    name: 'Cargo',
-    tagline: 'Tactical Style',
-    count: 18,
-    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80',
+    id: 'linen',
+    name: 'Linen',
+    tagline: 'Breathable Luxury',
+    count: 12,
+    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500&q=80',
     colSpan: 'lg:col-span-1',
     rowSpan: 'lg:row-span-1',
     height: 'h-[240px]',
@@ -43,31 +43,11 @@ const categories = [
     height: 'h-[240px]',
   },
   {
-    id: 'linen',
-    name: 'Linen',
-    tagline: 'Breathable Luxury',
-    count: 12,
-    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500&q=80',
-    colSpan: 'lg:col-span-1',
-    rowSpan: 'lg:row-span-1',
-    height: 'h-[240px]',
-  },
-  {
-    id: 'chinos',
-    name: 'Chinos',
-    tagline: 'Effortless Versatility',
+    id: 'cotton-pants',
+    name: 'Cotton Pants',
+    tagline: 'Classic Twill & Bold Fits',
     count: 20,
     image: 'https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=500&q=80',
-    colSpan: 'lg:col-span-1',
-    rowSpan: 'lg:row-span-1',
-    height: 'h-[240px]',
-  },
-  {
-    id: 'joggers',
-    name: 'Joggers',
-    tagline: 'Motion Engineered',
-    count: 16,
-    image: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=500&q=80',
     colSpan: 'lg:col-span-1',
     rowSpan: 'lg:row-span-1',
     height: 'h-[240px]',
@@ -78,7 +58,7 @@ const categories = [
     tagline: 'Summer Essentials',
     count: 14,
     image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=1200&q=80',
-    colSpan: 'lg:col-span-3',
+    colSpan: 'lg:col-span-2',
     rowSpan: 'lg:row-span-1',
     height: 'h-[240px]',
   },
@@ -118,12 +98,6 @@ export default function CollectionsBento() {
           </Link>
         </div>
 
-        {/* Bento Grid
-            Row 1: [col-1..2: Jeans cs-2 rs-2] [col-3: Cargo cs-1 rs-1]
-            Row 2: [col-3: Formal cs-1 rs-1]
-            Row 3: [col-1: Linen cs-1 rs-1] [col-2: Chinos cs-1 rs-1] [col-3: Joggers cs-1 rs-1]
-            Row 4: [col-1..3: Shorts cs-3 rs-1]
-        */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4">
           {categories?.map((cat, i) => (
             <div
@@ -131,7 +105,7 @@ export default function CollectionsBento() {
               className={`${cat?.colSpan} ${cat?.rowSpan} reveal-up`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <Link href="/collections" className="block h-full">
+              <Link href={`/collections?category=${cat.id}`} className="block h-full">
                 <div className={`relative overflow-hidden group ${cat?.height} ${cat?.rowSpan === 'lg:row-span-2' ? 'lg:h-full' : ''}`}>
                   <AppImage
                     src={cat?.image}

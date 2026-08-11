@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from 'next';
 import { Space_Grotesk, Manrope, Bebas_Neue } from 'next/font/google';
 import '../styles/tailwind.css';
 import { AuthProvider } from '@/contexts/AuthContext';
+import { CartProvider } from '@/contexts/CartContext';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -58,15 +59,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${manrope.variable} ${bebasNeue.variable}`}>
+    <html lang="en" className={`${spaceGrotesk.variable} ${manrope.variable} ${bebasNeue.variable}`} suppressHydrationWarning>
       <head>
         <link href="https://fonts.cdnfonts.com/css/blue-fonte-sans" rel="stylesheet" />
-</head>
-      <body className={manrope.className}>
+      </head>
+      <body className={manrope.className} suppressHydrationWarning>
         <AuthProvider>
-          {children}
+          <CartProvider>
+            {children}
+          </CartProvider>
         </AuthProvider>
-</body>
+      </body>
     </html>
   );
 }

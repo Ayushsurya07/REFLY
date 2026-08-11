@@ -12,9 +12,16 @@ import TestimonialsSection from './TestimonialsSection';
 import NewsletterSection from './NewsletterSection';
 
 export default function HomepageClient() {
+  const [mounted, setMounted] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
     let lenis: { raf: (time: number) => void; destroy: () => void } | null = null;
     let rafId: number;
 
@@ -44,7 +51,11 @@ export default function HomepageClient() {
       if (rafId) cancelAnimationFrame(rafId);
       lenis?.destroy();
     };
-  }, []);
+  }, [mounted]);
+
+  if (!mounted) {
+    return <div className="min-h-screen bg-black" suppressHydrationWarning />;
+  }
 
   return (
     <>
