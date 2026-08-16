@@ -73,7 +73,14 @@ function ResetPasswordForm() {
       {success ? (
         <div className="text-center">
           <div className="w-16 h-16 border border-gold/40 flex items-center justify-center mx-auto mb-6">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" strokeWidth="1.5">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#C8A96A"
+              strokeWidth="1.5"
+            >
               <polyline points="20 6 9 17 4 12" />
             </svg>
           </div>
@@ -124,7 +131,14 @@ function ResetPasswordForm() {
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     {showPassword ? (
                       <>
                         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
@@ -160,7 +174,14 @@ function ResetPasswordForm() {
                   onClick={() => setShowConfirm(!showConfirm)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  >
                     {showConfirm ? (
                       <>
                         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
@@ -183,25 +204,46 @@ function ResetPasswordForm() {
               <div className="space-y-1.5">
                 <div className="flex gap-1">
                   {[1, 2, 3, 4].map((level) => {
-                    const strength = password.length >= 12 && /[A-Z]/.test(password) && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password) ? 4
-                      : password.length >= 10 && /[A-Z]/.test(password) && /[0-9]/.test(password) ? 3
-                      : password.length >= 8 ? 2
-                      : 1;
+                    const strength =
+                      password.length >= 12 &&
+                      /[A-Z]/.test(password) &&
+                      /[0-9]/.test(password) &&
+                      /[^A-Za-z0-9]/.test(password)
+                        ? 4
+                        : password.length >= 10 && /[A-Z]/.test(password) && /[0-9]/.test(password)
+                          ? 3
+                          : password.length >= 8
+                            ? 2
+                            : 1;
                     return (
                       <div
                         key={level}
                         className={`h-1 flex-1 transition-colors duration-300 ${
                           level <= strength
-                            ? strength === 1 ? 'bg-red-500'
-                              : strength === 2 ? 'bg-yellow-500'
-                              : strength === 3 ? 'bg-blue-400' :'bg-green-400' :'bg-white/10'
+                            ? strength === 1
+                              ? 'bg-red-500'
+                              : strength === 2
+                                ? 'bg-yellow-500'
+                                : strength === 3
+                                  ? 'bg-blue-400'
+                                  : 'bg-green-400'
+                            : 'bg-white/10'
                         }`}
                       />
                     );
                   })}
                 </div>
                 <p className="font-body text-xs text-white/30">
-                  {password.length < 8 ? 'Too short' : password.length >= 12 && /[A-Z]/.test(password) && /[0-9]/.test(password) && /[^A-Za-z0-9]/.test(password) ? 'Strong password' : password.length >= 10 && /[A-Z]/.test(password) ? 'Good password' : 'Acceptable — add uppercase, numbers, or symbols for stronger security'}
+                  {password.length < 8
+                    ? 'Too short'
+                    : password.length >= 12 &&
+                        /[A-Z]/.test(password) &&
+                        /[0-9]/.test(password) &&
+                        /[^A-Za-z0-9]/.test(password)
+                      ? 'Strong password'
+                      : password.length >= 10 && /[A-Z]/.test(password)
+                        ? 'Good password'
+                        : 'Acceptable — add uppercase, numbers, or symbols for stronger security'}
                 </p>
               </div>
             )}
@@ -244,11 +286,13 @@ export default function ResetPasswordPage() {
         </Link>
       </div>
       <div className="flex-1 flex items-center justify-center px-6 py-12">
-        <Suspense fallback={
-          <div className="flex items-center justify-center">
-            <span className="w-8 h-8 border-2 border-white/20 border-t-gold rounded-full animate-spin" />
-          </div>
-        }>
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center">
+              <span className="w-8 h-8 border-2 border-white/20 border-t-gold rounded-full animate-spin" />
+            </div>
+          }
+        >
           <ResetPasswordForm />
         </Suspense>
       </div>

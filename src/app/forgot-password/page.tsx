@@ -56,15 +56,22 @@ export default function ForgotPasswordPage() {
           {sent ? (
             <div className="text-center">
               <div className="w-16 h-16 border border-gold/40 flex items-center justify-center mx-auto mb-6">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C8A96A" strokeWidth="1.5">
+                <svg
+                  width="28"
+                  height="28"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#C8A96A"
+                  strokeWidth="1.5"
+                >
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                   <polyline points="22,6 12,13 2,6" />
                 </svg>
               </div>
               <h2 className="font-display font-bold text-2xl text-white mb-3">Check your inbox.</h2>
               <p className="font-body text-sm text-white/50 mb-8">
-                We&apos;ve sent a password reset link to{' '}
-                <span className="text-white">{email}</span>. Check your spam folder if you don&apos;t see it.
+                We&apos;ve sent a password reset link to <span className="text-white">{email}</span>
+                . Check your spam folder if you don&apos;t see it.
               </p>
               <Link
                 href="/login"

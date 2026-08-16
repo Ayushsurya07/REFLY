@@ -14,12 +14,13 @@ export async function createClient() {
         },
         setAll(cookiesToSet: Array<{ name: string; value: string; options?: any }>) {
           try {
-            cookiesToSet.forEach(({ name, value, options }: { name: string; value: string; options?: any }) =>
-              cookieStore.set(name, value, {
-                ...options,
-                sameSite: 'none',
-                secure: true,
-              })
+            cookiesToSet.forEach(
+              ({ name, value, options }: { name: string; value: string; options?: any }) =>
+                cookieStore.set(name, value, {
+                  ...options,
+                  sameSite: 'none',
+                  secure: true,
+                })
             );
           } catch {
             // Server Component read-only context — expected

@@ -47,7 +47,9 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
           style={{
             transformOrigin: `${zoomPos.x}% ${zoomPos.y}%`,
             transform: zoom ? 'scale(1.8)' : 'scale(1)',
-            transition: zoom ? 'transform 0.1s ease' : 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
+            transition: zoom
+              ? 'transform 0.1s ease'
+              : 'transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)',
           }}
           sizes="(max-width: 768px) 100vw, 50vw"
         />
@@ -59,7 +61,12 @@ export default function ProductGallery({ images }: ProductGalleryProps) {
           className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-colors z-10"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
           </svg>
         </button>
         <button

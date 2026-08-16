@@ -30,7 +30,11 @@ export default function WishlistPage() {
   const [removing, setRemoving] = useState<string | null>(null);
 
   const fetchWishlist = useCallback(async () => {
-    if (!user) { setWishlist([]); setLoading(false); return; }
+    if (!user) {
+      setWishlist([]);
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     try {
       const { data } = await supabase
@@ -39,19 +43,27 @@ export default function WishlistPage() {
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
       setWishlist(data || []);
-    } catch { /* silent */ }
-    finally { setLoading(false); }
+    } catch {
+      /* silent */
+    } finally {
+      setLoading(false);
+    }
   }, [user, supabase]);
 
-  useEffect(() => { fetchWishlist(); }, [fetchWishlist]);
+  useEffect(() => {
+    fetchWishlist();
+  }, [fetchWishlist]);
 
   const handleRemove = async (id: string) => {
     setRemoving(id);
     try {
       await supabase.from('wishlist').delete().eq('id', id);
       setWishlist((prev) => prev.filter((w) => w.id !== id));
-    } catch { /* silent */ }
-    finally { setRemoving(null); }
+    } catch {
+      /* silent */
+    } finally {
+      setRemoving(null);
+    }
   };
 
   return (
@@ -145,12 +157,18 @@ export default function WishlistPage() {
                       </span>
                     )}
                     <Link href={`/products/${item.product_id}`}>
-                      <h3 className="font-display font-bold text-base hover:text-gold transition-colors">{item.product_name}</h3>
+                      <h3 className="font-display font-bold text-base hover:text-gold transition-colors">
+                        {item.product_name}
+                      </h3>
                     </Link>
                     <div className="flex items-center gap-2">
-                      <span className="price-tag text-base font-bold">₹{Number(item.product_price).toLocaleString('en-IN')}</span>
+                      <span className="price-tag text-base font-bold">
+                        ₹{Number(item.product_price).toLocaleString('en-IN')}
+                      </span>
                       {item.product_mrp > item.product_price && (
-                        <span className="text-xs text-muted-foreground line-through">₹{Number(item.product_mrp).toLocaleString('en-IN')}</span>
+                        <span className="text-xs text-muted-foreground line-through">
+                          ₹{Number(item.product_mrp).toLocaleString('en-IN')}
+                        </span>
                       )}
                     </div>
                     <button

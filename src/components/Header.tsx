@@ -62,7 +62,9 @@ export default function Header() {
     } else {
       document.body.style.overflow = '';
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [mobileOpen, searchOpen]);
 
   useEffect(() => {
@@ -88,11 +90,11 @@ export default function Header() {
 
   const displayInitials = user
     ? (user?.user_metadata?.full_name || user?.email || 'U')
-      .split(' ')
-      .map((n: string) => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2)
+        .split(' ')
+        .map((n: string) => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2)
     : '';
 
   return (
@@ -119,8 +121,9 @@ export default function Header() {
                 className="flex-shrink-0"
               />
               <span
-                className={`font-display font-bold text-xl tracking-[0.15em] uppercase transition-colors duration-300 ${scrolled ? 'text-white' : 'text-white'
-                  }`}
+                className={`font-display font-bold text-xl tracking-[0.15em] uppercase transition-colors duration-300 ${
+                  scrolled ? 'text-white' : 'text-white'
+                }`}
               >
                 Refly
               </span>
@@ -147,8 +150,9 @@ export default function Header() {
                 suppressHydrationWarning
                 onClick={() => setSearchOpen(true)}
                 aria-label="Search products"
-                className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
-                  }`}
+                className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${
+                  scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
+                }`}
               >
                 <Icon name="MagnifyingGlassIcon" size={20} />
               </button>
@@ -158,8 +162,9 @@ export default function Header() {
                 <Link
                   href="/wishlist"
                   aria-label="View Wishlist"
-                  className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
-                    }`}
+                  className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${
+                    scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
+                  }`}
                 >
                   <Icon name="HeartIcon" size={20} />
                 </Link>
@@ -167,8 +172,9 @@ export default function Header() {
                 <button
                   aria-label="View Wishlist"
                   onClick={() => router.push('/login')}
-                  className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
-                    }`}
+                  className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${
+                    scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
+                  }`}
                 >
                   <Icon name="HeartIcon" size={20} />
                 </button>
@@ -178,8 +184,9 @@ export default function Header() {
               <button
                 onClick={() => setCartOpen(true)}
                 aria-label="View Cart"
-                className={`relative flex w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
-                  }`}
+                className={`relative flex w-10 h-10 items-center justify-center transition-colors duration-300 ${
+                  scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
+                }`}
               >
                 <Icon name="ShoppingBagIcon" size={20} />
                 {cartCount > 0 && (
@@ -198,16 +205,20 @@ export default function Header() {
                         onClick={() => setProfileOpen(!profileOpen)}
                         aria-label="User Account Menu"
                         aria-expanded={profileOpen}
-                        className={`w-9 h-9 flex items-center justify-center font-display font-bold text-xs tracking-wide border transition-colors duration-300 ${scrolled
-                          ? 'border-white/40 text-white hover:border-gold hover:text-gold' : 'border-white/40 text-white hover:border-gold hover:text-gold'
-                          }`}
+                        className={`w-9 h-9 flex items-center justify-center font-display font-bold text-xs tracking-wide border transition-colors duration-300 ${
+                          scrolled
+                            ? 'border-white/40 text-white hover:border-gold hover:text-gold'
+                            : 'border-white/40 text-white hover:border-gold hover:text-gold'
+                        }`}
                       >
                         {displayInitials}
                       </button>
                       {profileOpen && (
                         <div className="absolute right-0 top-full mt-2 w-48 bg-black border border-white/15 shadow-2xl z-50">
                           <div className="px-4 py-3 border-b border-white/10">
-                            <p className="font-body text-xs text-white/40 truncate">{user?.email}</p>
+                            <p className="font-body text-xs text-white/40 truncate">
+                              {user?.email}
+                            </p>
                           </div>
                           <Link
                             href="/dashboard"
@@ -251,8 +262,11 @@ export default function Header() {
                   ) : (
                     <Link
                       href="/login"
-                      className={`font-display text-xs font-semibold tracking-[0.12em] uppercase transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
-                        }`}
+                      className={`font-display text-xs font-semibold tracking-[0.12em] uppercase transition-colors duration-300 ${
+                        scrolled
+                          ? 'text-white/80 hover:text-gold'
+                          : 'text-white/80 hover:text-white'
+                      }`}
                     >
                       Sign In
                     </Link>
@@ -266,8 +280,9 @@ export default function Header() {
                 aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
                 aria-expanded={mobileOpen}
                 aria-controls="mobile-navigation"
-                className={`lg:hidden flex flex-col gap-1.5 w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled || mobileOpen ? 'text-white' : 'text-white'
-                  }`}
+                className={`lg:hidden flex flex-col gap-1.5 w-10 h-10 items-center justify-center transition-colors duration-300 ${
+                  scrolled || mobileOpen ? 'text-white' : 'text-white'
+                }`}
               >
                 {mobileOpen ? (
                   <Icon name="XMarkIcon" size={24} />
@@ -284,7 +299,9 @@ export default function Header() {
         </div>
 
         {/* Gold accent line */}
-        <div className={`h-px transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-0'}`}>
+        <div
+          className={`h-px transition-opacity duration-500 ${scrolled ? 'opacity-100' : 'opacity-0'}`}
+        >
           <div className="h-full gold-gradient" />
         </div>
       </header>
@@ -319,7 +336,10 @@ export default function Header() {
                   Dashboard
                 </Link>
                 <button
-                  onClick={() => { handleSignOut(); setMobileOpen(false); }}
+                  onClick={() => {
+                    handleSignOut();
+                    setMobileOpen(false);
+                  }}
                   className="font-display text-xl font-bold text-white/40 tracking-[0.2em] uppercase hover:text-red-400 transition-colors"
                 >
                   Sign Out
@@ -339,15 +359,34 @@ export default function Header() {
             <button
               suppressHydrationWarning
               aria-label="Search"
-              onClick={() => { setSearchOpen(true); setMobileOpen(false); }}
+              onClick={() => {
+                setSearchOpen(true);
+                setMobileOpen(false);
+              }}
               className="text-white/60 hover:text-gold transition-colors"
             >
               <Icon name="MagnifyingGlassIcon" size={24} />
             </button>
-            <button suppressHydrationWarning aria-label="Wishlist" onClick={() => { router.push(user ? '/wishlist' : '/login'); setMobileOpen(false); }} className="text-white/60 hover:text-gold transition-colors">
+            <button
+              suppressHydrationWarning
+              aria-label="Wishlist"
+              onClick={() => {
+                router.push(user ? '/wishlist' : '/login');
+                setMobileOpen(false);
+              }}
+              className="text-white/60 hover:text-gold transition-colors"
+            >
               <Icon name="HeartIcon" size={24} />
             </button>
-            <button suppressHydrationWarning onClick={() => { setCartOpen(true); setMobileOpen(false); }} aria-label="Cart" className="text-white/60 hover:text-gold transition-colors">
+            <button
+              suppressHydrationWarning
+              onClick={() => {
+                setCartOpen(true);
+                setMobileOpen(false);
+              }}
+              aria-label="Cart"
+              className="text-white/60 hover:text-gold transition-colors"
+            >
               <Icon name="ShoppingBagIcon" size={24} />
             </button>
           </div>
@@ -362,7 +401,10 @@ export default function Header() {
               Live Product Search
             </span>
             <button
-              onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+              onClick={() => {
+                setSearchOpen(false);
+                setSearchQuery('');
+              }}
               className="w-10 h-10 border border-white/20 text-white flex items-center justify-center hover:bg-white/10 transition-colors"
             >
               <Icon name="XMarkIcon" size={24} />
@@ -379,13 +421,18 @@ export default function Header() {
                 placeholder="Search Cargos, Linen, Shorts, Chinos, Formal..."
                 className="w-full bg-white/10 border-b-2 border-gold text-white text-xl lg:text-2xl px-4 py-4 focus:outline-none placeholder:text-white/40 font-display"
               />
-              <Icon name="MagnifyingGlassIcon" size={24} className="absolute right-4 top-5 text-white/50" />
+              <Icon
+                name="MagnifyingGlassIcon"
+                size={24}
+                className="absolute right-4 top-5 text-white/50"
+              />
             </div>
 
             <div className="overflow-y-auto max-h-[65vh] pr-2 space-y-4">
               {searchQuery.trim() === '' ? (
                 <div className="text-center py-12 text-white/40 font-body text-sm">
-                  Start typing to find fits (e.g. &quot;Cargo&quot;, &quot;Linen&quot;, &quot;Shorts&quot;, &quot;Cotton&quot;)
+                  Start typing to find fits (e.g. &quot;Cargo&quot;, &quot;Linen&quot;,
+                  &quot;Shorts&quot;, &quot;Cotton&quot;)
                 </div>
               ) : searchResults.length === 0 ? (
                 <div className="text-center py-12 text-white/50 font-display text-base">
@@ -397,11 +444,19 @@ export default function Header() {
                     <Link
                       key={product.id}
                       href={`/products/${product.id}`}
-                      onClick={() => { setSearchOpen(false); setSearchQuery(''); }}
+                      onClick={() => {
+                        setSearchOpen(false);
+                        setSearchQuery('');
+                      }}
                       className="flex items-center gap-4 bg-white/5 border border-white/10 p-3 hover:border-gold/50 hover:bg-white/10 transition-all group"
                     >
                       <div className="w-16 h-20 relative flex-shrink-0 bg-black/40 overflow-hidden">
-                        <AppImage src={product.images[0]?.src || ''} alt={product.name} fill className="object-cover" />
+                        <AppImage
+                          src={product.images[0]?.src || ''}
+                          alt={product.name}
+                          fill
+                          className="object-cover"
+                        />
                       </div>
                       <div className="flex-1 min-w-0">
                         <span className="font-display text-[10px] text-gold uppercase tracking-wider block mb-0.5">

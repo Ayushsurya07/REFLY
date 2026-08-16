@@ -64,7 +64,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     reviewCount: 189,
     inStock: true,
     tag: 'New',
-    description: 'Engineered for modern movement. Features high-tensile zip cargo pockets, heavy-duty Japanese cotton twill, and an ergonomic tapered leg.',
+    description:
+      'Engineered for modern movement. Features high-tensile zip cargo pockets, heavy-duty Japanese cotton twill, and an ergonomic tapered leg.',
     colors: [
       { name: 'Tactical Olive', hex: '#4a4a3a', available: true },
       { name: 'Stealth Black', hex: '#1a1a1a', available: true },
@@ -76,8 +77,14 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '36', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80', alt: 'Tactical Zip Cargo Pants Front' },
-      { src: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&q=80', alt: 'Tactical Zip Cargo Detail' },
+      {
+        src: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80',
+        alt: 'Tactical Zip Cargo Pants Front',
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&q=80',
+        alt: 'Tactical Zip Cargo Detail',
+      },
     ],
     fabric: {
       composition: '95% Ripstop Cotton, 5% Spandex',
@@ -103,7 +110,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.8,
     reviewCount: 154,
     inStock: true,
-    description: 'Crafted with dual patch bellow pockets and reinforced double-layer knees. Premium utility construction tailored for street and outdoor wear.',
+    description:
+      'Crafted with dual patch bellow pockets and reinforced double-layer knees. Premium utility construction tailored for street and outdoor wear.',
     colors: [
       { name: 'Jet Black', hex: '#000000', available: true },
       { name: 'Military Khaki', hex: '#3a3a2a', available: true },
@@ -115,8 +123,14 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80', alt: 'Utility Patch Pocket Cargo' },
-      { src: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&q=80', alt: 'Patch Pocket Detail' },
+      {
+        src: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80',
+        alt: 'Utility Patch Pocket Cargo',
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=800&q=80',
+        alt: 'Patch Pocket Detail',
+      },
     ],
     fabric: {
       composition: '98% Cotton Twill, 2% Elastane',
@@ -142,7 +156,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.7,
     reviewCount: 112,
     inStock: true,
-    description: 'Combines an elasticated drawcord waist with functional cargo utility. Soft brushed cotton with flexible range of motion.',
+    description:
+      'Combines an elasticated drawcord waist with functional cargo utility. Soft brushed cotton with flexible range of motion.',
     colors: [
       { name: 'Navy Blue', hex: '#2c3e50', available: true },
       { name: 'Charcoal', hex: '#1a1a1a', available: true },
@@ -154,7 +169,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '36', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&q=80', alt: 'Elastic Comfort Cargo' },
+      {
+        src: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=800&q=80',
+        alt: 'Elastic Comfort Cargo',
+      },
     ],
     fabric: {
       composition: '97% Brushed Cotton, 3% Spandex',
@@ -180,7 +198,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.8,
     reviewCount: 95,
     inStock: true,
-    description: 'Durable warm-weather cargo shorts designed with deep flap pockets and an above-knee length cut.',
+    description:
+      'Durable warm-weather cargo shorts designed with deep flap pockets and an above-knee length cut.',
     colors: [
       { name: 'Olive', hex: '#4a4a3a', available: true },
       { name: 'Black', hex: '#1a1a1a', available: true },
@@ -191,7 +210,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80', alt: 'Rugged Cargo Shorts' },
+      {
+        src: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80',
+        alt: 'Rugged Cargo Shorts',
+      },
     ],
     fabric: {
       composition: '100% Heavyweight Cotton Canvas',
@@ -218,7 +240,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     reviewCount: 210,
     inStock: true,
     tag: 'Best Seller',
-    description: 'Wide-leg oversized combat cargo trousers featuring adjustable ankle cuffs and 6 spacious utility pockets.',
+    description:
+      'Wide-leg oversized combat cargo trousers featuring adjustable ankle cuffs and 6 spacious utility pockets.',
     colors: [
       { name: 'Dark Slate', hex: '#2d2d2d', available: true },
       { name: 'Army Olive', hex: '#3a3a2a', available: true },
@@ -230,7 +253,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '36', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80', alt: 'Loose Fit Combat Cargo' },
+      {
+        src: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80',
+        alt: 'Loose Fit Combat Cargo',
+      },
     ],
     fabric: {
       composition: '100% Ripstop Cotton',
@@ -259,7 +285,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     reviewCount: 176,
     inStock: true,
     tag: 'Limited',
-    description: '100% Pure European Flax Linen trousers designed for effortless breathability and relaxed sophistication.',
+    description:
+      '100% Pure European Flax Linen trousers designed for effortless breathability and relaxed sophistication.',
     colors: [
       { name: 'Natural Oatmeal', hex: '#d4c5a9', available: true },
       { name: 'Sand Beige', hex: '#c8b99a', available: true },
@@ -271,7 +298,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '36', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80', alt: 'Linen Loose Fit Trousers' },
+      {
+        src: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&q=80',
+        alt: 'Linen Loose Fit Trousers',
+      },
     ],
     fabric: {
       composition: '100% Pure Linen',
@@ -297,7 +327,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.9,
     reviewCount: 143,
     inStock: true,
-    description: 'Blended linen-cotton chinos combining tailored structure with lightweight airy comfort.',
+    description:
+      'Blended linen-cotton chinos combining tailored structure with lightweight airy comfort.',
     colors: [
       { name: 'Off White', hex: '#e8dcc8', available: true },
       { name: 'Warm Taupe', hex: '#b8a898', available: true },
@@ -308,7 +339,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80', alt: 'Tailored Linen Chinos' },
+      {
+        src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80',
+        alt: 'Tailored Linen Chinos',
+      },
     ],
     fabric: {
       composition: '55% Linen, 45% Cotton',
@@ -345,7 +379,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80', alt: 'Resort Linen Shorts' },
+      {
+        src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80',
+        alt: 'Resort Linen Shorts',
+      },
     ],
     fabric: {
       composition: '100% Linen',
@@ -371,7 +408,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.8,
     reviewCount: 104,
     inStock: true,
-    description: 'Contemporary linen trousers updated with concealed security zip pockets for travel and sleek aesthetics.',
+    description:
+      'Contemporary linen trousers updated with concealed security zip pockets for travel and sleek aesthetics.',
     colors: [
       { name: 'Oatmeal', hex: '#d4c5a9', available: true },
       { name: 'Midnight Black', hex: '#1a1a1a', available: true },
@@ -383,7 +421,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '36', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80', alt: 'Zip Pocket Linen Pants' },
+      {
+        src: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80',
+        alt: 'Zip Pocket Linen Pants',
+      },
     ],
     fabric: {
       composition: '70% Linen, 30% Organic Cotton',
@@ -411,7 +452,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.9,
     reviewCount: 230,
     inStock: true,
-    description: 'Essential everyday cotton chinos featuring a smooth satin weave finish and versatile flat-front tailoring.',
+    description:
+      'Essential everyday cotton chinos featuring a smooth satin weave finish and versatile flat-front tailoring.',
     colors: [
       { name: 'Camel Tan', hex: '#c8a882', available: true },
       { name: 'Dark Khaki', hex: '#8b6914', available: true },
@@ -423,7 +465,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '36', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80', alt: 'Classic Cotton Chinos' },
+      {
+        src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80',
+        alt: 'Classic Cotton Chinos',
+      },
     ],
     fabric: {
       composition: '97% Compact Cotton, 3% Elastane',
@@ -450,7 +495,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     reviewCount: 167,
     inStock: true,
     tag: 'Hot',
-    description: 'Heavyweight cotton twill pants built with structured seams and a bold modern slim cut.',
+    description:
+      'Heavyweight cotton twill pants built with structured seams and a bold modern slim cut.',
     colors: [
       { name: 'Forest Teal', hex: '#2f4f4f', available: true },
       { name: 'Charcoal Black', hex: '#1a1a1a', available: true },
@@ -461,7 +507,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=800&q=80', alt: 'China Bold Heavy Twill' },
+      {
+        src: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=800&q=80',
+        alt: 'China Bold Heavy Twill',
+      },
     ],
     fabric: {
       composition: '98% Heavy Cotton Twill, 2% Spandex',
@@ -487,7 +536,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.7,
     reviewCount: 89,
     inStock: true,
-    description: 'Breathable 100% cotton casual shorts featuring slant pockets and an elastic drawstring waist.',
+    description:
+      'Breathable 100% cotton casual shorts featuring slant pockets and an elastic drawstring waist.',
     colors: [
       { name: 'Beige', hex: '#c8a882', available: true },
       { name: 'Slate Blue', hex: '#2c3e50', available: true },
@@ -498,7 +548,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80', alt: 'Relaxed Cotton Shorts' },
+      {
+        src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80',
+        alt: 'Relaxed Cotton Shorts',
+      },
     ],
     fabric: {
       composition: '100% Combed Cotton',
@@ -527,7 +580,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     reviewCount: 201,
     inStock: true,
     tag: 'New',
-    description: 'Lightweight quick-dry active shorts built from micro-polyester grid matrix fabric with zipper pockets.',
+    description:
+      'Lightweight quick-dry active shorts built from micro-polyester grid matrix fabric with zipper pockets.',
     colors: [
       { name: 'Stealth Black', hex: '#1a1a1a', available: true },
       { name: 'Dark Steel', hex: '#2c2c2c', available: true },
@@ -538,7 +592,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80', alt: 'Performance Polyester Shorts' },
+      {
+        src: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80',
+        alt: 'Performance Polyester Shorts',
+      },
     ],
     fabric: {
       composition: '92% Recycled Polyester, 8% Elastane',
@@ -564,7 +621,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.8,
     reviewCount: 134,
     inStock: true,
-    description: 'Reinforced canvas cargo shorts engineered with dual bellows pockets and gusseted crotch.',
+    description:
+      'Reinforced canvas cargo shorts engineered with dual bellows pockets and gusseted crotch.',
     colors: [
       { name: 'Olive Green', hex: '#4a4a3a', available: true },
       { name: 'Dark Grey', hex: '#2d2d2d', available: true },
@@ -575,7 +633,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80', alt: 'Heavy Duty Cargo Shorts' },
+      {
+        src: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&q=80',
+        alt: 'Heavy Duty Cargo Shorts',
+      },
     ],
     fabric: {
       composition: '95% Cotton, 5% Spandex',
@@ -601,7 +662,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.7,
     reviewCount: 92,
     inStock: true,
-    description: 'Ultralight linen shorts featuring an adjustable drawcord waist and relaxed leg opening.',
+    description:
+      'Ultralight linen shorts featuring an adjustable drawcord waist and relaxed leg opening.',
     colors: [
       { name: 'Oatmeal Linen', hex: '#c8b99a', available: true },
       { name: 'Bark Brown', hex: '#8b7355', available: true },
@@ -612,7 +674,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80', alt: 'Breezy Linen Shorts' },
+      {
+        src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80',
+        alt: 'Breezy Linen Shorts',
+      },
     ],
     fabric: {
       composition: '100% Linen',
@@ -649,7 +714,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '34', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80', alt: 'Everyday Cotton Shorts' },
+      {
+        src: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=800&q=80',
+        alt: 'Everyday Cotton Shorts',
+      },
     ],
     fabric: {
       composition: '100% Organic Cotton',
@@ -677,7 +745,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.9,
     reviewCount: 182,
     inStock: true,
-    description: 'Bespoke modern tailored formal trousers with hidden waist adjusters and crease-resistant drape.',
+    description:
+      'Bespoke modern tailored formal trousers with hidden waist adjusters and crease-resistant drape.',
     colors: [
       { name: 'Slate Grey', hex: '#708090', available: true },
       { name: 'Charcoal', hex: '#2f2f2f', available: true },
@@ -689,7 +758,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '36', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4d42?w=800&q=80', alt: 'Slate Formal Trousers' },
+      {
+        src: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4d42?w=800&q=80',
+        alt: 'Slate Formal Trousers',
+      },
     ],
     fabric: {
       composition: '70% Wool, 28% Viscose, 2% Elastane',
@@ -715,7 +787,8 @@ export const PRODUCTS_LIST: FullProduct[] = [
     rating: 4.8,
     reviewCount: 145,
     inStock: true,
-    description: 'Deep midnight navy luxury trousers featuring French extension closure and clean tapered finish.',
+    description:
+      'Deep midnight navy luxury trousers featuring French extension closure and clean tapered finish.',
     colors: [
       { name: 'Midnight Black', hex: '#0d0d0d', available: true },
       { name: 'Deep Navy', hex: '#1a1a2e', available: true },
@@ -727,7 +800,10 @@ export const PRODUCTS_LIST: FullProduct[] = [
       { label: '36', available: true },
     ],
     images: [
-      { src: 'https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=800&q=80', alt: 'Midnight Formal Pants' },
+      {
+        src: 'https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=800&q=80',
+        alt: 'Midnight Formal Pants',
+      },
     ],
     fabric: {
       composition: '65% Polyester, 33% Rayon, 2% Spandex',
@@ -744,7 +820,7 @@ export function getProductById(id: string): FullProduct {
   if (!id) return PRODUCTS_LIST[0];
   try {
     const cleanId = decodeURIComponent(id).trim().toLowerCase();
-    
+
     // 1. Exact ID match
     const exactId = PRODUCTS_LIST.find((p) => p.id.toLowerCase() === cleanId);
     if (exactId) return exactId;

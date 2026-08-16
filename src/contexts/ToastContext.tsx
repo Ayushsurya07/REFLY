@@ -25,19 +25,40 @@ export function useToast() {
 
 const ICON_MAP: Record<ToastType, React.ReactNode> = {
   success: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+    >
       <polyline points="20 6 9 17 4 12" />
     </svg>
   ),
   error: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+    >
       <circle cx="12" cy="12" r="10" />
       <line x1="15" y1="9" x2="9" y2="15" />
       <line x1="9" y1="9" x2="15" y2="15" />
     </svg>
   ),
   info: (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+    >
       <circle cx="12" cy="12" r="10" />
       <line x1="12" y1="16" x2="12" y2="12" />
       <line x1="12" y1="8" x2="12.01" y2="8" />
@@ -73,12 +94,23 @@ function ToastItem({ toast, onRemove }: { toast: Toast; onRemove: (id: string) =
       <span className="flex-shrink-0">{ICON_MAP[toast.type]}</span>
       <span className="text-white/90 text-xs font-display tracking-wide">{toast.message}</span>
       <button
-        onClick={() => { setExiting(true); setTimeout(() => onRemove(toast.id), 300); }}
+        onClick={() => {
+          setExiting(true);
+          setTimeout(() => onRemove(toast.id), 300);
+        }}
         className="ml-auto flex-shrink-0 text-white/30 hover:text-white/70 transition-colors"
         aria-label="Dismiss notification"
       >
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
     </div>
@@ -94,10 +126,13 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const addToast = useCallback((message: string, type: ToastType = 'info', duration: number = 3500) => {
-    const id = `toast-${++toastCounter}-${Date.now()}`;
-    setToasts((prev) => [...prev.slice(-4), { id, message, type, duration }]);
-  }, []);
+  const addToast = useCallback(
+    (message: string, type: ToastType = 'info', duration: number = 3500) => {
+      const id = `toast-${++toastCounter}-${Date.now()}`;
+      setToasts((prev) => [...prev.slice(-4), { id, message, type, duration }]);
+    },
+    []
+  );
 
   return (
     <ToastContext.Provider value={{ addToast }}>

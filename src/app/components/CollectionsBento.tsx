@@ -86,7 +86,8 @@ export default function CollectionsBento() {
               Collections
             </span>
             <h2 className="section-heading text-white">
-              Every style.<br />
+              Every style.
+              <br />
               <span className="italic text-white/40">One brand.</span>
             </h2>
           </div>
@@ -106,13 +107,21 @@ export default function CollectionsBento() {
               style={{ transitionDelay: `${i * 80}ms` }}
             >
               <Link href={`/collections?category=${cat.id}`} className="block h-full">
-                <div className={`relative overflow-hidden group ${cat?.height} ${cat?.rowSpan === 'lg:row-span-2' ? 'lg:h-full' : ''}`}>
+                <div
+                  className={`relative overflow-hidden group ${cat?.height} ${cat?.rowSpan === 'lg:row-span-2' ? 'lg:h-full' : ''}`}
+                >
                   <AppImage
                     src={cat?.image}
                     alt={`${cat?.name} collection — premium men's ${cat?.name?.toLowerCase()} in dramatic dark studio lighting, atmospheric shadows`}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-108"
-                    sizes={cat?.colSpan === 'lg:col-span-2' ? '(max-width: 768px) 100vw, 66vw' : cat?.colSpan === 'lg:col-span-3' ? '100vw' : '(max-width: 768px) 100vw, 33vw'}
+                    sizes={
+                      cat?.colSpan === 'lg:col-span-2'
+                        ? '(max-width: 768px) 100vw, 66vw'
+                        : cat?.colSpan === 'lg:col-span-3'
+                          ? '100vw'
+                          : '(max-width: 768px) 100vw, 33vw'
+                    }
                     style={{ transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)' }}
                   />
                   {/* Overlay */}
@@ -126,9 +135,13 @@ export default function CollectionsBento() {
                         <p className="font-display text-xs font-semibold tracking-[0.25em] uppercase text-gold mb-1">
                           {cat?.tagline}
                         </p>
-                        <h3 className={`font-display font-bold text-white leading-none ${
-                          cat?.rowSpan === 'lg:row-span-2' ? 'text-4xl lg:text-5xl' : 'text-2xl lg:text-3xl'
-                        }`}>
+                        <h3
+                          className={`font-display font-bold text-white leading-none ${
+                            cat?.rowSpan === 'lg:row-span-2'
+                              ? 'text-4xl lg:text-5xl'
+                              : 'text-2xl lg:text-3xl'
+                          }`}
+                        >
                           {cat?.name}
                         </h3>
                         <p className="font-body text-xs text-white/50 mt-2 tracking-widest uppercase">
@@ -136,8 +149,18 @@ export default function CollectionsBento() {
                         </p>
                       </div>
                       <div className="w-10 h-10 border border-white/30 flex items-center justify-center group-hover:bg-gold group-hover:border-gold transition-all duration-300">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 17L17 7M7 7h10v10" />
+                        <svg
+                          className="w-4 h-4 text-white"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M7 17L17 7M7 7h10v10"
+                          />
                         </svg>
                       </div>
                     </div>

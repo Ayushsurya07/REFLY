@@ -21,7 +21,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const [selectedSize, setSelectedSize] = useState('');
   const [qty, setQty] = useState(1);
   const [pincode, setPincode] = useState('');
-  const [pincodeResult, setPincodeResult] = useState<null | { available: boolean; days: string; cod: boolean }>(null);
+  const [pincodeResult, setPincodeResult] = useState<null | {
+    available: boolean;
+    days: string;
+    cod: boolean;
+  }>(null);
   const [checkingPin, setCheckingPin] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
@@ -34,7 +38,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
     const url = typeof window !== 'undefined' ? window.location.href : '';
     const text = `Check out ${product.name} on REFLY – ${url}`;
     if (platform === 'WhatsApp') {
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+      window.open(
+        `https://wa.me/?text=${encodeURIComponent(text)}`,
+        '_blank',
+        'noopener,noreferrer'
+      );
     } else if (platform === 'Instagram') {
       navigator.clipboard.writeText(url).then(() => {
         addToast('Link copied! Open Instagram and paste it in your story or bio.', 'info');
@@ -49,7 +57,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
   // Load wishlist state from Supabase
   useEffect(() => {
-    if (!user) { setWishlisted(false); setWishlistId(null); return; }
+    if (!user) {
+      setWishlisted(false);
+      setWishlistId(null);
+      return;
+    }
     supabase
       .from('wishlist')
       .select('id')
@@ -57,8 +69,13 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       .eq('product_id', product.id)
       .single()
       .then(({ data }) => {
-        if (data) { setWishlisted(true); setWishlistId(data.id); }
-        else { setWishlisted(false); setWishlistId(null); }
+        if (data) {
+          setWishlisted(true);
+          setWishlistId(data.id);
+        } else {
+          setWishlisted(false);
+          setWishlistId(null);
+        }
       });
   }, [user, product.id, supabase]);
 
@@ -132,29 +149,42 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       <div className="flex items-center gap-3 mb-6">
         <div className="flex gap-0.5">
           {[1, 2, 3, 4, 5].map((s) => (
-            <svg key={s} className={`w-4 h-4 ${s <= Math.round(product.rating) ? 'star-filled' : 'star-empty'}`} fill="currentColor" viewBox="0 0 24 24">
+            <svg
+              key={s}
+              className={`w-4 h-4 ${s <= Math.round(product.rating) ? 'star-filled' : 'star-empty'}`}
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
             </svg>
           ))}
         </div>
         <span className="font-display font-semibold text-sm">{product.rating}</span>
-        <span className="font-body text-sm text-muted-foreground">({product.reviewCount} reviews)</span>
+        <span className="font-body text-sm text-muted-foreground">
+          ({product.reviewCount} reviews)
+        </span>
       </div>
 
       {/* Pricing */}
       <div className="p-5 border border-border mb-6 bg-muted/30">
         <div className="flex items-baseline gap-3 mb-2">
-          <span className="price-tag text-3xl font-bold">₹{product.price.toLocaleString('en-IN')}</span>
-          <span className="font-body text-base text-muted-foreground line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
+          <span className="price-tag text-3xl font-bold">
+            ₹{product.price.toLocaleString('en-IN')}
+          </span>
+          <span className="font-body text-base text-muted-foreground line-through">
+            ₹{product.mrp.toLocaleString('en-IN')}
+          </span>
           <span className="tag-label bg-green-100 text-green-800 px-2 py-1 text-xs">
             {product.discount}% OFF
           </span>
         </div>
         <p className="font-body text-xs text-muted-foreground">
-          MRP ₹{product.mrp.toLocaleString('en-IN')} · You save ₹{(product.mrp - product.price).toLocaleString('en-IN')}
+          MRP ₹{product.mrp.toLocaleString('en-IN')} · You save ₹
+          {(product.mrp - product.price).toLocaleString('en-IN')}
         </p>
         <p className="font-body text-xs text-muted-foreground mt-1">
-          Inclusive of GST ({product.gstRate}%) · Base: ₹{basePrice.toLocaleString('en-IN')} + GST: ₹{gstAmount.toLocaleString('en-IN')}
+          Inclusive of GST ({product.gstRate}%) · Base: ₹{basePrice.toLocaleString('en-IN')} + GST:
+          ₹{gstAmount.toLocaleString('en-IN')}
         </p>
         {product.offer && (
           <div className="mt-3 pt-3 border-t border-border">
@@ -168,7 +198,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       {/* Color Selection */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
-          <span className="font-display text-xs font-semibold tracking-widest uppercase">Color</span>
+          <span className="font-display text-xs font-semibold tracking-widest uppercase">
+            Color
+          </span>
           <span className="font-body text-sm text-muted-foreground">{selectedColor}</span>
         </div>
         <div className="flex gap-3">
@@ -179,7 +211,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
               aria-label={`Select color ${color.name}`}
               disabled={!color.available}
               className={`relative w-10 h-10 rounded-full border-2 transition-all duration-200 ${
-                selectedColor === color.name ? 'border-foreground scale-110' : 'border-transparent hover:border-border'
+                selectedColor === color.name
+                  ? 'border-foreground scale-110'
+                  : 'border-transparent hover:border-border'
               } ${!color.available ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}`}
               style={{ backgroundColor: color.hex }}
               title={color.name}
@@ -195,7 +229,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       {/* Size Selection */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">
-          <span className="font-display text-xs font-semibold tracking-widest uppercase">Waist Size</span>
+          <span className="font-display text-xs font-semibold tracking-widest uppercase">
+            Waist Size
+          </span>
           <button
             onClick={() => setSizeGuideOpen(true)}
             className="font-body text-xs text-muted-foreground hover:text-gold transition-colors underline"
@@ -223,7 +259,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
       {/* Quantity */}
       <div className="mb-6">
-        <span className="font-display text-xs font-semibold tracking-widest uppercase block mb-3">Quantity</span>
+        <span className="font-display text-xs font-semibold tracking-widest uppercase block mb-3">
+          Quantity
+        </span>
         <div className="flex items-center gap-0 border border-border w-fit">
           <button
             onClick={() => setQty(Math.max(1, qty - 1))}
@@ -254,7 +292,11 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             !selectedSize ? 'opacity-50 cursor-not-allowed' : ''
           } ${addedToCart ? '!bg-green-800' : ''}`}
         >
-          {addedToCart ? '✓ Added to Bag' : !selectedSize ? 'Select Waist Size to Add' : 'Add to Bag'}
+          {addedToCart
+            ? '✓ Added to Bag'
+            : !selectedSize
+              ? 'Select Waist Size to Add'
+              : 'Add to Bag'}
         </button>
         <button
           onClick={handleBuyNow}
@@ -265,7 +307,10 @@ export default function ProductInfo({ product }: ProductInfoProps) {
         </button>
         <button
           onClick={async () => {
-            if (!user) { router.push('/login'); return; }
+            if (!user) {
+              router.push('/login');
+              return;
+            }
             setWishlistLoading(true);
             try {
               if (wishlisted && wishlistId) {
@@ -273,24 +318,39 @@ export default function ProductInfo({ product }: ProductInfoProps) {
                 setWishlisted(false);
                 setWishlistId(null);
               } else {
-                const { data } = await supabase.from('wishlist').insert({
-                  user_id: user.id,
-                  product_id: product.id,
-                  product_name: product.name,
-                  product_price: product.price,
-                  product_mrp: product.mrp,
-                  image_url: product.images[0]?.src || null,
-                  variant: product.colors[0]?.name || null,
-                }).select('id').single();
-                if (data) { setWishlisted(true); setWishlistId(data.id); }
+                const { data } = await supabase
+                  .from('wishlist')
+                  .insert({
+                    user_id: user.id,
+                    product_id: product.id,
+                    product_name: product.name,
+                    product_price: product.price,
+                    product_mrp: product.mrp,
+                    image_url: product.images[0]?.src || null,
+                    variant: product.colors[0]?.name || null,
+                  })
+                  .select('id')
+                  .single();
+                if (data) {
+                  setWishlisted(true);
+                  setWishlistId(data.id);
+                }
               }
-            } catch { /* silent */ }
-            finally { setWishlistLoading(false); }
+            } catch {
+              /* silent */
+            } finally {
+              setWishlistLoading(false);
+            }
           }}
           disabled={wishlistLoading}
           className="flex items-center justify-center gap-2 w-full py-3 border border-border hover:border-gold transition-colors font-display text-xs font-semibold tracking-widest uppercase disabled:opacity-60"
         >
-          <Icon name="HeartIcon" size={16} variant={wishlisted ? 'solid' : 'outline'} className={wishlisted ? 'text-gold' : ''} />
+          <Icon
+            name="HeartIcon"
+            size={16}
+            variant={wishlisted ? 'solid' : 'outline'}
+            className={wishlisted ? 'text-gold' : ''}
+          />
           {wishlistLoading ? 'Saving…' : wishlisted ? 'Saved to Wishlist' : 'Add to Wishlist'}
         </button>
       </div>
@@ -298,31 +358,55 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       {/* Delivery + Trust */}
       <div className="border border-gold/25 bg-gradient-to-br from-amber-50/40 via-white to-stone-50 p-5 mb-6 space-y-4 shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">🚚</div>
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">
+            🚚
+          </div>
           <div>
-            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">Free Delivery</p>
-            <p className="font-body text-xs text-muted-foreground">On all orders above ₹1,500 · Pan India</p>
+            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">
+              Free Delivery
+            </p>
+            <p className="font-body text-xs text-muted-foreground">
+              On all orders above ₹1,500 · Pan India
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">↩</div>
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">
+            ↩
+          </div>
           <div>
-            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">7-Day Easy Returns</p>
-            <p className="font-body text-xs text-muted-foreground">Hassle-free doorstep pickup & exchange</p>
+            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">
+              7-Day Easy Returns
+            </p>
+            <p className="font-body text-xs text-muted-foreground">
+              Hassle-free doorstep pickup & exchange
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">💳</div>
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">
+            💳
+          </div>
           <div>
-            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">Cash on Delivery</p>
-            <p className="font-body text-xs text-muted-foreground">Available across India (FREE above ₹1,500)</p>
+            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">
+              Cash on Delivery
+            </p>
+            <p className="font-body text-xs text-muted-foreground">
+              Available across India (FREE above ₹1,500)
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">⚡</div>
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">
+            ⚡
+          </div>
           <div>
-            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">Ships in 24 Hours</p>
-            <p className="font-body text-xs text-muted-foreground">Fast order processing & dispatch</p>
+            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">
+              Ships in 24 Hours
+            </p>
+            <p className="font-body text-xs text-muted-foreground">
+              Fast order processing & dispatch
+            </p>
           </div>
         </div>
       </div>
@@ -365,7 +449,9 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
       {/* Share */}
       <div className="flex items-center gap-4">
-        <span className="font-display text-xs font-semibold tracking-widest uppercase text-muted-foreground">Share:</span>
+        <span className="font-display text-xs font-semibold tracking-widest uppercase text-muted-foreground">
+          Share:
+        </span>
         {(['WhatsApp', 'Instagram', 'Copy Link'] as const).map((platform) => (
           <button
             key={platform}
@@ -380,8 +466,14 @@ export default function ProductInfo({ product }: ProductInfoProps) {
 
       {/* Size Guide Modal */}
       {sizeGuideOpen && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setSizeGuideOpen(false)}>
-          <div className="bg-white max-w-lg w-full p-8 max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4"
+          onClick={() => setSizeGuideOpen(false)}
+        >
+          <div
+            className="bg-white max-w-lg w-full p-8 max-h-[80vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between mb-6">
               <h2 className="font-display font-bold text-xl tracking-tight">Size Guide</h2>
               <button onClick={() => setSizeGuideOpen(false)} aria-label="Close size guide">
@@ -394,9 +486,15 @@ export default function ProductInfo({ product }: ProductInfoProps) {
             <table className="w-full text-sm font-body border-collapse">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left py-3 font-display font-semibold text-xs tracking-widest uppercase">Size</th>
-                  <th className="text-left py-3 font-display font-semibold text-xs tracking-widest uppercase">Waist (inches)</th>
-                  <th className="text-left py-3 font-display font-semibold text-xs tracking-widest uppercase">Waist (cm)</th>
+                  <th className="text-left py-3 font-display font-semibold text-xs tracking-widest uppercase">
+                    Size
+                  </th>
+                  <th className="text-left py-3 font-display font-semibold text-xs tracking-widest uppercase">
+                    Waist (inches)
+                  </th>
+                  <th className="text-left py-3 font-display font-semibold text-xs tracking-widest uppercase">
+                    Waist (cm)
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -419,8 +517,12 @@ export default function ProductInfo({ product }: ProductInfoProps) {
               </tbody>
             </table>
             <div className="mt-6 p-4 bg-muted">
-              <p className="font-display font-semibold text-xs tracking-widest uppercase mb-2">Model Measurements</p>
-              <p className="font-body text-sm text-muted-foreground">Height: 6&apos;1&quot; (185 cm) · Waist: 32&quot; · Wearing size 32</p>
+              <p className="font-display font-semibold text-xs tracking-widest uppercase mb-2">
+                Model Measurements
+              </p>
+              <p className="font-body text-sm text-muted-foreground">
+                Height: 6&apos;1&quot; (185 cm) · Waist: 32&quot; · Wearing size 32
+              </p>
             </div>
           </div>
         </div>

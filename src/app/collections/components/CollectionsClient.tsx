@@ -29,7 +29,14 @@ export default function CollectionsClient() {
     if (categoryParam) {
       let cat = categoryParam.toLowerCase();
       if (cat === 'cargo') cat = 'cargos';
-      const validCategories: Category[] = ['all', 'cargos', 'linen', 'cotton-pants', 'shorts', 'formal'];
+      const validCategories: Category[] = [
+        'all',
+        'cargos',
+        'linen',
+        'cotton-pants',
+        'shorts',
+        'formal',
+      ];
       if (validCategories.includes(cat as Category)) {
         setActiveCategory(cat as Category);
       }
@@ -83,7 +90,12 @@ export default function CollectionsClient() {
               }`}
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 4h18M7 12h10M11 20h2" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M3 4h18M7 12h10M11 20h2"
+                />
               </svg>
               <span>{sidebarOpen ? 'Hide Filters' : 'Filters'}</span>
               {activeFilterCount > 0 && (
@@ -94,7 +106,9 @@ export default function CollectionsClient() {
             </button>
 
             <div className="flex items-center gap-4">
-              <span className="font-body text-sm text-muted-foreground hidden lg:block">Sort by:</span>
+              <span className="font-body text-sm text-muted-foreground hidden lg:block">
+                Sort by:
+              </span>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as SortOption)}
@@ -122,11 +136,7 @@ export default function CollectionsClient() {
 
             {/* Product Grid */}
             <div className="flex-1 min-w-0">
-              <ProductGrid
-                category={activeCategory}
-                sortBy={sortBy}
-                filters={filters}
-              />
+              <ProductGrid category={activeCategory} sortBy={sortBy} filters={filters} />
             </div>
           </div>
         </div>

@@ -74,7 +74,12 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
   return (
     <>
       <div className="cart-overlay" onClick={handleClose} />
-      <div className="cart-drawer flex flex-col" role="dialog" aria-modal="true" aria-label="Shopping Bag">
+      <div
+        className="cart-drawer flex flex-col"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Shopping Bag"
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
           <div>
@@ -93,7 +98,8 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
         {/* Delivery Banner */}
         <div className="px-6 py-3 bg-muted border-b border-border">
           <p className="text-xs text-center font-body text-foreground">
-            🚚 <span className="font-semibold">FREE Delivery</span> on orders above ₹1,500 · COD Available
+            🚚 <span className="font-semibold">FREE Delivery</span> on orders above ₹1,500 · COD
+            Available
           </p>
         </div>
 
@@ -101,7 +107,11 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
         {items.length > 0 && !isFreeShipping && (
           <div className="px-6 py-2.5 bg-gold/15 border-b border-gold/30 flex items-center justify-between text-xs">
             <span className="font-body text-foreground">
-              Add <strong className="font-semibold text-gold">₹{(1500 - netSubtotal).toLocaleString('en-IN')}</strong> more for <strong className="font-semibold text-gold uppercase">FREE Delivery</strong>
+              Add{' '}
+              <strong className="font-semibold text-gold">
+                ₹{(1500 - netSubtotal).toLocaleString('en-IN')}
+              </strong>{' '}
+              more for <strong className="font-semibold text-gold uppercase">FREE Delivery</strong>
             </span>
           </div>
         )}
@@ -131,7 +141,9 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="font-display font-semibold text-sm leading-tight">{item.name}</h3>
+                      <h3 className="font-display font-semibold text-sm leading-tight">
+                        {item.name}
+                      </h3>
                       <p className="text-xs text-muted-foreground font-body mt-1">
                         {item.variant} · {item.size}
                       </p>
@@ -153,7 +165,9 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
                       >
                         −
                       </button>
-                      <span className="w-8 text-center text-xs font-display font-bold">{item.qty}</span>
+                      <span className="w-8 text-center text-xs font-display font-bold">
+                        {item.qty}
+                      </span>
                       <button
                         onClick={() => updateQty(item.id, 1, item.size)}
                         aria-label="Increase quantity"
@@ -163,7 +177,9 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
                       </button>
                     </div>
                     <div className="text-right">
-                      <span className="price-tag text-sm font-bold">₹{(item.price * item.qty).toLocaleString('en-IN')}</span>
+                      <span className="price-tag text-sm font-bold">
+                        ₹{(item.price * item.qty).toLocaleString('en-IN')}
+                      </span>
                       {item.mrp > item.price && (
                         <span className="text-[10px] text-muted-foreground line-through block font-body">
                           ₹{(item.mrp * item.qty).toLocaleString('en-IN')}
@@ -224,7 +240,9 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
               {isFreeShipping ? (
                 <span className="text-green-600 font-semibold">FREE</span>
               ) : (
-                <span>₹79 <span className="text-[10px] text-muted-foreground">(₹100 COD)</span></span>
+                <span>
+                  ₹79 <span className="text-[10px] text-muted-foreground">(₹100 COD)</span>
+                </span>
               )}
             </div>
             <div className="flex justify-between font-display font-bold text-base pt-2 border-t border-border">
@@ -238,10 +256,7 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
         {/* CTA */}
         {items.length > 0 && (
           <div className="px-6 pb-6 pt-2 space-y-3">
-            <button
-              onClick={handleCheckout}
-              className="btn-primary w-full text-center block"
-            >
+            <button onClick={handleCheckout} className="btn-primary w-full text-center block">
               Proceed to Checkout →
             </button>
             <button

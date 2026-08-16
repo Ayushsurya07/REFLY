@@ -22,7 +22,13 @@ interface FilterSidebarProps {
   onClose: () => void;
 }
 
-export default function FilterSidebar({ filters, onChange, activeCategory, isOpen, onClose }: FilterSidebarProps) {
+export default function FilterSidebar({
+  filters,
+  onChange,
+  activeCategory,
+  isOpen,
+  onClose,
+}: FilterSidebarProps) {
   if (!isOpen) return null;
 
   const toggleSize = (size: string) => {
@@ -47,9 +53,17 @@ export default function FilterSidebar({ filters, onChange, activeCategory, isOpe
     onChange({ ...filters, subcategories });
   };
 
-  const clearAll = () => onChange({ sizes: [], priceMin: 0, priceMax: 10000, fits: [], subcategories: [], inStockOnly: false });
+  const clearAll = () =>
+    onChange({
+      sizes: [],
+      priceMin: 0,
+      priceMax: 10000,
+      fits: [],
+      subcategories: [],
+      inStockOnly: false,
+    });
 
-  const currentSubcategories = activeCategory !== 'all' ? (SUBCATEGORIES[activeCategory] || []) : [];
+  const currentSubcategories = activeCategory !== 'all' ? SUBCATEGORIES[activeCategory] || [] : [];
 
   const SidebarContent = () => (
     <div className="space-y-8">
@@ -67,19 +81,33 @@ export default function FilterSidebar({ filters, onChange, activeCategory, isOpe
       {/* Subcategories (only displayed when activeCategory !== 'all') */}
       {activeCategory !== 'all' && currentSubcategories.length > 0 && (
         <div className="border-b border-border pb-6">
-          <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4 text-gold">Subcategories</h3>
+          <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4 text-gold">
+            Subcategories
+          </h3>
           <div className="space-y-2.5">
             {currentSubcategories.map((subcat) => (
               <label key={subcat} className="flex items-center gap-3 cursor-pointer group">
                 <div
                   className={`w-5 h-5 border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
-                    (filters.subcategories || []).includes(subcat) ? 'bg-gold border-gold' : 'border-border group-hover:border-foreground'
+                    (filters.subcategories || []).includes(subcat)
+                      ? 'bg-gold border-gold'
+                      : 'border-border group-hover:border-foreground'
                   }`}
                   onClick={() => toggleSubcategory(subcat)}
                 >
                   {(filters.subcategories || []).includes(subcat) && (
-                    <svg className="w-3 h-3 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    <svg
+                      className="w-3 h-3 text-black"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={3}
+                        d="M5 13l4 4L19 7"
+                      />
                     </svg>
                   )}
                 </div>
@@ -92,17 +120,31 @@ export default function FilterSidebar({ filters, onChange, activeCategory, isOpe
 
       {/* Availability */}
       <div>
-        <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4">Availability</h3>
+        <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4">
+          Availability
+        </h3>
         <label className="flex items-center gap-3 cursor-pointer group">
           <div
             className={`w-5 h-5 border-2 flex items-center justify-center transition-colors ${
-              filters.inStockOnly ? 'bg-primary border-primary' : 'border-border group-hover:border-foreground'
+              filters.inStockOnly
+                ? 'bg-primary border-primary'
+                : 'border-border group-hover:border-foreground'
             }`}
             onClick={() => onChange({ ...filters, inStockOnly: !filters.inStockOnly })}
           >
             {filters.inStockOnly && (
-              <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              <svg
+                className="w-3 h-3 text-white"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={3}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             )}
           </div>
@@ -112,7 +154,9 @@ export default function FilterSidebar({ filters, onChange, activeCategory, isOpe
 
       {/* Price Range */}
       <div>
-        <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4">Price Range</h3>
+        <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4">
+          Price Range
+        </h3>
         <div className="flex items-center justify-between mb-3">
           <span className="font-body text-sm">₹{filters.priceMin.toLocaleString('en-IN')}</span>
           <span className="font-body text-sm">₹{filters.priceMax.toLocaleString('en-IN')}</span>
@@ -135,7 +179,9 @@ export default function FilterSidebar({ filters, onChange, activeCategory, isOpe
 
       {/* Sizes */}
       <div>
-        <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4">Waist Size</h3>
+        <h3 className="font-display font-semibold text-xs tracking-widest uppercase mb-4">
+          Waist Size
+        </h3>
         <div className="grid grid-cols-4 gap-2">
           {SIZES.map((size) => (
             <button
@@ -157,13 +203,25 @@ export default function FilterSidebar({ filters, onChange, activeCategory, isOpe
             <label key={fit} className="flex items-center gap-3 cursor-pointer group">
               <div
                 className={`w-5 h-5 border-2 flex items-center justify-center transition-colors flex-shrink-0 ${
-                  filters.fits.includes(fit) ? 'bg-primary border-primary' : 'border-border group-hover:border-foreground'
+                  filters.fits.includes(fit)
+                    ? 'bg-primary border-primary'
+                    : 'border-border group-hover:border-foreground'
                 }`}
                 onClick={() => toggleFit(fit)}
               >
                 {filters.fits.includes(fit) && (
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  <svg
+                    className="w-3 h-3 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={3}
+                      d="M5 13l4 4L19 7"
+                    />
                   </svg>
                 )}
               </div>
@@ -186,10 +244,7 @@ export default function FilterSidebar({ filters, onChange, activeCategory, isOpe
 
       {/* Mobile drawer */}
       <div className="lg:hidden">
-        <div
-          className="fixed inset-0 bg-black/50 z-40"
-          onClick={onClose}
-        />
+        <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
         <div className="fixed top-0 left-0 bottom-0 w-80 bg-white z-50 overflow-y-auto p-6 shadow-xl">
           <SidebarContent />
         </div>

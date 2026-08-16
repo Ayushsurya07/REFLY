@@ -80,8 +80,8 @@ if (typeof window !== 'undefined' && !(window as any).__sb_patched__) {
       typeof input === 'string'
         ? input
         : input instanceof URL
-        ? input.href
-        : (input as Request).url;
+          ? input.href
+          : (input as Request).url;
     if (token && (url.startsWith('/') || url.startsWith(window.location.origin))) {
       init = { ...(init || {}), headers: { ...(init?.headers || {}), 'x-sb-token': token } };
     }
@@ -99,18 +99,25 @@ export function createClient() {
         setAll(cookiesToSet: Array<{ name: string; value: string; options?: any }>) {
           if (typeof document === 'undefined') return;
           if (canUseCookies()) {
-            cookiesToSet.forEach(({ name, value, options }: { name: string; value: string; options?: any }) =>
-              value ? setCookie(name, value, options) : deleteCookie(name)
+            cookiesToSet.forEach(
+              ({ name, value, options }: { name: string; value: string; options?: any }) =>
+                value ? setCookie(name, value, options) : deleteCookie(name)
             );
           } else {
-            cookiesToSet.forEach(({ name, value, options }: { name: string; value: string; options?: any }) => {
-              try {
-                value
-                  ? localStorage.setItem(`${PFX}${name}`, value)
-                  : localStorage.removeItem(`${PFX}${name}`);
-              } catch {}
-              if (value) setCookie(name, value, options);
-            });
+            cookiesToSet.forEach(
+              ({ name, value, options }: { name: string; value: string; options?: any }) => {
+                try {
+                  if (value) {
+                    localStorage.setItem(`${PFX}${name}`, value);
+                  } else {
+                    localStorage.removeItem(`${PFX}${name}`);
+                  }
+                } catch {
+                  // Fallback if localStorage is restricted
+                }
+                if (value) setCookie(name, value, options);
+              }
+            );
           }
         },
       },

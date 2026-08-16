@@ -101,12 +101,16 @@ function ProductCard({ product, large = false }: { product: Product; large?: boo
       onMouseLeave={onMouseLeave}
       style={{
         transform: `perspective(1200px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-        transition: hovered ? 'transform 0.1s ease' : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+        transition: hovered
+          ? 'transform 0.1s ease'
+          : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
         willChange: 'transform',
       }}
     >
       {/* Image */}
-      <div className={`relative overflow-hidden ${large ? 'h-[500px] lg:h-[600px]' : 'h-[280px] lg:h-[320px]'}`}>
+      <div
+        className={`relative overflow-hidden ${large ? 'h-[500px] lg:h-[600px]' : 'h-[280px] lg:h-[320px]'}`}
+      >
         <AppImage
           src={product.image}
           alt={`${product.name} — premium men's ${product.category.toLowerCase()} in dark moody studio, atmospheric lighting`}
@@ -141,7 +145,10 @@ function ProductCard({ product, large = false }: { product: Product; large?: boo
         </button>
 
         {/* Quick Add (visible on hover) */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-400 z-10" style={{ transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}>
+        <div
+          className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-400 z-10"
+          style={{ transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}
+        >
           <Link
             href={`/products/${product.id}`}
             className="btn-primary w-full text-center block text-xs"
@@ -163,13 +170,23 @@ function ProductCard({ product, large = false }: { product: Product; large?: boo
             </h3>
           </div>
           <Link href={`/products/${product.id}`} aria-label="View product details">
-            <Icon name="ArrowUpRightIcon" size={18} className="text-muted-foreground hover:text-gold transition-colors" />
+            <Icon
+              name="ArrowUpRightIcon"
+              size={18}
+              className="text-muted-foreground hover:text-gold transition-colors"
+            />
           </Link>
         </div>
         <div className="flex items-center gap-2 mt-3">
-          <span className="price-tag text-base font-bold">₹{product.price.toLocaleString('en-IN')}</span>
-          <span className="text-xs text-muted-foreground line-through font-body">₹{product.mrp.toLocaleString('en-IN')}</span>
-          <span className="tag-label bg-green-50 text-green-700 text-[10px] px-2 py-0.5">{product.discount}% OFF</span>
+          <span className="price-tag text-base font-bold">
+            ₹{product.price.toLocaleString('en-IN')}
+          </span>
+          <span className="text-xs text-muted-foreground line-through font-body">
+            ₹{product.mrp.toLocaleString('en-IN')}
+          </span>
+          <span className="tag-label bg-green-50 text-green-700 text-[10px] px-2 py-0.5">
+            {product.discount}% OFF
+          </span>
         </div>
       </div>
     </div>
@@ -205,7 +222,8 @@ export default function FeaturedProducts() {
               Featured
             </span>
             <h2 className="section-heading">
-              Crafted for<br />
+              Crafted for
+              <br />
               <span className="italic text-muted-foreground">the bold.</span>
             </h2>
           </div>
@@ -229,22 +247,30 @@ export default function FeaturedProducts() {
         */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 lg:gap-4">
           {/* Card 1 — col-span-2 row-span-2 */}
-          <div className={`${featuredProducts[0].colSpan} ${featuredProducts[0].rowSpan} reveal-up stagger-1`}>
+          <div
+            className={`${featuredProducts[0].colSpan} ${featuredProducts[0].rowSpan} reveal-up stagger-1`}
+          >
             <ProductCard product={featuredProducts[0]} large />
           </div>
 
           {/* Card 2 — col-span-1 row-span-1 */}
-          <div className={`${featuredProducts[1].colSpan} ${featuredProducts[1].rowSpan} reveal-up stagger-2`}>
+          <div
+            className={`${featuredProducts[1].colSpan} ${featuredProducts[1].rowSpan} reveal-up stagger-2`}
+          >
             <ProductCard product={featuredProducts[1]} />
           </div>
 
           {/* Card 3 — col-span-1 row-span-1 */}
-          <div className={`${featuredProducts[2].colSpan} ${featuredProducts[2].rowSpan} reveal-up stagger-3`}>
+          <div
+            className={`${featuredProducts[2].colSpan} ${featuredProducts[2].rowSpan} reveal-up stagger-3`}
+          >
             <ProductCard product={featuredProducts[2]} />
           </div>
 
           {/* Card 4 — col-span-3 row-span-1 */}
-          <div className={`${featuredProducts[3].colSpan} ${featuredProducts[3].rowSpan} reveal-up stagger-4`}>
+          <div
+            className={`${featuredProducts[3].colSpan} ${featuredProducts[3].rowSpan} reveal-up stagger-4`}
+          >
             <div className="product-card group relative overflow-hidden bg-accent h-[280px]">
               <AppImage
                 src={featuredProducts[3].image}
@@ -262,8 +288,12 @@ export default function FeaturedProducts() {
                   {featuredProducts[3].name}
                 </h3>
                 <div className="flex items-center gap-4">
-                  <span className="price-tag text-white text-lg">₹{featuredProducts[3].price.toLocaleString('en-IN')}</span>
-                  <span className="text-sm text-white/50 line-through">₹{featuredProducts[3].mrp.toLocaleString('en-IN')}</span>
+                  <span className="price-tag text-white text-lg">
+                    ₹{featuredProducts[3].price.toLocaleString('en-IN')}
+                  </span>
+                  <span className="text-sm text-white/50 line-through">
+                    ₹{featuredProducts[3].mrp.toLocaleString('en-IN')}
+                  </span>
                   <span className="tag-label bg-gold text-gold-foreground text-[10px] px-2 py-1">
                     {featuredProducts[3].discount}% OFF
                   </span>

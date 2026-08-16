@@ -82,7 +82,10 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addToCart = (newItem: Omit<CartItem, 'qty'> & { qty?: number }) => {
     if (!user) {
-      const currentPath = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/collections';
+      const currentPath =
+        typeof window !== 'undefined'
+          ? window.location.pathname + window.location.search
+          : '/collections';
       router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
       return;
     }
@@ -109,16 +112,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateQuantity = (id: string, delta: number, size?: string) => {
-    setCartItems((prev) =>
-      prev
-        .map((item) => {
-          if (item.id === id && (!size || item.size === size)) {
-            const newQty = item.qty + delta;
-            return newQty > 0 ? { ...item, qty: newQty } : null;
-          }
-          return item;
-        })
-        .filter(Boolean) as CartItem[]
+    setCartItems(
+      (prev) =>
+        prev
+          .map((item) => {
+            if (item.id === id && (!size || item.size === size)) {
+              const newQty = item.qty + delta;
+              return newQty > 0 ? { ...item, qty: newQty } : null;
+            }
+            return item;
+          })
+          .filter(Boolean) as CartItem[]
     );
   };
 

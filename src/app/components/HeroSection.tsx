@@ -84,7 +84,6 @@ export default function HeroSection() {
       {/* ── Main Content ── */}
       <div className="relative z-30 h-full flex flex-col justify-center max-w-[1600px] mx-auto px-6 lg:px-16 pt-16 pb-36 lg:pb-40">
         <div className="max-w-3xl">
-
           {/* Label */}
           <AnimatePresence>
             {textVisible && (
@@ -197,21 +196,11 @@ export default function HeroSection() {
               >
                 {/* Primary CTA */}
                 <MagneticButton href="/collections" primary>
-                  <span>SHOP COLLECTION</span>
-                  <svg
-                    className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+                  SHOP COLLECTION
                 </MagneticButton>
 
                 {/* Secondary CTA */}
-                <MagneticButton href="#wholesale">
-                  WHOLESALE INQUIRY
-                </MagneticButton>
+                <MagneticButton href="#wholesale">WHOLESALE INQUIRY</MagneticButton>
               </motion.div>
             )}
           </AnimatePresence>

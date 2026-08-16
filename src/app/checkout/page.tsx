@@ -49,19 +49,66 @@ interface ShippingOption {
 }
 
 const SHIPPING_OPTIONS: ShippingOption[] = [
-  { id: 'standard', label: 'Standard Delivery', description: 'Regular shipping across India', price: 0, eta: '5–7 business days' },
-  { id: 'express', label: 'Express Delivery', description: 'Priority handling & faster transit', price: 149, eta: '2–3 business days' },
-  { id: 'overnight', label: 'Overnight Delivery', description: 'Next-day delivery to metro cities', price: 349, eta: '1 business day' },
+  {
+    id: 'standard',
+    label: 'Standard Delivery',
+    description: 'Regular shipping across India',
+    price: 0,
+    eta: '5–7 business days',
+  },
+  {
+    id: 'express',
+    label: 'Express Delivery',
+    description: 'Priority handling & faster transit',
+    price: 149,
+    eta: '2–3 business days',
+  },
+  {
+    id: 'overnight',
+    label: 'Overnight Delivery',
+    description: 'Next-day delivery to metro cities',
+    price: 349,
+    eta: '1 business day',
+  },
 ];
 
 const INDIAN_STATES = [
-  'Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisgarh','Goa','Gujarat',
-  'Haryana','Himachal Pradesh','Jharkhand','Karnataka','Kerala','Madhya Pradesh',
-  'Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Punjab',
-  'Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh',
-  'Uttarakhand','West Bengal','Andaman and Nicobar Islands','Chandigarh',
-  'Dadra and Nagar Haveli and Daman and Diu','Delhi','Jammu and Kashmir',
-  'Ladakh','Lakshadweep','Puducherry',
+  'Andhra Pradesh',
+  'Arunachal Pradesh',
+  'Assam',
+  'Bihar',
+  'Chhattisgarh',
+  'Goa',
+  'Gujarat',
+  'Haryana',
+  'Himachal Pradesh',
+  'Jharkhand',
+  'Karnataka',
+  'Kerala',
+  'Madhya Pradesh',
+  'Maharashtra',
+  'Manipur',
+  'Meghalaya',
+  'Mizoram',
+  'Nagaland',
+  'Odisha',
+  'Punjab',
+  'Rajasthan',
+  'Sikkim',
+  'Tamil Nadu',
+  'Telangana',
+  'Tripura',
+  'Uttar Pradesh',
+  'Uttarakhand',
+  'West Bengal',
+  'Andaman and Nicobar Islands',
+  'Chandigarh',
+  'Dadra and Nagar Haveli and Daman and Diu',
+  'Delhi',
+  'Jammu and Kashmir',
+  'Ladakh',
+  'Lakshadweep',
+  'Puducherry',
 ];
 
 const GST_RATE = 0.18; // 18% GST on apparel above ₹1000
@@ -86,7 +133,8 @@ function StepIndicator({ step }: { step: number }) {
                   isDone
                     ? 'bg-gold border-gold text-black'
                     : isActive
-                    ? 'bg-black border-black text-white' :'bg-white border-border text-muted-foreground'
+                      ? 'bg-black border-black text-white'
+                      : 'bg-white border-border text-muted-foreground'
                 }`}
               >
                 {isDone ? <Icon name="CheckIcon" size={14} /> : idx}
@@ -126,9 +174,7 @@ function CartReview({
 }) {
   const updateQty = (id: string, delta: number) => {
     setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, qty: Math.max(1, item.qty + delta) } : item
-      )
+      prev.map((item) => (item.id === id ? { ...item, qty: Math.max(1, item.qty + delta) } : item))
     );
   };
   const removeItem = (id: string) => setItems((prev) => prev.filter((i) => i.id !== id));
@@ -150,7 +196,10 @@ function CartReview({
       <h2 className="font-display font-bold text-xl tracking-wide uppercase mb-6">Cart Review</h2>
       <div className="space-y-4 mb-8">
         {items.map((item, idx) => (
-          <div key={`${item.id}-${item.size || ''}-${idx}`} className="flex gap-4 p-4 border border-border bg-white">
+          <div
+            key={`${item.id}-${item.size || ''}-${idx}`}
+            className="flex gap-4 p-4 border border-border bg-white"
+          >
             <div className="w-20 h-24 flex-shrink-0 overflow-hidden bg-muted">
               <AppImage
                 src={item.image}
@@ -239,8 +288,10 @@ function AddressStep({
   const validate = () => {
     const e: Partial<AddressForm> = {};
     if (!address.fullName.trim()) e.fullName = 'Full name is required';
-    if (!address.phone.trim() || !/^\d{10}$/.test(address.phone)) e.phone = 'Enter valid 10-digit mobile number';
-    if (isGuest && (!address.email.trim() || !/\S+@\S+\.\S+/.test(address.email))) e.email = 'Enter valid email';
+    if (!address.phone.trim() || !/^\d{10}$/.test(address.phone))
+      e.phone = 'Enter valid 10-digit mobile number';
+    if (isGuest && (!address.email.trim() || !/\S+@\S+\.\S+/.test(address.email)))
+      e.email = 'Enter valid email';
     if (!address.flat.trim()) e.flat = 'Flat / House No. is required';
     if (!address.area.trim()) e.area = 'Area / Street is required';
     if (!address.city.trim()) e.city = 'City is required';
@@ -279,7 +330,9 @@ function AddressStep({
 
   return (
     <div>
-      <h2 className="font-display font-bold text-xl tracking-wide uppercase mb-6">Delivery Address</h2>
+      <h2 className="font-display font-bold text-xl tracking-wide uppercase mb-6">
+        Delivery Address
+      </h2>
 
       <div className="space-y-4">
         {/* Contact */}
@@ -315,10 +368,14 @@ function AddressStep({
               >
                 <option value="">Select State / UT</option>
                 {INDIAN_STATES.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                  <option key={s} value={s}>
+                    {s}
+                  </option>
                 ))}
               </select>
-              {errors.state && <p className="text-xs text-red-500 mt-1 font-body">{errors.state}</p>}
+              {errors.state && (
+                <p className="text-xs text-red-500 mt-1 font-body">{errors.state}</p>
+              )}
             </div>
             {field('pin', 'PIN Code', '6-digit PIN code', true, 'text')}
           </div>
@@ -326,7 +383,10 @@ function AddressStep({
       </div>
 
       <div className="flex gap-3 mt-8">
-        <button onClick={onBack} className="flex-1 border border-border py-3 font-display text-xs font-semibold tracking-widest uppercase hover:bg-accent transition-colors">
+        <button
+          onClick={onBack}
+          className="flex-1 border border-border py-3 font-display text-xs font-semibold tracking-widest uppercase hover:bg-accent transition-colors"
+        >
           ← Back
         </button>
         <button onClick={handleSubmit} className="btn-primary flex-1">
@@ -352,7 +412,9 @@ function ShippingStep({
 }) {
   return (
     <div>
-      <h2 className="font-display font-bold text-xl tracking-wide uppercase mb-6">Shipping Method</h2>
+      <h2 className="font-display font-bold text-xl tracking-wide uppercase mb-6">
+        Shipping Method
+      </h2>
       <div className="space-y-3 mb-8">
         {SHIPPING_OPTIONS.map((opt) => (
           <button
@@ -360,7 +422,8 @@ function ShippingStep({
             onClick={() => setSelected(opt.id)}
             className={`w-full text-left p-4 border transition-all duration-200 ${
               selected === opt.id
-                ? 'border-black bg-black text-white' :'border-border bg-white hover:border-foreground/30'
+                ? 'border-black bg-black text-white'
+                : 'border-border bg-white hover:border-foreground/30'
             }`}
           >
             <div className="flex items-center justify-between">
@@ -370,30 +433,29 @@ function ShippingStep({
                     selected === opt.id ? 'border-gold' : 'border-current opacity-40'
                   }`}
                 >
-                  {selected === opt.id && (
-                    <div className="w-2 h-2 rounded-full bg-gold" />
-                  )}
+                  {selected === opt.id && <div className="w-2 h-2 rounded-full bg-gold" />}
                 </div>
                 <div>
                   <p className="font-display font-semibold text-sm">{opt.label}</p>
-                  <p className={`text-xs font-body mt-0.5 ${selected === opt.id ? 'text-white/60' : 'text-muted-foreground'}`}>
+                  <p
+                    className={`text-xs font-body mt-0.5 ${selected === opt.id ? 'text-white/60' : 'text-muted-foreground'}`}
+                  >
                     {opt.description} · {opt.eta}
                   </p>
                 </div>
               </div>
               <span className="font-display font-bold text-sm flex-shrink-0 ml-4">
-                {opt.price === 0 ? (
-                  <span className="text-green-400">FREE</span>
-                ) : (
-                  `₹${opt.price}`
-                )}
+                {opt.price === 0 ? <span className="text-green-400">FREE</span> : `₹${opt.price}`}
               </span>
             </div>
           </button>
         ))}
       </div>
       <div className="flex gap-3">
-        <button onClick={onBack} className="flex-1 border border-border py-3 font-display text-xs font-semibold tracking-widest uppercase hover:bg-accent transition-colors">
+        <button
+          onClick={onBack}
+          className="flex-1 border border-border py-3 font-display text-xs font-semibold tracking-widest uppercase hover:bg-accent transition-colors"
+        >
           ← Back
         </button>
         <button onClick={onNext} className="btn-primary flex-1">
@@ -427,9 +489,9 @@ function PaymentStep({
   const subtotal = items.reduce((acc, i) => acc + i.price * i.qty, 0);
   const mrpTotal = items.reduce((acc, i) => acc + i.mrp * i.qty, 0);
   const itemDiscount = mrpTotal - subtotal;
-  
+
   const isFreeShipping = subtotal >= 1500;
-  const shippingFee = isFreeShipping ? 0 : (paymentMethod === 'cod' ? 100 : 79);
+  const shippingFee = isFreeShipping ? 0 : paymentMethod === 'cod' ? 100 : 79;
   const grandTotal = subtotal + shippingFee;
   const includedGst = Math.round((grandTotal * 18) / 118);
   const cgst = Math.round(includedGst / 2);
@@ -437,9 +499,24 @@ function PaymentStep({
   const totalGst = includedGst;
 
   const paymentOptions = [
-    { id: 'cod', label: 'Cash on Delivery (Postpaid)', icon: 'BanknotesIcon', desc: `Pay when order arrives · Shipping: ${isFreeShipping ? 'FREE' : '₹100'}` },
-    { id: 'upi', label: 'UPI / QR Code (Prepaid)', icon: 'QrCodeIcon', desc: `GPay, PhonePe, Paytm, BHIM · Shipping: ${isFreeShipping ? 'FREE' : '₹79'}` },
-    { id: 'card', label: 'Credit / Debit Card (Prepaid)', icon: 'CreditCardIcon', desc: `Visa, Mastercard, RuPay · Shipping: ${isFreeShipping ? 'FREE' : '₹79'}` },
+    {
+      id: 'cod',
+      label: 'Cash on Delivery (Postpaid)',
+      icon: 'BanknotesIcon',
+      desc: `Pay when order arrives · Shipping: ${isFreeShipping ? 'FREE' : '₹100'}`,
+    },
+    {
+      id: 'upi',
+      label: 'UPI / QR Code (Prepaid)',
+      icon: 'QrCodeIcon',
+      desc: `GPay, PhonePe, Paytm, BHIM · Shipping: ${isFreeShipping ? 'FREE' : '₹79'}`,
+    },
+    {
+      id: 'card',
+      label: 'Credit / Debit Card (Prepaid)',
+      icon: 'CreditCardIcon',
+      desc: `Visa, Mastercard, RuPay · Shipping: ${isFreeShipping ? 'FREE' : '₹79'}`,
+    },
   ] as const;
 
   return (
@@ -453,12 +530,16 @@ function PaymentStep({
             <p className="font-display font-semibold text-sm">{address.fullName}</p>
             <p className="text-xs text-muted-foreground font-body mt-1 leading-relaxed">
               {address.flat}, {address.area}
-              {address.landmark ? `, Near ${address.landmark}` : ''}<br />
+              {address.landmark ? `, Near ${address.landmark}` : ''}
+              <br />
               {address.city}, {address.district}, {address.state} – {address.pin}
             </p>
             <p className="text-xs text-muted-foreground font-body mt-1">📞 {address.phone}</p>
           </div>
-          <button onClick={onBack} className="text-xs font-display font-semibold text-gold hover:underline flex-shrink-0 ml-4">
+          <button
+            onClick={onBack}
+            className="text-xs font-display font-semibold text-gold hover:underline flex-shrink-0 ml-4"
+          >
             Edit
           </button>
         </div>
@@ -489,7 +570,8 @@ function PaymentStep({
               onClick={() => setPaymentMethod(opt.id)}
               className={`w-full text-left p-3.5 border transition-all duration-200 flex items-center gap-3 ${
                 paymentMethod === opt.id
-                  ? 'border-black bg-black text-white' :'border-border bg-white hover:border-foreground/30'
+                  ? 'border-black bg-black text-white'
+                  : 'border-border bg-white hover:border-foreground/30'
               }`}
             >
               <div
@@ -501,7 +583,9 @@ function PaymentStep({
               </div>
               <div>
                 <p className="font-display font-semibold text-sm">{opt.label}</p>
-                <p className={`text-xs font-body ${paymentMethod === opt.id ? 'text-white/60' : 'text-muted-foreground'}`}>
+                <p
+                  className={`text-xs font-body ${paymentMethod === opt.id ? 'text-white/60' : 'text-muted-foreground'}`}
+                >
                   {opt.desc}
                 </p>
               </div>
@@ -512,10 +596,14 @@ function PaymentStep({
 
       {/* GST Breakdown */}
       <div className="border border-border p-5 bg-white mb-6">
-        <p className="font-display font-semibold text-sm tracking-wide uppercase mb-4">Order Summary</p>
+        <p className="font-display font-semibold text-sm tracking-wide uppercase mb-4">
+          Order Summary
+        </p>
         <div className="space-y-2.5 text-sm font-body">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">MRP Total ({items.reduce((a, i) => a + i.qty, 0)} items)</span>
+            <span className="text-muted-foreground">
+              MRP Total ({items.reduce((a, i) => a + i.qty, 0)} items)
+            </span>
             <span>₹{mrpTotal.toLocaleString('en-IN')}</span>
           </div>
           <div className="flex justify-between text-green-600">
@@ -529,11 +617,15 @@ function PaymentStep({
           <div className="flex justify-between">
             <span className="text-muted-foreground">Shipping</span>
             <span className={isFreeShipping ? 'text-green-600 font-semibold' : ''}>
-              {isFreeShipping ? 'FREE' : `₹${shippingFee} (${paymentMethod === 'cod' ? 'COD' : 'Prepaid'})`}
+              {isFreeShipping
+                ? 'FREE'
+                : `₹${shippingFee} (${paymentMethod === 'cod' ? 'COD' : 'Prepaid'})`}
             </span>
           </div>
           <div className="border-t border-dashed border-border pt-2.5 space-y-1.5">
-            <p className="text-xs text-muted-foreground font-display font-semibold tracking-wider uppercase">GST Breakdown</p>
+            <p className="text-xs text-muted-foreground font-display font-semibold tracking-wider uppercase">
+              GST Breakdown
+            </p>
             <div className="flex justify-between text-xs">
               <span className="text-muted-foreground">CGST (9%)</span>
               <span>₹{cgst.toLocaleString('en-IN')}</span>
@@ -551,12 +643,17 @@ function PaymentStep({
             <span>Grand Total</span>
             <span>₹{grandTotal.toLocaleString('en-IN')}</span>
           </div>
-          <p className="text-xs text-muted-foreground">Inclusive of all taxes · GST Invoice will be emailed</p>
+          <p className="text-xs text-muted-foreground">
+            Inclusive of all taxes · GST Invoice will be emailed
+          </p>
         </div>
       </div>
 
       <div className="flex gap-3">
-        <button onClick={onBack} className="flex-1 border border-border py-3 font-display text-xs font-semibold tracking-widest uppercase hover:bg-accent transition-colors">
+        <button
+          onClick={onBack}
+          className="flex-1 border border-border py-3 font-display text-xs font-semibold tracking-widest uppercase hover:bg-accent transition-colors"
+        >
           ← Back
         </button>
         <button
@@ -586,9 +683,12 @@ function OrderConfirmed({ orderNumber, email }: { orderNumber: string; email: st
       <div className="w-16 h-16 bg-green-50 border border-green-200 flex items-center justify-center mx-auto mb-6">
         <Icon name="CheckIcon" size={32} className="text-green-600" />
       </div>
-      <h2 className="font-display font-bold text-2xl tracking-wide uppercase mb-2">Order Confirmed!</h2>
+      <h2 className="font-display font-bold text-2xl tracking-wide uppercase mb-2">
+        Order Confirmed!
+      </h2>
       <p className="text-muted-foreground font-body mb-1">
-        Your order <span className="font-semibold text-foreground">#{orderNumber}</span> has been placed.
+        Your order <span className="font-semibold text-foreground">#{orderNumber}</span> has been
+        placed.
       </p>
       <p className="text-sm text-muted-foreground font-body mb-8">
         A confirmation will be sent to <span className="font-semibold">{email}</span>
@@ -714,9 +814,7 @@ export default function CheckoutPage() {
         image_url: item.image,
       }));
 
-      const { error: itemsError } = await supabase
-        .from('order_items')
-        .insert(orderItemsPayload);
+      const { error: itemsError } = await supabase.from('order_items').insert(orderItemsPayload);
 
       if (itemsError) throw itemsError;
 
@@ -737,10 +835,7 @@ export default function CheckoutPage() {
         <Header />
         <main className="min-h-screen bg-muted pt-24 pb-20">
           <div className="max-w-xl mx-auto px-6">
-            <OrderConfirmed
-              orderNumber={orderNumber}
-              email={user?.email || address.email}
-            />
+            <OrderConfirmed orderNumber={orderNumber} email={user?.email || address.email} />
           </div>
         </main>
         <Footer />
@@ -755,12 +850,16 @@ export default function CheckoutPage() {
         <div className="max-w-5xl mx-auto px-6 lg:px-12">
           {/* Page Title */}
           <div className="mb-8">
-            <h1 className="font-display font-bold text-2xl lg:text-3xl tracking-wide uppercase">Checkout</h1>
+            <h1 className="font-display font-bold text-2xl lg:text-3xl tracking-wide uppercase">
+              Checkout
+            </h1>
             <p className="text-sm text-muted-foreground font-body mt-1">
               {!user && (
                 <>
-                  <Link href="/login" className="text-gold hover:underline font-semibold">Sign in</Link>
-                  {' '}for faster checkout and order tracking, or continue as guest.
+                  <Link href="/login" className="text-gold hover:underline font-semibold">
+                    Sign in
+                  </Link>{' '}
+                  for faster checkout and order tracking, or continue as guest.
                 </>
               )}
               {user && `Logged in as ${user.email}`}
@@ -818,7 +917,10 @@ export default function CheckoutPage() {
                 </p>
                 <div className="space-y-3 mb-4">
                   {items.map((item, idx) => (
-                    <div key={`summary-${item.id}-${item.size || ''}-${idx}`} className="flex gap-3">
+                    <div
+                      key={`summary-${item.id}-${item.size || ''}-${idx}`}
+                      className="flex gap-3"
+                    >
                       <div className="w-12 h-14 flex-shrink-0 overflow-hidden bg-muted relative">
                         <AppImage
                           src={item.image}
@@ -832,9 +934,15 @@ export default function CheckoutPage() {
                         </span>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-display font-semibold text-xs leading-tight truncate">{item.name}</p>
-                        <p className="text-[10px] text-muted-foreground font-body">{item.variant} · {item.size}</p>
-                        <p className="font-display font-bold text-xs mt-1">₹{(item.price * item.qty).toLocaleString('en-IN')}</p>
+                        <p className="font-display font-semibold text-xs leading-tight truncate">
+                          {item.name}
+                        </p>
+                        <p className="text-[10px] text-muted-foreground font-body">
+                          {item.variant} · {item.size}
+                        </p>
+                        <p className="font-display font-bold text-xs mt-1">
+                          ₹{(item.price * item.qty).toLocaleString('en-IN')}
+                        </p>
                       </div>
                     </div>
                   ))}

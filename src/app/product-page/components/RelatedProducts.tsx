@@ -23,7 +23,9 @@ export default function RelatedProducts({ currentId }: { currentId?: string }) {
             <span className="font-display text-xs font-semibold tracking-[0.3em] uppercase text-gold block mb-2">
               You May Also Like
             </span>
-            <h2 className="font-display font-bold text-2xl lg:text-3xl tracking-tight">Related Products</h2>
+            <h2 className="font-display font-bold text-2xl lg:text-3xl tracking-tight">
+              Related Products
+            </h2>
           </div>
           <div className="flex gap-2">
             <button
@@ -43,10 +45,7 @@ export default function RelatedProducts({ currentId }: { currentId?: string }) {
           </div>
         </div>
 
-        <div
-          ref={scrollRef}
-          className="flex gap-4 overflow-x-auto no-scrollbar pb-2"
-        >
+        <div ref={scrollRef} className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
           {relatedProducts.map((product) => (
             <div key={product.id} className="flex-shrink-0 w-64 lg:w-72 group">
               <div className="aspect-product relative overflow-hidden bg-muted mb-4">
@@ -60,23 +59,43 @@ export default function RelatedProducts({ currentId }: { currentId?: string }) {
                 <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
                 <div
                   className="absolute bottom-0 left-0 right-0 p-3"
-                  style={{ transform: 'translateY(100%)', transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)' }}
-                  onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(0)'; }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = 'translateY(100%)'; }}
+                  style={{
+                    transform: 'translateY(100%)',
+                    transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLElement).style.transform = 'translateY(100%)';
+                  }}
                 >
-                  <Link href={`/products/${product.id}`} className="btn-primary w-full text-center block text-xs py-3">
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="btn-primary w-full text-center block text-xs py-3"
+                  >
                     View Product
                   </Link>
                 </div>
               </div>
-              <p className="font-display text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-1 capitalize">{product.category} · {product.fit}</p>
+              <p className="font-display text-[10px] font-semibold tracking-widest uppercase text-muted-foreground mb-1 capitalize">
+                {product.category} · {product.fit}
+              </p>
               <Link href={`/products/${product.id}`}>
-                <h3 className="font-display font-bold text-sm hover:text-gold transition-colors">{product.name}</h3>
+                <h3 className="font-display font-bold text-sm hover:text-gold transition-colors">
+                  {product.name}
+                </h3>
               </Link>
               <div className="flex items-center gap-2 mt-2">
-                <span className="price-tag text-sm font-bold">₹{product.price.toLocaleString('en-IN')}</span>
-                <span className="text-xs text-muted-foreground line-through">₹{product.mrp.toLocaleString('en-IN')}</span>
-                <span className="text-[10px] font-display font-semibold text-green-700 bg-green-50 px-1.5 py-0.5">{product.discount}% OFF</span>
+                <span className="price-tag text-sm font-bold">
+                  ₹{product.price.toLocaleString('en-IN')}
+                </span>
+                <span className="text-xs text-muted-foreground line-through">
+                  ₹{product.mrp.toLocaleString('en-IN')}
+                </span>
+                <span className="text-[10px] font-display font-semibold text-green-700 bg-green-50 px-1.5 py-0.5">
+                  {product.discount}% OFF
+                </span>
               </div>
             </div>
           ))}

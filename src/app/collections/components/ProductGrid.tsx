@@ -22,32 +22,253 @@ interface Product {
 
 const allProducts: Product[] = [
   // CARGOS
-  { id: 'zip-cargos', name: 'Tactical Zip Cargo Pants', category: 'cargos', subcategory: 'Zip cargos', price: 3499, mrp: 5499, discount: 36, image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80', tag: 'New', inStock: true, colors: ['#4a4a3a', '#2d2d2d'], fit: 'Relaxed' },
-  { id: 'patch-pocket-cargo', name: 'Utility Patch Pocket Cargo', category: 'cargos', subcategory: 'patch pocket cargo', price: 3999, mrp: 5999, discount: 33, image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80', inStock: true, colors: ['#000000', '#3a3a2a'], fit: 'Tapered' },
-  { id: 'elastic-cargo', name: 'Elastic Comfort Cargo', category: 'cargos', subcategory: 'elastic cargo', price: 2999, mrp: 4499, discount: 33, image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=600&q=80', inStock: true, colors: ['#2c3e50', '#1a1a1a'], fit: 'Regular' },
-  { id: 'cargo-shorts-item', name: 'Rugged Cargo Shorts', category: 'cargos', subcategory: 'cargo shorts', price: 1999, mrp: 2999, discount: 33, image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80', inStock: true, colors: ['#4a4a3a', '#1a1a1a'], fit: 'Relaxed' },
-  { id: 'loose-fit-cargo', name: 'Loose Fit Combat Cargo', category: 'cargos', subcategory: 'loose fit cargo', price: 3799, mrp: 5799, discount: 34, image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80', tag: 'Best Seller', inStock: true, colors: ['#2d2d2d', '#3a3a2a'], fit: 'Relaxed' },
+  {
+    id: 'zip-cargos',
+    name: 'Tactical Zip Cargo Pants',
+    category: 'cargos',
+    subcategory: 'Zip cargos',
+    price: 3499,
+    mrp: 5499,
+    discount: 36,
+    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80',
+    tag: 'New',
+    inStock: true,
+    colors: ['#4a4a3a', '#2d2d2d'],
+    fit: 'Relaxed',
+  },
+  {
+    id: 'patch-pocket-cargo',
+    name: 'Utility Patch Pocket Cargo',
+    category: 'cargos',
+    subcategory: 'patch pocket cargo',
+    price: 3999,
+    mrp: 5999,
+    discount: 33,
+    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80',
+    inStock: true,
+    colors: ['#000000', '#3a3a2a'],
+    fit: 'Tapered',
+  },
+  {
+    id: 'elastic-cargo',
+    name: 'Elastic Comfort Cargo',
+    category: 'cargos',
+    subcategory: 'elastic cargo',
+    price: 2999,
+    mrp: 4499,
+    discount: 33,
+    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=600&q=80',
+    inStock: true,
+    colors: ['#2c3e50', '#1a1a1a'],
+    fit: 'Regular',
+  },
+  {
+    id: 'cargo-shorts-item',
+    name: 'Rugged Cargo Shorts',
+    category: 'cargos',
+    subcategory: 'cargo shorts',
+    price: 1999,
+    mrp: 2999,
+    discount: 33,
+    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80',
+    inStock: true,
+    colors: ['#4a4a3a', '#1a1a1a'],
+    fit: 'Relaxed',
+  },
+  {
+    id: 'loose-fit-cargo',
+    name: 'Loose Fit Combat Cargo',
+    category: 'cargos',
+    subcategory: 'loose fit cargo',
+    price: 3799,
+    mrp: 5799,
+    discount: 34,
+    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80',
+    tag: 'Best Seller',
+    inStock: true,
+    colors: ['#2d2d2d', '#3a3a2a'],
+    fit: 'Relaxed',
+  },
 
   // LINEN
-  { id: 'linen-loose-fit', name: 'Linen Loose Fit Trousers', category: 'linen', subcategory: 'lenin loose fit', price: 2799, mrp: 4499, discount: 38, image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80', tag: 'Limited', inStock: true, colors: ['#d4c5a9', '#c8b99a'], fit: 'Relaxed' },
-  { id: 'linen-chinos', name: 'Tailored Linen Chinos', category: 'linen', subcategory: 'Lenin chinos', price: 2999, mrp: 4999, discount: 40, image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80', inStock: true, colors: ['#e8dcc8', '#b8a898'], fit: 'Slim' },
-  { id: 'linen-shorts-item', name: 'Resort Linen Shorts', category: 'linen', subcategory: 'Lenin shorts', price: 1899, mrp: 2999, discount: 36, image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80', inStock: true, colors: ['#c8b99a', '#8b7355'], fit: 'Regular' },
-  { id: 'zip-pocket-linen', name: 'Zip Pocket Linen Pants', category: 'linen', subcategory: 'zip pocket lenin', price: 3199, mrp: 4999, discount: 36, image: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80', inStock: true, colors: ['#d4c5a9', '#1a1a1a'], fit: 'Regular' },
+  {
+    id: 'linen-loose-fit',
+    name: 'Linen Loose Fit Trousers',
+    category: 'linen',
+    subcategory: 'lenin loose fit',
+    price: 2799,
+    mrp: 4499,
+    discount: 38,
+    image: 'https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&q=80',
+    tag: 'Limited',
+    inStock: true,
+    colors: ['#d4c5a9', '#c8b99a'],
+    fit: 'Relaxed',
+  },
+  {
+    id: 'linen-chinos',
+    name: 'Tailored Linen Chinos',
+    category: 'linen',
+    subcategory: 'Lenin chinos',
+    price: 2999,
+    mrp: 4999,
+    discount: 40,
+    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80',
+    inStock: true,
+    colors: ['#e8dcc8', '#b8a898'],
+    fit: 'Slim',
+  },
+  {
+    id: 'linen-shorts-item',
+    name: 'Resort Linen Shorts',
+    category: 'linen',
+    subcategory: 'Lenin shorts',
+    price: 1899,
+    mrp: 2999,
+    discount: 36,
+    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80',
+    inStock: true,
+    colors: ['#c8b99a', '#8b7355'],
+    fit: 'Regular',
+  },
+  {
+    id: 'zip-pocket-linen',
+    name: 'Zip Pocket Linen Pants',
+    category: 'linen',
+    subcategory: 'zip pocket lenin',
+    price: 3199,
+    mrp: 4999,
+    discount: 36,
+    image: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80',
+    inStock: true,
+    colors: ['#d4c5a9', '#1a1a1a'],
+    fit: 'Regular',
+  },
 
   // COTTON PANTS
-  { id: 'cotton-chinos', name: 'Classic Cotton Chinos', category: 'cotton-pants', subcategory: 'Cotton chinos', price: 2299, mrp: 3799, discount: 39, image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80', inStock: true, colors: ['#c8a882', '#8b6914'], fit: 'Regular' },
-  { id: 'china-bold', name: 'China Bold Heavy Twill', category: 'cotton-pants', subcategory: 'China bold', price: 2799, mrp: 4299, discount: 35, image: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=600&q=80', tag: 'Hot', inStock: true, colors: ['#2f4f4f', '#1a1a1a'], fit: 'Slim' },
-  { id: 'cotton-shorts-item', name: 'Relaxed Cotton Shorts', category: 'cotton-pants', subcategory: 'Cotton shorts', price: 1699, mrp: 2599, discount: 34, image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80', inStock: true, colors: ['#c8a882', '#2c3e50'], fit: 'Relaxed' },
+  {
+    id: 'cotton-chinos',
+    name: 'Classic Cotton Chinos',
+    category: 'cotton-pants',
+    subcategory: 'Cotton chinos',
+    price: 2299,
+    mrp: 3799,
+    discount: 39,
+    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80',
+    inStock: true,
+    colors: ['#c8a882', '#8b6914'],
+    fit: 'Regular',
+  },
+  {
+    id: 'china-bold',
+    name: 'China Bold Heavy Twill',
+    category: 'cotton-pants',
+    subcategory: 'China bold',
+    price: 2799,
+    mrp: 4299,
+    discount: 35,
+    image: 'https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?w=600&q=80',
+    tag: 'Hot',
+    inStock: true,
+    colors: ['#2f4f4f', '#1a1a1a'],
+    fit: 'Slim',
+  },
+  {
+    id: 'cotton-shorts-item',
+    name: 'Relaxed Cotton Shorts',
+    category: 'cotton-pants',
+    subcategory: 'Cotton shorts',
+    price: 1699,
+    mrp: 2599,
+    discount: 34,
+    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80',
+    inStock: true,
+    colors: ['#c8a882', '#2c3e50'],
+    fit: 'Relaxed',
+  },
 
   // SHORTS
-  { id: 'poly-shorts', name: 'Performance Polyester Shorts', category: 'shorts', subcategory: 'Polyester shorts', price: 1499, mrp: 2499, discount: 40, image: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80', tag: 'New', inStock: true, colors: ['#1a1a1a', '#2c2c2c'], fit: 'Tapered' },
-  { id: 'shorts-cargo', name: 'Heavy Duty Cargo Shorts', category: 'shorts', subcategory: 'Cargo shorts', price: 1799, mrp: 2799, discount: 35, image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80', inStock: true, colors: ['#4a4a3a', '#2d2d2d'], fit: 'Relaxed' },
-  { id: 'shorts-linen', name: 'Breezy Linen Drawstring Shorts', category: 'shorts', subcategory: 'Linen shorts', price: 1699, mrp: 2699, discount: 37, image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80', inStock: true, colors: ['#c8b99a', '#8b7355'], fit: 'Regular' },
-  { id: 'shorts-cotton', name: 'Everyday Cotton Shorts', category: 'shorts', subcategory: 'Cotton shorts', price: 1399, mrp: 2199, discount: 36, image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80', inStock: true, colors: ['#808080', '#1a1a1a'], fit: 'Regular' },
+  {
+    id: 'poly-shorts',
+    name: 'Performance Polyester Shorts',
+    category: 'shorts',
+    subcategory: 'Polyester shorts',
+    price: 1499,
+    mrp: 2499,
+    discount: 40,
+    image: 'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80',
+    tag: 'New',
+    inStock: true,
+    colors: ['#1a1a1a', '#2c2c2c'],
+    fit: 'Tapered',
+  },
+  {
+    id: 'shorts-cargo',
+    name: 'Heavy Duty Cargo Shorts',
+    category: 'shorts',
+    subcategory: 'Cargo shorts',
+    price: 1799,
+    mrp: 2799,
+    discount: 35,
+    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80',
+    inStock: true,
+    colors: ['#4a4a3a', '#2d2d2d'],
+    fit: 'Relaxed',
+  },
+  {
+    id: 'shorts-linen',
+    name: 'Breezy Linen Drawstring Shorts',
+    category: 'shorts',
+    subcategory: 'Linen shorts',
+    price: 1699,
+    mrp: 2699,
+    discount: 37,
+    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80',
+    inStock: true,
+    colors: ['#c8b99a', '#8b7355'],
+    fit: 'Regular',
+  },
+  {
+    id: 'shorts-cotton',
+    name: 'Everyday Cotton Shorts',
+    category: 'shorts',
+    subcategory: 'Cotton shorts',
+    price: 1399,
+    mrp: 2199,
+    discount: 36,
+    image: 'https://images.unsplash.com/photo-1591195853828-11db59a44f43?w=600&q=80',
+    inStock: true,
+    colors: ['#808080', '#1a1a1a'],
+    fit: 'Regular',
+  },
 
   // FORMAL
-  { id: 'slate-formal', name: 'Slate Formal Trousers', category: 'formal', subcategory: 'Formal trousers', price: 2499, mrp: 3999, discount: 38, image: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4d42?w=600&q=80', inStock: true, colors: ['#708090', '#2f2f2f'], fit: 'Slim' },
-  { id: 'midnight-formal', name: 'Midnight Formal Pants', category: 'formal', subcategory: 'Slim fit formal', price: 2799, mrp: 4499, discount: 38, image: 'https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80', inStock: true, colors: ['#0d0d0d', '#1a1a2e'], fit: 'Regular' },
+  {
+    id: 'slate-formal',
+    name: 'Slate Formal Trousers',
+    category: 'formal',
+    subcategory: 'Formal trousers',
+    price: 2499,
+    mrp: 3999,
+    discount: 38,
+    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4b4d42?w=600&q=80',
+    inStock: true,
+    colors: ['#708090', '#2f2f2f'],
+    fit: 'Slim',
+  },
+  {
+    id: 'midnight-formal',
+    name: 'Midnight Formal Pants',
+    category: 'formal',
+    subcategory: 'Slim fit formal',
+    price: 2799,
+    mrp: 4499,
+    discount: 38,
+    image: 'https://images.unsplash.com/photo-1617196034183-421b4040ed20?w=600&q=80',
+    inStock: true,
+    colors: ['#0d0d0d', '#1a1a2e'],
+    fit: 'Regular',
+  },
 ];
 
 interface ProductGridProps {
@@ -75,10 +296,15 @@ function CollectionProductCard({ product }: { product: Product }) {
       className="group relative bg-background"
       onMouseMove={onMouseMove}
       onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => { setTilt({ x: 0, y: 0 }); setHovered(false); }}
+      onMouseLeave={() => {
+        setTilt({ x: 0, y: 0 });
+        setHovered(false);
+      }}
       style={{
         transform: `perspective(1200px) rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`,
-        transition: hovered ? 'transform 0.1s ease' : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
+        transition: hovered
+          ? 'transform 0.1s ease'
+          : 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)',
         willChange: 'transform',
       }}
     >
@@ -154,7 +380,11 @@ function CollectionProductCard({ product }: { product: Product }) {
             </Link>
           </div>
           <Link href={`/products/${product.id}`} aria-label={`View ${product.name}`}>
-            <Icon name="ArrowUpRightIcon" size={16} className="text-muted-foreground hover:text-gold transition-colors flex-shrink-0 mt-1" />
+            <Icon
+              name="ArrowUpRightIcon"
+              size={16}
+              className="text-muted-foreground hover:text-gold transition-colors flex-shrink-0 mt-1"
+            />
           </Link>
         </div>
 
@@ -172,8 +402,12 @@ function CollectionProductCard({ product }: { product: Product }) {
 
         {/* Pricing */}
         <div className="flex items-center gap-2 mt-2">
-          <span className="price-tag text-sm font-bold">₹{product.price.toLocaleString('en-IN')}</span>
-          <span className="text-xs text-muted-foreground line-through font-body">₹{product.mrp.toLocaleString('en-IN')}</span>
+          <span className="price-tag text-sm font-bold">
+            ₹{product.price.toLocaleString('en-IN')}
+          </span>
+          <span className="text-xs text-muted-foreground line-through font-body">
+            ₹{product.mrp.toLocaleString('en-IN')}
+          </span>
           <span className="text-[10px] font-display font-semibold text-green-700 bg-green-50 px-1.5 py-0.5">
             {product.discount}% OFF
           </span>
@@ -190,9 +424,7 @@ export default function ProductGrid({ category, sortBy, filters }: ProductGridPr
       if (filters.subcategories && filters.subcategories.length > 0) {
         if (!p.subcategory) return false;
         const pSubLower = p.subcategory.toLowerCase().trim();
-        const matchesSub = filters.subcategories.some(
-          (s) => s.toLowerCase().trim() === pSubLower
-        );
+        const matchesSub = filters.subcategories.some((s) => s.toLowerCase().trim() === pSubLower);
         if (!matchesSub) return false;
       }
       if (filters.inStockOnly && !p.inStock) return false;
@@ -203,11 +435,16 @@ export default function ProductGrid({ category, sortBy, filters }: ProductGridPr
     })
     .sort((a, b) => {
       switch (sortBy) {
-        case 'price-asc': return a.price - b.price;
-        case 'price-desc': return b.price - a.price;
-        case 'discount': return b.discount - a.discount;
-        case 'newest': return b.id.localeCompare(a.id);
-        default: return 0;
+        case 'price-asc':
+          return a.price - b.price;
+        case 'price-desc':
+          return b.price - a.price;
+        case 'discount':
+          return b.discount - a.discount;
+        case 'newest':
+          return b.id.localeCompare(a.id);
+        default:
+          return 0;
       }
     });
 

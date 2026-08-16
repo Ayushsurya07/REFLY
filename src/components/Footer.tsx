@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import AppLogo from '@/components/ui/AppLogo';
 import Icon from '@/components/ui/AppIcon';
-import { FaInstagram } from "react-icons/fa";
+import { FaInstagram } from 'react-icons/fa';
 
 const footerLinks = [
   { label: 'Collections', href: '/collections' },
@@ -13,7 +13,11 @@ const footerLinks = [
 ];
 
 const socialLinks = [
- { label: 'Instagram', icon: FaInstagram, href: 'https://www.instagram.com/refly_clothing__/?hl=en' },
+  {
+    label: 'Instagram',
+    icon: FaInstagram,
+    href: 'https://www.instagram.com/refly_clothing__/?hl=en',
+  },
 ];
 
 export default function Footer() {
@@ -34,11 +38,13 @@ export default function Footer() {
               </span>
             </Link>
             <p className="text-sm text-muted-foreground font-body max-w-xs leading-relaxed">
-              Premium men&apos;s bottom wear.<br />Crafted for those who move different.
+              Premium men&apos;s bottom wear.
+              <br />
+              Crafted for those who move different.
             </p>
             <div className="flex items-center gap-2 mt-2">
               <span className="text-xs font-display font-semibold tracking-widest uppercase text-gold">
-                Made with love in India by 1life's WEB 
+                Made with love in India by 1life&apos;s WEB
               </span>
               <span className="text-muted-foreground text-xs">🇮🇳</span>
             </div>

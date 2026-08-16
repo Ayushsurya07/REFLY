@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -15,7 +16,11 @@ export async function generateStaticParams() {
   return PRODUCTS_LIST.map((p) => ({ id: p.id }));
 }
 
-export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
   try {
     const { id } = await params;
     const product = getProductById(id);
@@ -71,10 +76,17 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
       <main className="pt-24 pb-20">
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           {/* Breadcrumb */}
-          <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-body text-muted-foreground mb-8">
-            <a href="/" className="hover:text-foreground transition-colors">Home</a>
+          <nav
+            aria-label="Breadcrumb"
+            className="flex items-center gap-2 text-xs font-body text-muted-foreground mb-8"
+          >
+            <Link href="/" className="hover:text-foreground transition-colors">
+              Home
+            </Link>
             <span aria-hidden="true">/</span>
-            <a href="/collections" className="hover:text-foreground transition-colors">Collections</a>
+            <Link href="/collections" className="hover:text-foreground transition-colors">
+              Collections
+            </Link>
             <span aria-hidden="true">/</span>
             <a
               href={`/collections?category=${product.category.toLowerCase()}`}
@@ -83,7 +95,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               {product.category}
             </a>
             <span aria-hidden="true">/</span>
-            <span className="text-foreground font-semibold" aria-current="page">{product.name}</span>
+            <span className="text-foreground font-semibold" aria-current="page">
+              {product.name}
+            </span>
           </nav>
 
           <Suspense fallback={<ProductPageSkeleton />}>

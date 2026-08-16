@@ -30,8 +30,9 @@ export default function NewsletterSection() {
           alt="Premium fashion store interior — dark moody atmosphere, deep shadows, dramatic lighting, minimalist luxury retail environment"
           fill
           className="object-cover opacity-30"
-          sizes="100vw" />
-        
+          sizes="100vw"
+        />
+
         <div className="absolute inset-0 bg-gradient-to-b from-black via-black/80 to-black" />
       </div>
 
@@ -41,41 +42,48 @@ export default function NewsletterSection() {
             Join the Movement
           </span>
           <h2 className="section-heading text-white mb-6">
-            First access.<br />
+            First access.
+            <br />
             <span className="italic text-white/40">Exclusive drops.</span>
           </h2>
           <p className="font-body text-white/60 mb-10 leading-relaxed">
-            Get early access to new collections, exclusive member discounts, and style guides.
-            No spam. Unsubscribe anytime.
+            Get early access to new collections, exclusive member discounts, and style guides. No
+            spam. Unsubscribe anytime.
           </p>
 
-          {!submitted ?
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+          {!submitted ? (
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+            >
               <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-              aria-label="Email address for newsletter"
-              className="flex-1 px-5 py-4 bg-white/10 border border-white/20 text-white placeholder:text-white/40 font-body text-sm outline-none focus:border-gold transition-colors backdrop-blur-sm" />
-            
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
+                required
+                aria-label="Email address for newsletter"
+                className="flex-1 px-5 py-4 bg-white/10 border border-white/20 text-white placeholder:text-white/40 font-body text-sm outline-none focus:border-gold transition-colors backdrop-blur-sm"
+              />
+
               <button type="submit" className="btn-gold px-8 py-4 flex-shrink-0">
                 Subscribe
               </button>
-            </form> :
-
-          <div className="p-6 border border-gold/30 bg-gold/10 max-w-md mx-auto">
+            </form>
+          ) : (
+            <div className="p-6 border border-gold/30 bg-gold/10 max-w-md mx-auto">
               <p className="font-display font-bold text-white text-lg mb-1">Welcome to Refly.</p>
-              <p className="font-body text-white/60 text-sm">You&apos;re on the list. Expect something special soon.</p>
+              <p className="font-body text-white/60 text-sm">
+                You&apos;re on the list. Expect something special soon.
+              </p>
             </div>
-          }
+          )}
 
           <p className="font-body text-xs text-white/30 mt-4">
             Join 12,000+ members · No spam · ₹500 off your first order
           </p>
         </div>
       </div>
-    </section>);
-
+    </section>
+  );
 }

@@ -52,12 +52,12 @@ export default function WholesaleSection() {
     // Auto-launch WhatsApp with lead details to owner
     const formattedLead = encodeURIComponent(
       `🏭 NEW B2B WHOLESALE INQUIRY (REFLY Store)\n\n` +
-      `🏢 Business: ${formData.businessName}\n` +
-      `👤 Contact: ${formData.contactName}\n` +
-      `📞 Phone: ${formData.phone}\n` +
-      `✉️ Email: ${formData.email || 'N/A'}\n` +
-      `📦 Quantity: ${formData.quantity}\n` +
-      `🏷️ Category: ${formData.category}`
+        `🏢 Business: ${formData.businessName}\n` +
+        `👤 Contact: ${formData.contactName}\n` +
+        `📞 Phone: ${formData.phone}\n` +
+        `✉️ Email: ${formData.email || 'N/A'}\n` +
+        `📦 Quantity: ${formData.quantity}\n` +
+        `🏷️ Category: ${formData.category}`
     );
 
     window.open(`https://wa.me/916362434977?text=${formattedLead}`, '_blank');
@@ -65,12 +65,16 @@ export default function WholesaleSection() {
 
   const whatsappMessage = encodeURIComponent(
     `Hello REFLY Wholesale Team,\nI am interested in bulk ordering / wholesale partnership.\n\n` +
-    `Business: ${formData.businessName || 'N/A'}\nName: ${formData.contactName || 'N/A'}\n` +
-    `Qty: ${formData.quantity}\nCategory: ${formData.category}`
+      `Business: ${formData.businessName || 'N/A'}\nName: ${formData.contactName || 'N/A'}\n` +
+      `Qty: ${formData.quantity}\nCategory: ${formData.category}`
   );
 
   return (
-    <section id="wholesale" ref={sectionRef} className="relative py-20 lg:py-28 bg-black overflow-hidden border-t border-white/10">
+    <section
+      id="wholesale"
+      ref={sectionRef}
+      className="relative py-20 lg:py-28 bg-black overflow-hidden border-t border-white/10"
+    >
       {/* Background with subtle store texture */}
       <div className="absolute inset-0">
         <AppImage
@@ -93,7 +97,8 @@ export default function WholesaleSection() {
             <span className="italic text-white/50">Wholesale Partnership.</span>
           </h2>
           <p className="font-body text-white/70 text-base lg:text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
-            Crafted for clothing retailers, boutique owners, and bulk buyers across India. Access direct factory pricing, tiered quantity discounts, and priority dispatch.
+            Crafted for clothing retailers, boutique owners, and bulk buyers across India. Access
+            direct factory pricing, tiered quantity discounts, and priority dispatch.
           </p>
 
           {/* Benefits Grid */}
@@ -102,7 +107,9 @@ export default function WholesaleSection() {
               <div className="w-10 h-10 bg-gold/15 text-gold flex items-center justify-center text-xl mb-3">
                 📦
               </div>
-              <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">Tiered Discounts</h3>
+              <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">
+                Tiered Discounts
+              </h3>
               <p className="font-body text-xs text-white/60 leading-relaxed">
                 Exclusive B2B rates for 20+, 50+, and 200+ unit orders.
               </p>
@@ -112,7 +119,9 @@ export default function WholesaleSection() {
               <div className="w-10 h-10 bg-gold/15 text-gold flex items-center justify-center text-xl mb-3">
                 ⚡
               </div>
-              <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">Factory Dispatch</h3>
+              <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">
+                Factory Dispatch
+              </h3>
               <p className="font-body text-xs text-white/60 leading-relaxed">
                 Direct dispatch within 24-48 hours with door-to-door tracking.
               </p>
@@ -122,7 +131,9 @@ export default function WholesaleSection() {
               <div className="w-10 h-10 bg-gold/15 text-gold flex items-center justify-center text-xl mb-3">
                 📑
               </div>
-              <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">GST B2B Invoice</h3>
+              <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">
+                GST B2B Invoice
+              </h3>
               <p className="font-body text-xs text-white/60 leading-relaxed">
                 100% Tax compliant invoicing with full GST credit claim.
               </p>
@@ -132,7 +143,9 @@ export default function WholesaleSection() {
               <div className="w-10 h-10 bg-gold/15 text-gold flex items-center justify-center text-xl mb-3">
                 🤝
               </div>
-              <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">Dedicated Manager</h3>
+              <h3 className="font-display font-bold text-sm text-white uppercase tracking-wider">
+                Dedicated Manager
+              </h3>
               <p className="font-body text-xs text-white/60 leading-relaxed">
                 Instant WhatsApp & call support for custom sample orders.
               </p>
@@ -166,14 +179,28 @@ export default function WholesaleSection() {
 
       {/* Interactive Wholesale Inquiry Modal */}
       {inquiryOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 lg:p-8" onClick={() => setInquiryOpen(false)}>
-          <div className="bg-black border border-white/20 max-w-lg w-full p-6 lg:p-8 text-left space-y-6 max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4 lg:p-8"
+          onClick={() => setInquiryOpen(false)}
+        >
+          <div
+            className="bg-black border border-white/20 max-w-lg w-full p-6 lg:p-8 text-left space-y-6 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between border-b border-white/10 pb-4">
               <div>
-                <span className="font-display text-[10px] font-semibold tracking-widest uppercase text-gold">REFLY B2B DESK</span>
-                <h3 className="font-display font-bold text-xl text-white uppercase">Wholesale Inquiry</h3>
+                <span className="font-display text-[10px] font-semibold tracking-widest uppercase text-gold">
+                  REFLY B2B DESK
+                </span>
+                <h3 className="font-display font-bold text-xl text-white uppercase">
+                  Wholesale Inquiry
+                </h3>
               </div>
-              <button onClick={() => setInquiryOpen(false)} aria-label="Close modal" className="text-white/60 hover:text-white">
+              <button
+                onClick={() => setInquiryOpen(false)}
+                aria-label="Close modal"
+                className="text-white/60 hover:text-white"
+              >
                 <Icon name="XMarkIcon" size={24} />
               </button>
             </div>
@@ -183,20 +210,23 @@ export default function WholesaleSection() {
                 <div className="w-14 h-14 bg-green-500/20 text-green-400 border border-green-500/40 rounded-full flex items-center justify-center mx-auto">
                   <Icon name="CheckIcon" size={28} />
                 </div>
-                <h4 className="font-display font-bold text-lg text-white uppercase">Inquiry Received!</h4>
+                <h4 className="font-display font-bold text-lg text-white uppercase">
+                  Inquiry Received!
+                </h4>
                 <p className="font-body text-xs text-white/70 max-w-xs mx-auto">
-                  WhatsApp will open automatically to send your lead directly to our Wholesale Desk (`+91 82966 64977`).
+                  WhatsApp will open automatically to send your lead directly to our Wholesale Desk
+                  (`+91 82966 64977`).
                 </p>
                 <div className="flex flex-col gap-3 pt-2">
                   <a
                     href={`https://wa.me/916362434977?text=${encodeURIComponent(
                       `🏭 NEW B2B WHOLESALE INQUIRY (REFLY Store)\n\n` +
-                      `🏢 Business: ${formData.businessName}\n` +
-                      `👤 Contact: ${formData.contactName}\n` +
-                      `📞 Phone: ${formData.phone}\n` +
-                      `✉️ Email: ${formData.email || 'N/A'}\n` +
-                      `📦 Quantity: ${formData.quantity}\n` +
-                      `🏷️ Category: ${formData.category}`
+                        `🏢 Business: ${formData.businessName}\n` +
+                        `👤 Contact: ${formData.contactName}\n` +
+                        `📞 Phone: ${formData.phone}\n` +
+                        `✉️ Email: ${formData.email || 'N/A'}\n` +
+                        `📦 Quantity: ${formData.quantity}\n` +
+                        `🏷️ Category: ${formData.category}`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -206,7 +236,10 @@ export default function WholesaleSection() {
                     Send Lead on WhatsApp
                   </a>
                   <button
-                    onClick={() => { setSubmitted(false); setInquiryOpen(false); }}
+                    onClick={() => {
+                      setSubmitted(false);
+                      setInquiryOpen(false);
+                    }}
                     className="border border-white/20 text-white/60 hover:text-white text-xs px-6 py-2.5 uppercase font-display"
                   >
                     Close Window
@@ -291,7 +324,10 @@ export default function WholesaleSection() {
                   </select>
                 </div>
 
-                <button type="submit" className="btn-gold w-full py-4 text-xs font-display font-semibold tracking-widest uppercase mt-4">
+                <button
+                  type="submit"
+                  className="btn-gold w-full py-4 text-xs font-display font-semibold tracking-widest uppercase mt-4"
+                >
                   Submit Wholesale Inquiry →
                 </button>
               </form>
