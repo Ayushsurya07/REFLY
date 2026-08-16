@@ -1,2 +1,7 @@
+'use client';
 import AccountProfilePage from '../page';
-export default AccountProfilePage;
+
+export default function ProfilePage() {
+  return <AccountProfilePage />;
+}
+

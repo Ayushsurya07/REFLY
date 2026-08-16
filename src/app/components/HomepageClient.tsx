@@ -9,7 +9,7 @@ import FeaturedProducts from './FeaturedProducts';
 import CollectionsBento from './CollectionsBento';
 import PremiumFabricSection from './PremiumFabricSection';
 import TestimonialsSection from './TestimonialsSection';
-import NewsletterSection from './NewsletterSection';
+import WholesaleSection from './WholesaleSection';
 
 export default function HomepageClient() {
   const [mounted, setMounted] = useState(false);
@@ -73,7 +73,7 @@ export default function HomepageClient() {
           <CollectionsBento />
           <PremiumFabricSection />
           <TestimonialsSection />
-          <NewsletterSection />
+          <WholesaleSection />
         </main>
         <Footer />
       </div>

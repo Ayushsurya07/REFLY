@@ -1,8 +1,11 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Icon from '@/components/ui/AppIcon';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
+import { createClient } from '@/lib/supabase/client';
 
 interface ProductInfoProps {
   product: typeof import('./ProductPageClient').productData;
@@ -11,7 +14,10 @@ interface ProductInfoProps {
 export default function ProductInfo({ product }: ProductInfoProps) {
   const router = useRouter();
   const { addToCart } = useCart();
-  const [selectedColor, setSelectedColor] = useState(product.colors[0].name);
+  const { user } = useAuth();
+  const { addToast } = useToast();
+  const supabase = React.useMemo(() => createClient(), []);
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]?.name || '');
   const [selectedSize, setSelectedSize] = useState('');
   const [qty, setQty] = useState(1);
   const [pincode, setPincode] = useState('');
@@ -20,6 +26,41 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   const [addedToCart, setAddedToCart] = useState(false);
   const [sizeGuideOpen, setSizeGuideOpen] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
+  const [wishlistId, setWishlistId] = useState<string | null>(null);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  const handleShare = (platform: string) => {
+    const url = typeof window !== 'undefined' ? window.location.href : '';
+    const text = `Check out ${product.name} on REFLY – ${url}`;
+    if (platform === 'WhatsApp') {
+      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
+    } else if (platform === 'Instagram') {
+      navigator.clipboard.writeText(url).then(() => {
+        addToast('Link copied! Open Instagram and paste it in your story or bio.', 'info');
+      });
+    } else if (platform === 'Copy Link') {
+      navigator.clipboard.writeText(url).then(() => {
+        setLinkCopied(true);
+        setTimeout(() => setLinkCopied(false), 2000);
+      });
+    }
+  };
+
+  // Load wishlist state from Supabase
+  useEffect(() => {
+    if (!user) { setWishlisted(false); setWishlistId(null); return; }
+    supabase
+      .from('wishlist')
+      .select('id')
+      .eq('user_id', user.id)
+      .eq('product_id', product.id)
+      .single()
+      .then(({ data }) => {
+        if (data) { setWishlisted(true); setWishlistId(data.id); }
+        else { setWishlisted(false); setWishlistId(null); }
+      });
+  }, [user, product.id, supabase]);
 
   const gstAmount = Math.round((product.price * product.gstRate) / (100 + product.gstRate));
   const basePrice = product.price - gstAmount;
@@ -38,7 +79,10 @@ export default function ProductInfo({ product }: ProductInfoProps) {
   };
 
   const handleAddToCart = () => {
-    if (!selectedSize) return;
+    if (!selectedSize) {
+      addToast('Please select a size before adding to bag.', 'info');
+      return;
+    }
     addToCart({
       id: product.id,
       name: product.name,
@@ -50,6 +94,7 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       qty,
     });
     setAddedToCart(true);
+    addToast(`Added ${product.name} (${selectedSize}) to bag`, 'success');
     setTimeout(() => setAddedToCart(false), 2500);
   };
 
@@ -219,42 +264,65 @@ export default function ProductInfo({ product }: ProductInfoProps) {
           Buy Now
         </button>
         <button
-          onClick={() => setWishlisted(!wishlisted)}
-          className="flex items-center justify-center gap-2 w-full py-3 border border-border hover:border-gold transition-colors font-display text-xs font-semibold tracking-widest uppercase"
+          onClick={async () => {
+            if (!user) { router.push('/login'); return; }
+            setWishlistLoading(true);
+            try {
+              if (wishlisted && wishlistId) {
+                await supabase.from('wishlist').delete().eq('id', wishlistId);
+                setWishlisted(false);
+                setWishlistId(null);
+              } else {
+                const { data } = await supabase.from('wishlist').insert({
+                  user_id: user.id,
+                  product_id: product.id,
+                  product_name: product.name,
+                  product_price: product.price,
+                  product_mrp: product.mrp,
+                  image_url: product.images[0]?.src || null,
+                  variant: product.colors[0]?.name || null,
+                }).select('id').single();
+                if (data) { setWishlisted(true); setWishlistId(data.id); }
+              }
+            } catch { /* silent */ }
+            finally { setWishlistLoading(false); }
+          }}
+          disabled={wishlistLoading}
+          className="flex items-center justify-center gap-2 w-full py-3 border border-border hover:border-gold transition-colors font-display text-xs font-semibold tracking-widest uppercase disabled:opacity-60"
         >
           <Icon name="HeartIcon" size={16} variant={wishlisted ? 'solid' : 'outline'} className={wishlisted ? 'text-gold' : ''} />
-          {wishlisted ? 'Saved to Wishlist' : 'Add to Wishlist'}
+          {wishlistLoading ? 'Saving…' : wishlisted ? 'Saved to Wishlist' : 'Add to Wishlist'}
         </button>
       </div>
 
       {/* Delivery + Trust */}
-      <div className="border border-border p-5 mb-6 space-y-3">
+      <div className="border border-gold/25 bg-gradient-to-br from-amber-50/40 via-white to-stone-50 p-5 mb-6 space-y-4 shadow-sm">
         <div className="flex items-center gap-3">
-          <span className="text-lg">🚚</span>
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">🚚</div>
           <div>
-            <p className="font-display font-semibold text-xs tracking-wide uppercase">Free Delivery</p>
+            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">Free Delivery</p>
             <p className="font-body text-xs text-muted-foreground">On all orders above ₹1,500 · Pan India</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-lg">↩</span>
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">↩</div>
           <div>
-            <p className="font-display font-semibold text-xs tracking-wide uppercase">7-Day Returns</p>
-            <p className="font-body text-xs text-muted-foreground">Easy returns & exchanges</p>
+            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">7-Day Easy Returns</p>
+            <p className="font-body text-xs text-muted-foreground">Hassle-free doorstep pickup & exchange</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-lg">💳</span>
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">💳</div>
           <div>
-            <p className="font-display font-semibold text-xs tracking-wide uppercase">Cash on Delivery</p>
-            <p className="font-body text-xs text-muted-foreground">Available · Additional ₹50 charge</p>
+            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">Cash on Delivery</p>
+            <p className="font-body text-xs text-muted-foreground">Available across India (FREE above ₹1,500)</p>
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-lg">⚡</span>
+          <div className="w-9 h-9 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-lg flex-shrink-0">⚡</div>
           <div>
-            <p className="font-display font-semibold text-xs tracking-wide uppercase">Ships in 24 Hours</p>
-            <p className="font-body text-xs text-muted-foreground">Order before 2 PM for same-day dispatch</p>
+            <p className="font-display font-bold text-xs tracking-wide uppercase text-foreground">Ships in 24 Hours</p>
+            <p className="font-body text-xs text-muted-foreground">Fast order processing & dispatch</p>
           </div>
         </div>
       </div>
@@ -298,13 +366,14 @@ export default function ProductInfo({ product }: ProductInfoProps) {
       {/* Share */}
       <div className="flex items-center gap-4">
         <span className="font-display text-xs font-semibold tracking-widest uppercase text-muted-foreground">Share:</span>
-        {['WhatsApp', 'Instagram', 'Copy Link'].map((platform) => (
+        {(['WhatsApp', 'Instagram', 'Copy Link'] as const).map((platform) => (
           <button
             key={platform}
             aria-label={`Share on ${platform}`}
+            onClick={() => handleShare(platform)}
             className="font-body text-xs text-muted-foreground hover:text-gold transition-colors"
           >
-            {platform}
+            {platform === 'Copy Link' && linkCopied ? 'Copied!' : platform}
           </button>
         ))}
       </div>

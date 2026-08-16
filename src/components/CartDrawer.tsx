@@ -1,9 +1,12 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import AppImage from '@/components/ui/AppImage';
 import Icon from '@/components/ui/AppIcon';
 import { useCart, CartItem } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
 
 interface CartDrawerProps {
   isOpen?: boolean;
@@ -11,12 +14,34 @@ interface CartDrawerProps {
 }
 
 export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }: CartDrawerProps) {
+  const { user } = useAuth();
+  const router = useRouter();
+  const { addToast } = useToast();
   const { cartItems, cartOpen, setCartOpen, removeFromCart, updateQuantity, subtotal } = useCart();
   const [coupon, setCoupon] = useState('');
   const [couponApplied, setCouponApplied] = useState(false);
 
   const isOpen = propIsOpen !== undefined ? propIsOpen : cartOpen;
   const handleClose = propOnClose || (() => setCartOpen(false));
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        handleClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, handleClose]);
+
+  const handleCheckout = () => {
+    handleClose();
+    if (!user) {
+      router.push('/login?redirect=/checkout');
+    } else {
+      router.push('/checkout');
+    }
+  };
 
   const items = cartItems;
   const discount = couponApplied ? Math.round(subtotal * 0.1) : 0;
@@ -32,10 +57,16 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
 
   const removeItem = (id: string, size?: string) => {
     removeFromCart(id, size);
+    addToast('Item removed from bag', 'info');
   };
 
   const applyCoupon = () => {
-    if (coupon.toUpperCase() === 'REFLY10') setCouponApplied(true);
+    if (coupon.trim().toUpperCase() === 'REFLY10') {
+      setCouponApplied(true);
+      addToast('Coupon REFLY10 applied! 10% discount added.', 'success');
+    } else {
+      addToast('Invalid coupon code. Try using REFLY10', 'error');
+    }
   };
 
   if (!isOpen) return null;
@@ -43,7 +74,7 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
   return (
     <>
       <div className="cart-overlay" onClick={handleClose} />
-      <div className="cart-drawer flex flex-col">
+      <div className="cart-drawer flex flex-col" role="dialog" aria-modal="true" aria-label="Shopping Bag">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-5 border-b border-border">
           <div>
@@ -207,13 +238,12 @@ export default function CartDrawer({ isOpen: propIsOpen, onClose: propOnClose }:
         {/* CTA */}
         {items.length > 0 && (
           <div className="px-6 pb-6 pt-2 space-y-3">
-            <Link
-              href="/checkout"
-              onClick={handleClose}
+            <button
+              onClick={handleCheckout}
               className="btn-primary w-full text-center block"
             >
-              Proceed to Checkout
-            </Link>
+              Proceed to Checkout →
+            </button>
             <button
               onClick={handleClose}
               className="w-full text-center text-sm font-display font-medium text-muted-foreground hover:text-foreground transition-colors tracking-wide uppercase"

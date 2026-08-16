@@ -1,9 +1,10 @@
 import React from 'react';
 import type { Metadata, Viewport } from 'next';
 import { Space_Grotesk, Manrope, Bebas_Neue } from 'next/font/google';
-import '../styles/tailwind.css';
+import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { CartProvider } from '@/contexts/CartContext';
+import { ToastProvider } from '@/contexts/ToastContext';
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -66,7 +67,9 @@ export default function RootLayout({
       <body className={manrope.className} suppressHydrationWarning>
         <AuthProvider>
           <CartProvider>
-            {children}
+            <ToastProvider>
+              {children}
+            </ToastProvider>
           </CartProvider>
         </AuthProvider>
       </body>

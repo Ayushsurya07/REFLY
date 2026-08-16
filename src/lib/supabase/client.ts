@@ -32,6 +32,7 @@ const fromCookies = () =>
         .filter((c) => c.name);
 
 const fromStorage = () => {
+  if (typeof window === 'undefined' || typeof localStorage === 'undefined') return [];
   try {
     return Object.keys(localStorage)
       .filter((k) => k.startsWith(PFX))
@@ -90,8 +91,8 @@ if (typeof window !== 'undefined' && !(window as any).__sb_patched__) {
 
 export function createClient() {
   return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
     {
       cookies: {
         getAll: () => (canUseCookies() ? fromCookies() : fromStorage()),

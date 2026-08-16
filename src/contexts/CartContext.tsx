@@ -1,5 +1,7 @@
 'use client';
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export interface CartItem {
   id: string;
@@ -26,37 +28,65 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-const initialCartItems: CartItem[] = [
-  {
-    id: '1',
-    name: 'Obsidian Slim Jeans',
-    variant: 'Jet Black',
-    size: 'W32',
-    price: 2999,
-    mrp: 4999,
-    qty: 1,
-    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&q=80',
-  },
-  {
-    id: '2',
-    name: 'Utility Cargo Pants',
-    variant: 'Olive Drab',
-    size: 'W34',
-    price: 3499,
-    mrp: 5499,
-    qty: 1,
-    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=200&q=80',
-  },
-];
-
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [cartItems, setCartItems] = useState<CartItem[]>(initialCartItems);
+  const { user } = useAuth();
+  const router = useRouter();
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const userId = user?.id || null;
+  const isLoadedRef = useRef(false);
+
+  // Sync cart items whenever user auth state changes
+  useEffect(() => {
+    try {
+      if (userId) {
+        const userCartKey = `refly_cart_${userId}`;
+        const savedUserCart = localStorage.getItem(userCartKey);
+        const legacyCart = localStorage.getItem('refly_cart');
+
+        if (savedUserCart) {
+          setCartItems(JSON.parse(savedUserCart));
+        } else if (legacyCart) {
+          const parsed = JSON.parse(legacyCart);
+          setCartItems(parsed);
+          localStorage.setItem(userCartKey, JSON.stringify(parsed));
+          localStorage.removeItem('refly_cart');
+        } else {
+          setCartItems([]);
+        }
+      } else {
+        // Signed-out: hide active cart in UI (does not erase stored user cart)
+        setCartItems([]);
+      }
+    } catch {
+      setCartItems([]);
+    }
+    isLoadedRef.current = true;
+  }, [userId]);
+
+  // Save to user-specific localStorage whenever cartItems changes for logged-in user
+  useEffect(() => {
+    if (!isLoadedRef.current) return;
+    try {
+      if (userId) {
+        const userCartKey = `refly_cart_${userId}`;
+        localStorage.setItem(userCartKey, JSON.stringify(cartItems));
+      }
+    } catch {
+      // Ignore quota error
+    }
+  }, [cartItems, userId]);
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.qty, 0);
 
   const addToCart = (newItem: Omit<CartItem, 'qty'> & { qty?: number }) => {
+    if (!user) {
+      const currentPath = typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/collections';
+      router.push(`/login?redirect=${encodeURIComponent(currentPath)}`);
+      return;
+    }
+
     const qtyToAdd = newItem.qty || 1;
     setCartItems((prev) => {
       const existingIndex = prev.findIndex(
@@ -92,7 +122,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     );
   };
 
-  const clearCart = () => setCartItems([]);
+  const clearCart = () => {
+    setCartItems([]);
+    try {
+      if (userId) {
+        localStorage.removeItem(`refly_cart_${userId}`);
+      }
+      localStorage.removeItem('refly_cart');
+    } catch {
+      // Ignore quota/access errors
+    }
+  };
 
   return (
     <CartContext.Provider

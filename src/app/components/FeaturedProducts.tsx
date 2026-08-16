@@ -280,19 +280,28 @@ export default function FeaturedProducts() {
         </div>
 
         {/* Delivery Trust Bar */}
-        <div className="mt-12 lg:mt-16 grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 reveal-up stagger-5">
+        <div className="mt-12 lg:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 reveal-up stagger-5">
           {[
-            { icon: '🚚', text: 'Free Delivery Above ₹1,500' },
-            { icon: '↩', text: '7-Day Easy Returns' },
-            { icon: '💳', text: 'Cash on Delivery Available' },
-            { icon: '⚡', text: 'Ships within 24 Hours' },
+            { icon: '🚚', title: 'FREE DELIVERY', desc: 'On all orders above ₹1,500' },
+            { icon: '↩', title: '7-DAY EASY RETURNS', desc: 'Hassle-free doorstep pickup' },
+            { icon: '💳', title: 'CASH ON DELIVERY', desc: 'Available across India' },
+            { icon: '⚡', title: 'SHIPS IN 24 HOURS', desc: 'Fast processing & dispatch' },
           ].map((item) => (
             <div
-              key={item.text}
-              className="flex items-center gap-3 p-4 border border-border hover:border-gold transition-colors duration-300"
+              key={item.title}
+              className="flex items-center gap-4 p-5 bg-gradient-to-br from-amber-50/50 via-white to-stone-50 border border-gold/25 shadow-sm hover:border-gold hover:shadow-md transition-all duration-300 group"
             >
-              <span className="text-xl">{item.icon}</span>
-              <span className="font-body text-xs font-medium text-muted-foreground">{item.text}</span>
+              <div className="w-11 h-11 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center text-xl flex-shrink-0 group-hover:scale-110 group-hover:bg-gold/20 transition-all">
+                {item.icon}
+              </div>
+              <div>
+                <h4 className="font-display font-bold text-xs tracking-wider uppercase text-foreground">
+                  {item.title}
+                </h4>
+                <p className="font-body text-[11px] text-muted-foreground mt-0.5 leading-snug">
+                  {item.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>

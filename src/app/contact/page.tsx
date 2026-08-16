@@ -4,15 +4,54 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import CustomCursor from '@/components/CustomCursor';
 import Icon from '@/components/ui/AppIcon';
+import { useToast } from '@/contexts/ToastContext';
 import { FaInstagram } from 'react-icons/fa';
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function ContactPage() {
+  const { addToast } = useToast();
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
+  const [errors, setErrors] = useState<{ email?: string; name?: string; message?: string }>({});
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    const newErrors: { email?: string; name?: string; message?: string } = {};
+
+    const cleanEmail = formData.email.trim();
+    const cleanName = formData.name.trim();
+    const cleanMessage = formData.message.trim();
+
+    if (!cleanName) {
+      newErrors.name = 'Please enter your name.';
+    }
+
+    if (!cleanEmail) {
+      newErrors.email = 'Please enter your email address.';
+    } else if (!EMAIL_REGEX.test(cleanEmail)) {
+      newErrors.email = 'Please enter a valid email address (e.g. name@example.com).';
+    }
+
+    if (!cleanMessage) {
+      newErrors.message = 'Please enter your message.';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      addToast('Please correct the errors in the form.', 'error');
+      return;
+    }
+
+    setErrors({});
+    setSubmitting(true);
+
+    setTimeout(() => {
+      setSubmitting(false);
+      setSubmitted(true);
+      addToast('Message sent successfully! We will get back to you shortly.', 'success');
+    }, 600);
   };
 
   return (
@@ -114,39 +153,52 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
+                      <label htmlFor="contact-name" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                         Your Name *
                       </label>
                       <input
+                        id="contact-name"
                         type="text"
                         required
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="John Doe"
+                        aria-invalid={!!errors.name}
+                        aria-describedby={errors.name ? 'contact-name-error' : undefined}
                         className="input-luxury text-sm"
                       />
+                      {errors.name && (
+                        <p id="contact-name-error" className="text-xs text-red-500 font-body mt-1">{errors.name}</p>
+                      )}
                     </div>
                     <div>
-                      <label className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
+                      <label htmlFor="contact-email" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                         Email Address *
                       </label>
                       <input
+                        id="contact-email"
                         type="email"
                         required
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="john@example.com"
+                        aria-invalid={!!errors.email}
+                        aria-describedby={errors.email ? 'contact-email-error' : undefined}
                         className="input-luxury text-sm"
                       />
+                      {errors.email && (
+                        <p id="contact-email-error" className="text-xs text-red-500 font-body mt-1">{errors.email}</p>
+                      )}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
+                      <label htmlFor="contact-phone" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                         Phone Number
                       </label>
                       <input
+                        id="contact-phone"
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
@@ -155,10 +207,11 @@ export default function ContactPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
+                      <label htmlFor="contact-subject" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                         Subject *
                       </label>
                       <input
+                        id="contact-subject"
                         type="text"
                         required
                         value={formData.subject}
@@ -170,21 +223,34 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
+                    <label htmlFor="contact-message" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                       Message *
                     </label>
                     <textarea
+                      id="contact-message"
                       required
                       rows={5}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="How can we help you?"
+                      aria-invalid={!!errors.message}
+                      aria-describedby={errors.message ? 'contact-message-error' : undefined}
                       className="input-luxury text-sm"
                     />
+                    {errors.message && (
+                      <p id="contact-message-error" className="text-xs text-red-500 font-body mt-1">{errors.message}</p>
+                    )}
                   </div>
 
-                  <button type="submit" className="btn-primary w-full py-4 text-xs">
-                    Send Message →
+                  <button
+                    type="submit"
+                    disabled={submitting}
+                    className="btn-primary w-full py-4 text-xs disabled:opacity-50 flex items-center justify-center gap-2"
+                  >
+                    {submitting && (
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    )}
+                    {submitting ? 'Sending…' : 'Send Message →'}
                   </button>
                 </form>
               )}

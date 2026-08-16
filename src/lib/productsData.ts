@@ -741,8 +741,35 @@ export const PRODUCTS_LIST: FullProduct[] = [
 ];
 
 export function getProductById(id: string): FullProduct {
-  const found = PRODUCTS_LIST.find((p) => p.id === id);
-  if (found) return found;
-  // Fallback to first cargo product if not found
+  if (!id) return PRODUCTS_LIST[0];
+  try {
+    const cleanId = decodeURIComponent(id).trim().toLowerCase();
+    
+    // 1. Exact ID match
+    const exactId = PRODUCTS_LIST.find((p) => p.id.toLowerCase() === cleanId);
+    if (exactId) return exactId;
+
+    // 2. Match by hyphenated slug
+    const slug = cleanId.replace(/\s+/g, '-');
+    const matchSlug = PRODUCTS_LIST.find(
+      (p) =>
+        p.id.toLowerCase() === slug ||
+        p.name.toLowerCase().replace(/\s+/g, '-') === slug ||
+        (p.subcategory && p.subcategory.toLowerCase().replace(/\s+/g, '-') === slug)
+    );
+    if (matchSlug) return matchSlug;
+
+    // 3. Match by partial substring in name, category, or subcategory
+    const matchPartial = PRODUCTS_LIST.find(
+      (p) =>
+        p.name.toLowerCase().includes(cleanId) ||
+        p.category.toLowerCase().includes(cleanId) ||
+        (p.subcategory && p.subcategory.toLowerCase().includes(cleanId))
+    );
+    if (matchPartial) return matchPartial;
+  } catch {
+    // Fallback if decodeURIComponent fails
+  }
+
   return PRODUCTS_LIST[0];
 }

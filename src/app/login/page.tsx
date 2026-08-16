@@ -11,13 +11,19 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/dashboard';
+  const urlError = searchParams.get('error');
   const { signIn } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(
+    urlError === 'auth_callback_failed'
+      ? 'Authentication callback failed. Please try signing in again.'
+      : ''
+  );
   const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -25,6 +31,9 @@ function LoginForm() {
     setError('');
     setLoading(true);
     try {
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('refly_remember_me', rememberMe ? 'true' : 'false');
+      }
       await signIn(email, password);
       router.push(redirect);
       router.refresh();
@@ -40,15 +49,42 @@ function LoginForm() {
     setError('');
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/auth/callback?next=${redirect}`,
+          skipBrowserRedirect: true,
         },
       });
+
       if (error) throw error;
+
+      if (data?.url) {
+        // Pre-check the OAuth endpoint before browser redirection to catch unsupported provider error gracefully
+        try {
+          const res = await fetch(data.url);
+          if (!res.ok) {
+            const json = await res.json().catch(() => ({}));
+            if (res.status === 400 || json?.error_code === 'validation_failed' || json?.msg?.includes('not enabled')) {
+              setError('Google Sign-In is not enabled on this Supabase project. Please sign in with your email and password.');
+              setGoogleLoading(false);
+              return;
+            }
+          }
+        } catch {
+          // CORS or redirect response means valid OAuth URL endpoint — proceed to navigate
+        }
+        window.location.href = data.url;
+      } else {
+        throw new Error('Could not generate Google login URL.');
+      }
     } catch (err: any) {
-      setError(err?.message || 'Google sign-in failed. Please try again.');
+      const errMsg = err?.message || JSON.stringify(err);
+      if (errMsg.includes('validation_failed') || errMsg.includes('Unsupported provider') || errMsg.includes('not enabled')) {
+        setError('Google Sign-In is not enabled on this Supabase project. Please sign in with your email and password.');
+      } else {
+        setError(err?.message || 'Google sign-in failed. Please try again.');
+      }
       setGoogleLoading(false);
     }
   };
@@ -96,10 +132,11 @@ function LoginForm() {
 
       <form onSubmit={handleLogin} className="space-y-4">
         <div>
-          <label className="block font-display text-xs font-semibold tracking-[0.1em] uppercase text-white/60 mb-2">
+          <label htmlFor="login-email" className="block font-display text-xs font-semibold tracking-[0.1em] uppercase text-white/60 mb-2">
             Email Address
           </label>
           <input
+            id="login-email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -110,11 +147,12 @@ function LoginForm() {
         </div>
 
         <div>
-          <label className="block font-display text-xs font-semibold tracking-[0.1em] uppercase text-white/60 mb-2">
+          <label htmlFor="login-password" className="block font-display text-xs font-semibold tracking-[0.1em] uppercase text-white/60 mb-2">
             Password
           </label>
           <div className="relative">
             <input
+              id="login-password"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -126,6 +164,7 @@ function LoginForm() {
               type="button"
               onClick={() => setShowPassword(!showPassword)}
               className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 {showPassword ? (
@@ -143,7 +182,16 @@ function LoginForm() {
               </svg>
             </button>
           </div>
-          <div className="flex justify-end mt-2">
+          <div className="flex items-center justify-between mt-3">
+            <label className="flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 rounded border-white/20 bg-white/5 text-gold focus:ring-gold focus:ring-offset-black accent-gold"
+              />
+              <span className="font-body text-xs text-white/50">Remember me</span>
+            </label>
             <Link
               href="/forgot-password"
               className="font-body text-xs text-white/40 hover:text-gold transition-colors"

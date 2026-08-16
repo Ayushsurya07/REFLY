@@ -1,5 +1,8 @@
 'use client';
 
+// This page requires user auth, cart state, and live DB queries — disable static export
+export const dynamic = 'force-dynamic';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -44,31 +47,6 @@ interface ShippingOption {
   price: number;
   eta: string;
 }
-
-// ─── Constants ───────────────────────────────────────────────────────────────
-
-const MOCK_CART: CartItem[] = [
-  {
-    id: '1',
-    name: 'Obsidian Slim Jeans',
-    variant: 'Jet Black',
-    size: 'W32',
-    price: 2999,
-    mrp: 4999,
-    qty: 1,
-    image: 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=200&q=80',
-  },
-  {
-    id: '2',
-    name: 'Utility Cargo Pants',
-    variant: 'Olive Drab',
-    size: 'W34',
-    price: 3499,
-    mrp: 5499,
-    qty: 1,
-    image: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=200&q=80',
-  },
-];
 
 const SHIPPING_OPTIONS: ShippingOption[] = [
   { id: 'standard', label: 'Standard Delivery', description: 'Regular shipping across India', price: 0, eta: '5–7 business days' },
@@ -633,18 +611,22 @@ function OrderConfirmed({ orderNumber, email }: { orderNumber: string; email: st
 // ─── Main Checkout Page ───────────────────────────────────────────────────────
 
 export default function CheckoutPage() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const { cartItems, clearCart } = useCart();
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = React.useMemo(() => createClient(), []);
 
   const [step, setStep] = useState(1);
-  const [items, setItems] = useState<CartItem[]>(() => (cartItems.length > 0 ? cartItems : MOCK_CART));
+  const [items, setItems] = useState<CartItem[]>(cartItems);
 
   React.useEffect(() => {
-    if (cartItems.length > 0) {
-      setItems(cartItems);
+    if (!loading && !user) {
+      router.push('/login?redirect=/checkout');
     }
+  }, [user, loading, router]);
+
+  React.useEffect(() => {
+    setItems(cartItems);
   }, [cartItems]);
 
   const [address, setAddress] = useState<AddressForm>({
@@ -739,6 +721,7 @@ export default function CheckoutPage() {
       if (itemsError) throw itemsError;
 
       setOrderNumber(orderNum);
+      clearCart();
       setConfirmed(true);
     } catch (err: any) {
       console.error('Order placement error:', err);

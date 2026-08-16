@@ -43,15 +43,42 @@ export default function SignupPage() {
     setError('');
     try {
       const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
           redirectTo: `${window.location.origin}/auth/callback?next=/dashboard`,
+          skipBrowserRedirect: true,
         },
       });
+
       if (error) throw error;
+
+      if (data?.url) {
+        // Pre-check the OAuth endpoint before browser redirection to catch unsupported provider error gracefully
+        try {
+          const res = await fetch(data.url);
+          if (!res.ok) {
+            const json = await res.json().catch(() => ({}));
+            if (res.status === 400 || json?.error_code === 'validation_failed' || json?.msg?.includes('not enabled')) {
+              setError('Google Sign-In is not enabled on this Supabase project. Please create your account with email and password.');
+              setGoogleLoading(false);
+              return;
+            }
+          }
+        } catch {
+          // CORS or redirect response means valid OAuth URL endpoint — proceed to navigate
+        }
+        window.location.href = data.url;
+      } else {
+        throw new Error('Could not generate Google signup URL.');
+      }
     } catch (err: any) {
-      setError(err?.message || 'Google sign-up failed. Please try again.');
+      const errMsg = err?.message || JSON.stringify(err);
+      if (errMsg.includes('validation_failed') || errMsg.includes('Unsupported provider') || errMsg.includes('not enabled')) {
+        setError('Google Sign-In is not enabled on this Supabase project. Please create your account with email and password.');
+      } else {
+        setError(err?.message || 'Google sign-up failed. Please try again.');
+      }
       setGoogleLoading(false);
     }
   };
@@ -210,11 +237,11 @@ export default function SignupPage() {
 
           <p className="mt-4 text-center font-body text-xs text-white/25">
             By creating an account, you agree to our{' '}
-            <Link href="/" className="underline hover:text-white/50 transition-colors">
+            <Link href="/terms" className="underline hover:text-white/50 transition-colors">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="/" className="underline hover:text-white/50 transition-colors">
+            <Link href="/privacy" className="underline hover:text-white/50 transition-colors">
               Privacy Policy
             </Link>
             .

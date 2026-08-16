@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import AppLogo from '@/components/ui/AppLogo';
 import Icon from '@/components/ui/AppIcon';
 import CartDrawer from '@/components/CartDrawer';
@@ -10,13 +10,20 @@ import { useCart } from '@/contexts/CartContext';
 import { PRODUCTS_LIST } from '@/lib/productsData';
 import AppImage from '@/components/ui/AppImage';
 
-const navLinks = [
+const desktopNavLinks = [
+  { label: 'Collections', href: '/collections' },
+  { label: 'About', href: '/#about' },
+  { label: 'Contact', href: '/contact' },
+];
+
+const mobileNavLinks = [
   { label: 'Collections', href: '/collections' },
   { label: 'Cargos', href: '/collections?category=cargos' },
   { label: 'Linen', href: '/collections?category=linen' },
   { label: 'Cotton Pants', href: '/collections?category=cotton-pants' },
   { label: 'Shorts', href: '/collections?category=shorts' },
   { label: 'About', href: '/#about' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Header() {
@@ -28,6 +35,8 @@ export default function Header() {
   const headerRef = useRef<HTMLElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
   const { user, signOut, loading } = useAuth();
   const { cartCount, cartOpen, setCartOpen } = useCart();
 
@@ -90,15 +99,13 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
-          ? 'border-b' : 'bg-transparent'
-          }`}
-        style={scrolled ? {
-          background: 'rgba(0,0,0,0.85)',
+        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-black/90 backdrop-blur-md border-b border-white/10 shadow-lg"
+        style={{
+          background: 'rgba(0,0,0,0.9)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderBottomColor: 'rgba(139,26,26,0.3)',
-        } : {}}
+          borderBottomColor: 'rgba(255,255,255,0.1)',
+        }}
       >
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-between h-16 lg:h-20">
@@ -117,26 +124,27 @@ export default function Header() {
               </span>
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-10">
-              {navLinks?.map((link) => (
-                <Link
-                  key={link?.label}
-                  href={link?.href}
-                  className={`font-display text-xs font-semibold tracking-[0.15em] uppercase animated-underline transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
-                    }`}
-                >
-                  {link?.label}
-                </Link>
-              ))}
-            </nav>
+            {/* Desktop Nav — Rendered ONLY on Home Page per user request */}
+            {isHomePage && (
+              <nav className="hidden lg:flex items-center gap-8" aria-label="Main Navigation">
+                {desktopNavLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    className="font-display text-xs font-semibold tracking-[0.15em] uppercase text-white/70 hover:text-gold transition-colors duration-300"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            )}
 
             {/* Right Actions */}
             <div className="flex items-center gap-4">
               <button
                 suppressHydrationWarning
                 onClick={() => setSearchOpen(true)}
-                aria-label="Search"
+                aria-label="Search products"
                 className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
                   }`}
               >
@@ -147,7 +155,7 @@ export default function Header() {
               {user ? (
                 <Link
                   href="/wishlist"
-                  aria-label="Wishlist"
+                  aria-label="View Wishlist"
                   className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
                     }`}
                 >
@@ -155,7 +163,7 @@ export default function Header() {
                 </Link>
               ) : (
                 <button
-                  aria-label="Wishlist"
+                  aria-label="View Wishlist"
                   onClick={() => router.push('/login')}
                   className={`hidden lg:flex w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
                     }`}
@@ -167,7 +175,7 @@ export default function Header() {
               {/* Cart */}
               <button
                 onClick={() => setCartOpen(true)}
-                aria-label="Cart"
+                aria-label="View Cart"
                 className={`relative flex w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled ? 'text-white/80 hover:text-gold' : 'text-white/80 hover:text-white'
                   }`}
               >
@@ -186,7 +194,8 @@ export default function Header() {
                     <div ref={profileRef} className="relative">
                       <button
                         onClick={() => setProfileOpen(!profileOpen)}
-                        aria-label="Account"
+                        aria-label="User Account Menu"
+                        aria-expanded={profileOpen}
                         className={`w-9 h-9 flex items-center justify-center font-display font-bold text-xs tracking-wide border transition-colors duration-300 ${scrolled
                           ? 'border-white/40 text-white hover:border-gold hover:text-gold' : 'border-white/40 text-white hover:border-gold hover:text-gold'
                           }`}
@@ -219,6 +228,13 @@ export default function Header() {
                           >
                             Wishlist
                           </Link>
+                          <Link
+                            href="/#about"
+                            onClick={() => setProfileOpen(false)}
+                            className="flex items-center gap-3 px-4 py-3 font-display text-xs font-semibold tracking-wide text-white/70 hover:text-white hover:bg-white/5 transition-colors"
+                          >
+                            About Us
+                          </Link>
                           <div className="border-t border-white/10">
                             <button
                               onClick={handleSignOut}
@@ -245,7 +261,9 @@ export default function Header() {
               {/* Mobile Hamburger */}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                aria-expanded={mobileOpen}
+                aria-controls="mobile-navigation"
                 className={`lg:hidden flex flex-col gap-1.5 w-10 h-10 items-center justify-center transition-colors duration-300 ${scrolled || mobileOpen ? 'text-white' : 'text-white'
                   }`}
               >
@@ -270,7 +288,7 @@ export default function Header() {
       </header>
       {/* Mobile Nav */}
       {mobileOpen && (
-        <div className="mobile-nav lg:hidden">
+        <div id="mobile-navigation" className="mobile-nav lg:hidden">
           <nav className="flex flex-col items-center gap-8">
             <Link
               href="/"
@@ -279,7 +297,7 @@ export default function Header() {
             >
               Home
             </Link>
-            {navLinks?.map((link) => (
+            {mobileNavLinks?.map((link) => (
               <Link
                 key={link?.label}
                 href={link?.href}

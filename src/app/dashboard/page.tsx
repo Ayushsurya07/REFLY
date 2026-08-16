@@ -4,6 +4,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/contexts/ToastContext';
 import { createClient } from '@/lib/supabase/client';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -76,9 +77,10 @@ type Tab = 'overview' | 'orders' | 'wishlist' | 'settings';
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 export default function DashboardPage() {
+  const { addToast } = useToast();
   const { user, loading, signOut } = useAuth();
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = React.useMemo(() => createClient(), []);
 
   const [activeTab, setActiveTab] = useState<Tab>('overview');
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -90,12 +92,17 @@ export default function DashboardPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [ordersLoading, setOrdersLoading] = useState(true);
   const [expandedOrder, setExpandedOrder] = useState<string | null>(null);
+  const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null);
+  const [cancelModalOrder, setCancelModalOrder] = useState<Order | null>(null);
 
   const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
   const [wishlistLoading, setWishlistLoading] = useState(true);
   const [removingWishlist, setRemovingWishlist] = useState<string | null>(null);
 
   const [passwordForm, setPasswordForm] = useState({ current: '', next: '', confirm: '' });
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+  const [showNextPass, setShowNextPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [passwordSaving, setPasswordSaving] = useState(false);
   const [passwordMsg, setPasswordMsg] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
@@ -178,6 +185,7 @@ export default function DashboardPage() {
   }, [user, fetchProfile, fetchOrders, fetchWishlist]);
 
   // ── Save profile ───────────────────────────────────────────────────────────
+  // ── Save profile ───────────────────────────────────────────────────────────
   const handleProfileSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
@@ -192,34 +200,71 @@ export default function DashboardPage() {
       });
       if (error) throw error;
       setProfileMsg({ type: 'success', text: 'Profile updated successfully.' });
+      addToast('Profile updated successfully', 'success');
       fetchProfile();
     } catch (err: any) {
-      setProfileMsg({ type: 'error', text: err.message || 'Failed to update profile.' });
+      const msg = err?.message || 'Failed to update profile.';
+      setProfileMsg({ type: 'error', text: msg });
+      addToast(msg, 'error');
     } finally {
       setProfileSaving(false);
     }
   };
 
-  // ── Change password ────────────────────────────────────────────────────────
+  // ── Change password (Secure with current password verification) ────────────
   const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (passwordForm.next !== passwordForm.confirm) {
-      setPasswordMsg({ type: 'error', text: 'New passwords do not match.' });
+    if (!user?.email) {
+      setPasswordMsg({ type: 'error', text: 'Your session has expired. Please sign in again.' });
+      return;
+    }
+    if (!passwordForm.current) {
+      setPasswordMsg({ type: 'error', text: 'Current password is required.' });
       return;
     }
     if (passwordForm.next.length < 6) {
       setPasswordMsg({ type: 'error', text: 'Password must be at least 6 characters.' });
       return;
     }
+    if (passwordForm.next === passwordForm.current) {
+      setPasswordMsg({ type: 'error', text: 'New password cannot be identical to current password.' });
+      return;
+    }
+    if (passwordForm.next !== passwordForm.confirm) {
+      setPasswordMsg({ type: 'error', text: 'New passwords do not match.' });
+      return;
+    }
+
     setPasswordSaving(true);
     setPasswordMsg(null);
     try {
-      const { error } = await supabase.auth.updateUser({ password: passwordForm.next });
-      if (error) throw error;
+      // Reauthenticate user with current password
+      const { error: authErr } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: passwordForm.current,
+      });
+
+      if (authErr) {
+        const msg = authErr.message?.includes('Invalid login credentials')
+          ? 'Current password is incorrect.'
+          : authErr.message || 'Current password is incorrect.';
+        setPasswordMsg({ type: 'error', text: msg });
+        addToast(msg, 'error');
+        setPasswordSaving(false);
+        return;
+      }
+
+      // Update password
+      const { error: updateErr } = await supabase.auth.updateUser({ password: passwordForm.next });
+      if (updateErr) throw updateErr;
+
       setPasswordMsg({ type: 'success', text: 'Password updated successfully.' });
+      addToast('Password updated successfully', 'success');
       setPasswordForm({ current: '', next: '', confirm: '' });
     } catch (err: any) {
-      setPasswordMsg({ type: 'error', text: err.message || 'Failed to update password.' });
+      const msg = err?.message || 'Failed to update password. Please try again.';
+      setPasswordMsg({ type: 'error', text: msg });
+      addToast(msg, 'error');
     } finally {
       setPasswordSaving(false);
     }
@@ -231,8 +276,34 @@ export default function DashboardPage() {
     try {
       await supabase.from('wishlist').delete().eq('id', id);
       setWishlist((prev) => prev.filter((w) => w.id !== id));
-    } catch { /* silent */ }
-    finally { setRemovingWishlist(null); }
+      addToast('Item removed from wishlist', 'info');
+    } catch {
+      addToast('Failed to remove item from wishlist', 'error');
+    } finally {
+      setRemovingWishlist(null);
+    }
+  };
+
+  // ── Cancel Order ───────────────────────────────────────────────────────────
+  const handleCancelOrder = async (orderId: string) => {
+    if (!user) return;
+    setCancellingOrderId(orderId);
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .update({ order_status: 'cancelled' })
+        .eq('id', orderId)
+        .eq('user_id', user.id);
+
+      if (error) throw error;
+      addToast('Order cancelled successfully', 'info');
+      setCancelModalOrder(null);
+      fetchOrders();
+    } catch (err: any) {
+      addToast(err?.message || 'Failed to cancel order. Please try again.', 'error');
+    } finally {
+      setCancellingOrderId(null);
+    }
   };
 
   // ── Sign out ───────────────────────────────────────────────────────────────
@@ -529,10 +600,24 @@ export default function DashboardPage() {
                               </div>
                             )}
 
-                            {/* Order total */}
+                            {/* Order total & actions */}
                             <div className="border-t border-white/8 pt-4 flex items-center justify-between">
-                              <p className="font-body text-xs text-white/40">Order Total</p>
-                              <p className="font-display font-bold text-base text-white">₹{Number(order.total_amount).toLocaleString('en-IN')}</p>
+                              <div>
+                                <p className="font-body text-xs text-white/40">Order Total</p>
+                                <p className="font-display font-bold text-base text-white">₹{Number(order.total_amount).toLocaleString('en-IN')}</p>
+                              </div>
+                              {['pending', 'confirmed'].includes(order.order_status) && (
+                                <button
+                                  onClick={() => setCancelModalOrder(order)}
+                                  disabled={cancellingOrderId === order.id}
+                                  className="px-4 py-2 border border-red-500/30 text-red-400 font-display text-xs font-semibold tracking-wider uppercase hover:bg-red-500/10 transition-colors disabled:opacity-50 flex items-center gap-1.5"
+                                >
+                                  {cancellingOrderId === order.id && (
+                                    <span className="w-3 h-3 border border-red-400 border-t-transparent rounded-full animate-spin" />
+                                  )}
+                                  Cancel Order
+                                </button>
+                              )}
                             </div>
                           </div>
                         )}
@@ -662,25 +747,119 @@ export default function DashboardPage() {
                 <h2 className="font-display font-semibold text-sm tracking-[0.15em] uppercase text-white/60 mb-6">Change Password</h2>
                 <form onSubmit={handlePasswordChange} className="space-y-5">
                   <div>
-                    <label className="block font-body text-xs text-white/40 tracking-widest uppercase mb-2">New Password</label>
-                    <input
-                      type="password"
-                      value={passwordForm.next}
-                      onChange={(e) => setPasswordForm((p) => ({ ...p, next: e.target.value }))}
-                      placeholder="Min. 6 characters"
-                      className="w-full bg-transparent border border-white/15 px-4 py-3 font-body text-sm text-white placeholder-white/25 focus:outline-none focus:border-gold/50 transition-colors"
-                    />
+                    <label htmlFor="current-pass-input" className="block font-body text-xs text-white/40 tracking-widest uppercase mb-2">
+                      Current Password *
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="current-pass-input"
+                        type={showCurrentPass ? 'text' : 'password'}
+                        required
+                        value={passwordForm.current}
+                        onChange={(e) => setPasswordForm((p) => ({ ...p, current: e.target.value }))}
+                        placeholder="Your existing password"
+                        className="w-full bg-transparent border border-white/15 px-4 py-3 pr-12 font-body text-sm text-white placeholder-white/25 focus:outline-none focus:border-gold/50 transition-colors"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowCurrentPass(!showCurrentPass)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
+                        aria-label={showCurrentPass ? "Hide current password" : "Show current password"}
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          {showCurrentPass ? (
+                            <>
+                              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                              <line x1="1" y1="1" x2="23" y2="23" />
+                            </>
+                          ) : (
+                            <>
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                              <circle cx="12" cy="12" r="3" />
+                            </>
+                          )}
+                        </svg>
+                      </button>
+                    </div>
                   </div>
+
                   <div>
-                    <label className="block font-body text-xs text-white/40 tracking-widest uppercase mb-2">Confirm New Password</label>
-                    <input
-                      type="password"
-                      value={passwordForm.confirm}
-                      onChange={(e) => setPasswordForm((p) => ({ ...p, confirm: e.target.value }))}
-                      placeholder="Repeat new password"
-                      className="w-full bg-transparent border border-white/15 px-4 py-3 font-body text-sm text-white placeholder-white/25 focus:outline-none focus:border-gold/50 transition-colors"
-                    />
+                    <label htmlFor="new-pass-input" className="block font-body text-xs text-white/40 tracking-widest uppercase mb-2">
+                      New Password *
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="new-pass-input"
+                        type={showNextPass ? 'text' : 'password'}
+                        required
+                        value={passwordForm.next}
+                        onChange={(e) => setPasswordForm((p) => ({ ...p, next: e.target.value }))}
+                        placeholder="Min. 6 characters"
+                        className="w-full bg-transparent border border-white/15 px-4 py-3 pr-12 font-body text-sm text-white placeholder-white/25 focus:outline-none focus:border-gold/50 transition-colors"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowNextPass(!showNextPass)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
+                        aria-label={showNextPass ? "Hide new password" : "Show new password"}
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          {showNextPass ? (
+                            <>
+                              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                              <line x1="1" y1="1" x2="23" y2="23" />
+                            </>
+                          ) : (
+                            <>
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                              <circle cx="12" cy="12" r="3" />
+                            </>
+                          )}
+                        </svg>
+                      </button>
+                    </div>
                   </div>
+
+                  <div>
+                    <label htmlFor="confirm-pass-input" className="block font-body text-xs text-white/40 tracking-widest uppercase mb-2">
+                      Confirm New Password *
+                    </label>
+                    <div className="relative">
+                      <input
+                        id="confirm-pass-input"
+                        type={showConfirmPass ? 'text' : 'password'}
+                        required
+                        value={passwordForm.confirm}
+                        onChange={(e) => setPasswordForm((p) => ({ ...p, confirm: e.target.value }))}
+                        placeholder="Repeat new password"
+                        className="w-full bg-transparent border border-white/15 px-4 py-3 pr-12 font-body text-sm text-white placeholder-white/25 focus:outline-none focus:border-gold/50 transition-colors"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPass(!showConfirmPass)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/70 transition-colors"
+                        aria-label={showConfirmPass ? "Hide confirm password" : "Show confirm password"}
+                      >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          {showConfirmPass ? (
+                            <>
+                              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                              <line x1="1" y1="1" x2="23" y2="23" />
+                            </>
+                          ) : (
+                            <>
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                              <circle cx="12" cy="12" r="3" />
+                            </>
+                          )}
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+
                   {passwordMsg && (
                     <p className={`font-body text-xs ${passwordMsg.type === 'success' ? 'text-emerald-400' : 'text-red-400'}`}>{passwordMsg.text}</p>
                   )}
@@ -712,6 +891,39 @@ export default function DashboardPage() {
           )}
 
         </div>
+
+        {/* Cancel Order Confirmation Modal */}
+        {cancelModalOrder && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-6" role="dialog" aria-modal="true" aria-labelledby="cancel-modal-title">
+            <div className="bg-black border border-white/20 p-8 max-w-md w-full space-y-6">
+              <h3 id="cancel-modal-title" className="font-display font-bold text-xl text-white uppercase tracking-tight">
+                Cancel Order #{cancelModalOrder.order_number}?
+              </h3>
+              <p className="font-body text-sm text-white/60 leading-relaxed">
+                Are you sure you want to cancel this order? This action cannot be undone.
+              </p>
+              <div className="flex items-center justify-end gap-4 pt-4 border-t border-white/10">
+                <button
+                  onClick={() => setCancelModalOrder(null)}
+                  disabled={cancellingOrderId === cancelModalOrder.id}
+                  className="px-6 py-3 border border-white/20 text-white font-display text-xs font-semibold tracking-wider uppercase hover:bg-white/10 transition-colors"
+                >
+                  Keep Order
+                </button>
+                <button
+                  onClick={() => handleCancelOrder(cancelModalOrder.id)}
+                  disabled={cancellingOrderId === cancelModalOrder.id}
+                  className="px-6 py-3 bg-red-500/20 border border-red-500/50 text-red-400 font-display text-xs font-semibold tracking-wider uppercase hover:bg-red-500/30 transition-colors disabled:opacity-50 flex items-center gap-2"
+                >
+                  {cancellingOrderId === cancelModalOrder.id && (
+                    <span className="w-3.5 h-3.5 border border-red-400 border-t-transparent rounded-full animate-spin" />
+                  )}
+                  Confirm Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </>
