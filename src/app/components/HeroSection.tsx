@@ -197,7 +197,7 @@ export default function HeroSection() {
               >
                 {/* Primary CTA */}
                 <MagneticButton href="/collections" primary>
-                  SHOP COLLECTION
+                  <span>SHOP COLLECTION</span>
                   <svg
                     className="ml-2 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
                     fill="none"
