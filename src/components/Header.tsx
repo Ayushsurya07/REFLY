@@ -99,12 +99,14 @@ export default function Header() {
     <>
       <header
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-black/90 backdrop-blur-md border-b border-white/10 shadow-lg"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 backdrop-blur-md border-b shadow-lg ${
+          scrolled ? 'bg-black/70 border-white/10' : 'bg-black/40 border-white/5'
+        }`}
         style={{
-          background: 'rgba(0,0,0,0.9)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderBottomColor: 'rgba(255,255,255,0.1)',
+          background: scrolled ? 'rgba(0,0,0,0.70)' : 'rgba(0,0,0,0.40)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderBottomColor: scrolled ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.05)',
         }}
       >
         <div className="max-w-[1600px] mx-auto px-6 lg:px-12">

@@ -209,8 +209,8 @@ export default function HeroSection() {
                 </MagneticButton>
 
                 {/* Secondary CTA */}
-                <MagneticButton href="/collections">
-                  EXPLORE COLLECTION
+                <MagneticButton href="#wholesale">
+                  WHOLESALE INQUIRY
                 </MagneticButton>
               </motion.div>
             )}
@@ -302,9 +302,10 @@ interface MagneticButtonProps {
   href: string;
   children: React.ReactNode;
   primary?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-function MagneticButton({ href, children, primary }: MagneticButtonProps) {
+function MagneticButton({ href, children, primary, onClick }: MagneticButtonProps) {
   const ref = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -325,6 +326,20 @@ function MagneticButton({ href, children, primary }: MagneticButtonProps) {
     y.set(0);
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (onClick) {
+      onClick(e);
+      return;
+    }
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
     <motion.div
       style={{
@@ -340,6 +355,7 @@ function MagneticButton({ href, children, primary }: MagneticButtonProps) {
       <Link
         ref={ref}
         href={href}
+        onClick={handleClick}
         className="group inline-flex items-center justify-center px-8 py-4 text-sm font-semibold tracking-[0.18em] uppercase transition-all duration-300 relative z-40 cursor-pointer"
         style={{
           fontFamily: 'var(--font-display)',

@@ -70,7 +70,7 @@ export default function WholesaleSection() {
   );
 
   return (
-    <section ref={sectionRef} className="relative py-20 lg:py-28 bg-black overflow-hidden border-t border-white/10">
+    <section id="wholesale" ref={sectionRef} className="relative py-20 lg:py-28 bg-black overflow-hidden border-t border-white/10">
       {/* Background with subtle store texture */}
       <div className="absolute inset-0">
         <AppImage
