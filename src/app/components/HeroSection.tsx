@@ -200,7 +200,7 @@ export default function HeroSection() {
                 </MagneticButton>
 
                 {/* Secondary CTA */}
-                <MagneticButton href="#wholesale">WHOLESALE INQUIRY</MagneticButton>
+                <MagneticButton href="#wholesale">WHOLESALE ENQUIRY</MagneticButton>
               </motion.div>
             )}
           </AnimatePresence>
