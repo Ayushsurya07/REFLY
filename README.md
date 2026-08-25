@@ -143,3 +143,6 @@ export const SUBCATEGORIES = {
 
 - Designed and built for **REFLY** — Move Different.
 - Built with Next.js, React, Tailwind CSS, and Supabase.
+
+
+

@@ -4,6 +4,8 @@
 .env.development
 .env.production
 .env.test
+.env.local
+
 
 # Node modules
 node_modules/
