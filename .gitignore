@@ -15,15 +15,6 @@ package-lock.json
 .next/
 out/
 
-# OpenNext / Cloudflare build output
-.open-next/
-
-# Wrangler local cache
-.wrangler/
-
-# Test results
-test-results/
-
 # Production build
 build/
 
