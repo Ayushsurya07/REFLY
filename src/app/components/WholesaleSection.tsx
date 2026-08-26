@@ -7,6 +7,7 @@ import { FaWhatsapp } from 'react-icons/fa';
 export default function WholesaleSection() {
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [phoneError, setPhoneError] = useState('');
   const [formData, setFormData] = useState({
     businessName: '',
     contactName: '',
@@ -30,6 +31,14 @@ export default function WholesaleSection() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate phone is exactly 10 digits
+    const cleanPhone = formData.phone.replace(/\D/g, '');
+    if (cleanPhone.length !== 10) {
+      setPhoneError('Please enter exactly 10 digits');
+      return;
+    }
+    setPhoneError('');
     setSubmitted(true);
 
     try {
@@ -282,19 +291,42 @@ export default function WholesaleSection() {
                     </label>
                     <input
                       type="tel"
+                      inputMode="numeric"
                       required
                       pattern="[0-9]{10}"
                       minLength={10}
                       maxLength={10}
                       title="Please enter exactly 10 digits"
                       value={formData.phone}
+                      onKeyDown={(e) => {
+                        // Allow: backspace, delete, tab, escape, enter, arrows
+                        const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'];
+                        if (allowedKeys.includes(e.key)) return;
+                        // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+                        if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'x'].includes(e.key.toLowerCase())) return;
+                        // Block anything that isn't a digit
+                        if (!/^[0-9]$/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      onPaste={(e) => {
+                        e.preventDefault();
+                        const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 10);
+                        setFormData({ ...formData, phone: pasted });
+                        if (pasted.length === 10) setPhoneError('');
+                      }}
                       onChange={(e) => {
                         const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
                         setFormData({ ...formData, phone: digits });
+                        if (digits.length === 10) setPhoneError('');
+                        else if (phoneError) setPhoneError('Please enter exactly 10 digits');
                       }}
                       placeholder="10-digit mobile number"
-                      className="w-full bg-white/10 border border-white/20 text-white placeholder:text-white/30 text-xs px-4 py-3 outline-none focus:border-gold"
+                      className={`w-full bg-white/10 border ${phoneError ? 'border-red-500' : 'border-white/20'} text-white placeholder:text-white/30 text-xs px-4 py-3 outline-none focus:border-gold`}
                     />
+                    {phoneError && (
+                      <p className="text-red-400 text-[10px] mt-1 font-body">{phoneError}</p>
+                    )}
                   </div>
                 </div>
 
