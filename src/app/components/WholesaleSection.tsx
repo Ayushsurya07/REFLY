@@ -60,7 +60,7 @@ export default function WholesaleSection() {
         `🏷️ Category: ${formData.category}`
     );
 
-    window.open(`https://wa.me/916362434977?text=${formattedLead}`, '_blank');
+    window.open(`https://wa.me/917760775621?text=${formattedLead}`, '_blank');
   };
 
   const whatsappMessage = encodeURIComponent(
@@ -161,7 +161,7 @@ export default function WholesaleSection() {
               Enquire Wholesale Pricing →
             </button>
             <a
-              href={`https://wa.me/919876543210?text=${whatsappMessage}`}
+              href={`https://wa.me/917760775621?text=${whatsappMessage}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 border border-green-500/50 text-green-400 bg-green-950/30 hover:bg-green-900/40 px-8 py-4 text-xs font-display font-semibold tracking-widest uppercase w-full sm:w-auto transition-colors"
@@ -219,7 +219,7 @@ export default function WholesaleSection() {
                 </p>
                 <div className="flex flex-col gap-3 pt-2">
                   <a
-                    href={`https://wa.me/916362434977?text=${encodeURIComponent(
+                    href={`https://wa.me/917760775621?text=${encodeURIComponent(
                       `🏭 NEW B2B WHOLESALE ENQUIRY (REFLY Store)\n\n` +
                         `🏢 Business: ${formData.businessName}\n` +
                         `👤 Contact: ${formData.contactName}\n` +
