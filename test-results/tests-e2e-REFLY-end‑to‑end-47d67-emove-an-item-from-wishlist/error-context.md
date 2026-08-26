@@ -59,7 +59,7 @@ Call log:
           - generic [ref=e43]:
             - link "SHOP COLLECTION" [ref=e45] [cursor=pointer]:
               - /url: /collections
-            - link "WHOLESALE INQUIRY" [ref=e47] [cursor=pointer]:
+            - link "WHOLESALE ENQUIRY" [ref=e47] [cursor=pointer]:
               - /url: "#wholesale"
         - generic:
           - generic:
@@ -323,7 +323,7 @@ Call log:
               - heading "Dedicated Manager" [level=3] [ref=e456]
               - paragraph [ref=e457]: Instant WhatsApp & call support for custom sample orders.
           - generic [ref=e458]:
-            - button "Inquire Wholesale Pricing →" [ref=e459] [cursor=pointer]
+            - button "Enquire Wholesale Pricing →" [ref=e459] [cursor=pointer]
             - link "Chat on WhatsApp" [ref=e460] [cursor=pointer]:
               - /url: https://wa.me/919876543210?text=Hello%20REFLY%20Wholesale%20Team%2C%0AI%20am%20interested%20in%20bulk%20ordering%20%2F%20wholesale%20partnership.%0A%0ABusiness%3A%20N%2FA%0AName%3A%20N%2FA%0AQty%3A%2020-50%20units%0ACategory%3A%20Cargos%20%26%20Linen
           - paragraph [ref=e463]: "Minimum Order Quantity (MOQ): 20 units · Samples available on request"

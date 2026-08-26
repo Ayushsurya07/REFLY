@@ -11,13 +11,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactPage() {
   const { addToast } = useToast();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: '',
-    message: '',
-  });
+  const [formData, setFormData] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
   const [errors, setErrors] = useState<{ email?: string; name?: string; message?: string }>({});
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -76,8 +70,7 @@ export default function ContactPage() {
               Get in Touch
             </h1>
             <p className="font-body text-base text-muted-foreground leading-relaxed">
-              Have questions about your order, fit sizing, or custom requirements? Our team is
-              available to assist you.
+              Have questions about your order, fit sizing, or custom requirements? Our team is available to assist you.
             </p>
           </div>
 
@@ -89,16 +82,9 @@ export default function ContactPage() {
                   <Icon name="EnvelopeIcon" size={20} />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base tracking-wide uppercase mb-1">
-                    Official Email
-                  </h3>
-                  <p className="text-sm font-body text-muted-foreground">
-                    For orders, inquiries & business:
-                  </p>
-                  <a
-                    href="mailto:shamim@reflystore.in"
-                    className="font-display font-semibold text-sm text-gold hover:underline block mt-1"
-                  >
+                  <h3 className="font-display font-bold text-base tracking-wide uppercase mb-1">Official Email</h3>
+                  <p className="text-sm font-body text-muted-foreground">For orders, enquiries & business:</p>
+                  <a href="mailto:shamim@reflystore.in" className="font-display font-semibold text-sm text-gold hover:underline block mt-1">
                     shamim@reflystore.in
                   </a>
                 </div>
@@ -109,12 +95,8 @@ export default function ContactPage() {
                   <FaInstagram size={20} />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base tracking-wide uppercase mb-1">
-                    Instagram Direct
-                  </h3>
-                  <p className="text-sm font-body text-muted-foreground">
-                    DM us for quick queries & drop alerts:
-                  </p>
+                  <h3 className="font-display font-bold text-base tracking-wide uppercase mb-1">Instagram Direct</h3>
+                  <p className="text-sm font-body text-muted-foreground">DM us for quick queries & drop alerts:</p>
                   <a
                     href="https://www.instagram.com/refly_clothing__/?hl=en"
                     target="_blank"
@@ -131,22 +113,15 @@ export default function ContactPage() {
                   <Icon name="TruckIcon" size={20} />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-base tracking-wide uppercase mb-1">
-                    Shipping & Dispatch
-                  </h3>
-                  <p className="text-sm font-body text-muted-foreground">
-                    Pan-India express shipping within 24-48 hours. Orders above ₹1,500 ship FREE.
-                  </p>
+                  <h3 className="font-display font-bold text-base tracking-wide uppercase mb-1">Shipping & Dispatch</h3>
+                  <p className="text-sm font-body text-muted-foreground">Pan-India express shipping within 24-48 hours. Orders above ₹1,500 ship FREE.</p>
                 </div>
               </div>
 
               <div className="p-6 bg-black text-white space-y-3">
-                <h3 className="font-display font-bold text-sm tracking-widest uppercase text-gold">
-                  Working Hours
-                </h3>
+                <h3 className="font-display font-bold text-sm tracking-widest uppercase text-gold">Working Hours</h3>
                 <p className="text-xs font-body text-white/70 leading-relaxed">
-                  Monday – Saturday: 10:00 AM – 7:00 PM IST
-                  <br />
+                  Monday – Saturday: 10:00 AM – 7:00 PM IST<br />
                   Sunday: Closed (Emails monitored for urgent queries)
                 </p>
               </div>
@@ -159,12 +134,9 @@ export default function ContactPage() {
                   <div className="w-16 h-16 bg-green-50 border border-green-200 text-green-700 flex items-center justify-center mx-auto rounded-full">
                     <Icon name="CheckIcon" size={32} />
                   </div>
-                  <h3 className="font-display font-bold text-2xl tracking-wide uppercase">
-                    Message Received
-                  </h3>
+                  <h3 className="font-display font-bold text-2xl tracking-wide uppercase">Message Received</h3>
                   <p className="font-body text-muted-foreground max-w-md mx-auto">
-                    Thank you for contacting Refly. A support representative will respond to{' '}
-                    <strong>{formData.email}</strong> within 24 business hours.
+                    Thank you for contacting Refly. A support representative will respond to <strong>{formData.email}</strong> within 24 business hours.
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}
@@ -181,10 +153,7 @@ export default function ContactPage() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <label
-                        htmlFor="contact-name"
-                        className="block text-xs font-display font-semibold tracking-wider uppercase mb-2"
-                      >
+                      <label htmlFor="contact-name" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                         Your Name *
                       </label>
                       <input
@@ -199,16 +168,11 @@ export default function ContactPage() {
                         className="input-luxury text-sm"
                       />
                       {errors.name && (
-                        <p id="contact-name-error" className="text-xs text-red-500 font-body mt-1">
-                          {errors.name}
-                        </p>
+                        <p id="contact-name-error" className="text-xs text-red-500 font-body mt-1">{errors.name}</p>
                       )}
                     </div>
                     <div>
-                      <label
-                        htmlFor="contact-email"
-                        className="block text-xs font-display font-semibold tracking-wider uppercase mb-2"
-                      >
+                      <label htmlFor="contact-email" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                         Email Address *
                       </label>
                       <input
@@ -223,19 +187,14 @@ export default function ContactPage() {
                         className="input-luxury text-sm"
                       />
                       {errors.email && (
-                        <p id="contact-email-error" className="text-xs text-red-500 font-body mt-1">
-                          {errors.email}
-                        </p>
+                        <p id="contact-email-error" className="text-xs text-red-500 font-body mt-1">{errors.email}</p>
                       )}
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div>
-                      <label
-                        htmlFor="contact-phone"
-                        className="block text-xs font-display font-semibold tracking-wider uppercase mb-2"
-                      >
+                      <label htmlFor="contact-phone" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                         Phone Number
                       </label>
                       <input
@@ -243,15 +202,12 @@ export default function ContactPage() {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+91 98765 43210"
+                        placeholder="+91 7760775621"
                         className="input-luxury text-sm"
                       />
                     </div>
                     <div>
-                      <label
-                        htmlFor="contact-subject"
-                        className="block text-xs font-display font-semibold tracking-wider uppercase mb-2"
-                      >
+                      <label htmlFor="contact-subject" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                         Subject *
                       </label>
                       <input
@@ -267,10 +223,7 @@ export default function ContactPage() {
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="contact-message"
-                      className="block text-xs font-display font-semibold tracking-wider uppercase mb-2"
-                    >
+                    <label htmlFor="contact-message" className="block text-xs font-display font-semibold tracking-wider uppercase mb-2">
                       Message *
                     </label>
                     <textarea
@@ -285,9 +238,7 @@ export default function ContactPage() {
                       className="input-luxury text-sm"
                     />
                     {errors.message && (
-                      <p id="contact-message-error" className="text-xs text-red-500 font-body mt-1">
-                        {errors.message}
-                      </p>
+                      <p id="contact-message-error" className="text-xs text-red-500 font-body mt-1">{errors.message}</p>
                     )}
                   </div>
 

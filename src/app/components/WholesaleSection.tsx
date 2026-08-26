@@ -35,7 +35,7 @@ export default function WholesaleSection() {
     try {
       const { createClient } = await import('@/lib/supabase/client');
       const supabase = createClient();
-      await supabase.from('wholesale_inquiries').insert([
+      await supabase.from('wholesale_enquiries').insert([
         {
           business_name: formData.businessName,
           contact_name: formData.contactName,
@@ -158,7 +158,7 @@ export default function WholesaleSection() {
               onClick={() => setEnquiryOpen(true)}
               className="btn-gold px-8 py-4 text-xs font-display font-semibold tracking-widest uppercase w-full sm:w-auto"
             >
-              Inquire Wholesale Pricing →
+              Enquire Wholesale Pricing →
             </button>
             <a
               href={`https://wa.me/919876543210?text=${whatsappMessage}`}
