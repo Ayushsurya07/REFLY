@@ -4393,7 +4393,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/collections/page.js": {
-      "bytes": 41011,
+      "bytes": 41477,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -4525,7 +4525,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/dashboard/page.js": {
-      "bytes": 53260,
+      "bytes": 53256,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -4722,8 +4722,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/app/account/page.js": {
-      "bytes": 21336,
+    ".open-next/server-functions/default/.next/server/app/contact/page.js": {
+      "bytes": 27125,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -4788,8 +4788,8 @@
       ],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/app/contact/page.js": {
-      "bytes": 27129,
+    ".open-next/server-functions/default/.next/server/app/account/page.js": {
+      "bytes": 21336,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -5596,7 +5596,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/app/page.js": {
-      "bytes": 185841,
+      "bytes": 186676,
       "imports": [
         {
           "path": ".open-next/server-functions/default/node_modules/next/dist/shared/lib/router/utils/app-paths.js",
@@ -5780,14 +5780,14 @@
           "original": "C:\\My Projects\\REFLY\\.open-next\\server-functions\\default\\.next\\server\\app\\checkout\\page.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/app/account/page.js",
-          "kind": "require-call",
-          "original": "C:\\My Projects\\REFLY\\.open-next\\server-functions\\default\\.next\\server\\app\\account\\page.js"
-        },
-        {
           "path": ".open-next/server-functions/default/.next/server/app/contact/page.js",
           "kind": "require-call",
           "original": "C:\\My Projects\\REFLY\\.open-next\\server-functions\\default\\.next\\server\\app\\contact\\page.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/.next/server/app/account/page.js",
+          "kind": "require-call",
+          "original": "C:\\My Projects\\REFLY\\.open-next\\server-functions\\default\\.next\\server\\app\\account\\page.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/app/returns/page.js",
@@ -8161,13 +8161,13 @@
           "bytesInOutput": 11212
         },
         ".open-next/server-functions/default/.next/server/app/collections/page.js": {
-          "bytesInOutput": 41484
+          "bytesInOutput": 41956
         },
         ".open-next/server-functions/default/.next/server/app/_not-found/page.js": {
           "bytesInOutput": 15387
         },
         ".open-next/server-functions/default/.next/server/app/dashboard/page.js": {
-          "bytesInOutput": 53706
+          "bytesInOutput": 53702
         },
         ".open-next/server-functions/default/.next/server/app/wishlist/page.js": {
           "bytesInOutput": 23932
@@ -8175,11 +8175,11 @@
         ".open-next/server-functions/default/.next/server/app/checkout/page.js": {
           "bytesInOutput": 42977
         },
+        ".open-next/server-functions/default/.next/server/app/contact/page.js": {
+          "bytesInOutput": 27378
+        },
         ".open-next/server-functions/default/.next/server/app/account/page.js": {
           "bytesInOutput": 21517
-        },
-        ".open-next/server-functions/default/.next/server/app/contact/page.js": {
-          "bytesInOutput": 27382
         },
         ".open-next/server-functions/default/.next/server/app/returns/page.js": {
           "bytesInOutput": 24051
@@ -8248,7 +8248,7 @@
           "bytesInOutput": 3583
         },
         ".open-next/server-functions/default/.next/server/app/page.js": {
-          "bytesInOutput": 202132
+          "bytesInOutput": 202985
         },
         ".open-next/server-functions/default/node_modules/next/dist/server/require.js": {
           "bytesInOutput": 17122
@@ -8365,7 +8365,7 @@
           "bytesInOutput": 74625
         }
       },
-      "bytes": 4609815
+      "bytes": 4611132
     }
   }
 }
