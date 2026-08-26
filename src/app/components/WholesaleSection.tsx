@@ -283,9 +283,16 @@ export default function WholesaleSection() {
                     <input
                       type="tel"
                       required
+                      pattern="[0-9]{10}"
+                      minLength={10}
+                      maxLength={10}
+                      title="Please enter exactly 10 digits"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+91 98765 43210"
+                      onChange={(e) => {
+                        const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                        setFormData({ ...formData, phone: digits });
+                      }}
+                      placeholder="10-digit mobile number"
                       className="w-full bg-white/10 border border-white/20 text-white placeholder:text-white/30 text-xs px-4 py-3 outline-none focus:border-gold"
                     />
                   </div>
